@@ -1,9 +1,13 @@
 .contenedor{
     width: 100%;
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     justify-content: center;
     align-items: center;
+    border: solid 1px red;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    /* background-color: black; */
 }
 
 .contenedor div{
@@ -11,10 +15,24 @@
     padding: 1.2rem;
 }
 
-.contenedor form{
+.contenedorForm {
+    border: solid 1px red;
+    /* margin-top: 150px; */
+    width: 600px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+}
+
+/* .contenedor form{
     background-color: white;
     border-radius: 8px;
-}
+    border: solid 1px black;
+    padding-top: 50px;
+} */
 
 .input{
     display: block;
@@ -26,7 +44,7 @@
 
 .label{
     position: absolute;
-    top: 25px;
+    top: 27px;
     left: 3.1rem;
     background-color: white;
     padding: 0 .5rem;
@@ -35,13 +53,34 @@
 .input:focus+.label{
     transform: translateY(-1.2rem);
     transition: .7s;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .input:not(:placeholder-shown)+.label{
-    transform: translateY(-1.2rem);
+    transform: translateY(-1.5rem);
 }
 
+.labelSelect {
+    position: absolute;
+    top: 0px;
+    left: 3.1rem;
+    background-color: white;
+    padding: 0 .5rem;
+}
+
+.contenedor select{
+    display: block;
+    padding: .5rem 2rem;
+    border-radius: 8px;
+    border: 0;
+    outline: solid 1px black;
+    width: 233px;
+}
+
+.button{
+    border-radius: 100px;
+    padding: 8px;
+}
 
 .contenedor span{
     color: red;

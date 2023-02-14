@@ -21,7 +21,7 @@ import Filtered from "../../components/Filtered/Filtered";
         
         const [pagina, setPagina] = useState([...pokemons].splice(0,itemsPerPage))
         const [currentPage, setCurrentPage] = useState(0)
-       
+   
         useEffect(() => {
             setPagina([...pokemons].splice(0, itemsPerPage))
             console.log("AL RECARGAR", pokemons);
@@ -46,6 +46,7 @@ import Filtered from "../../components/Filtered/Filtered";
                 setCurrentPage(nextPage)
             }
         };
+
         
         const handlerPrev = () => {
             const prevPage = currentPage - 1;
@@ -120,7 +121,9 @@ const filtrado = (value) => {
     if(value === "shadow") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
     console.log("FILTRADO", filtered)
     dispatch(getPokemonsFiltered(filtered));
-}
+};
+//________________________________________BACK________________________________________________
+
 
 //_____________________________________RENDERIZADO____________________________________________       
         return(

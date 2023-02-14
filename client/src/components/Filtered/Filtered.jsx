@@ -1,4 +1,5 @@
 import { useState } from "react";
+import style from "./Filtered.module.css"
 
 function Filtered ({filtrado}) {
     const [value, setValue] = useState("");
@@ -11,7 +12,7 @@ function Filtered ({filtrado}) {
     };
 
     return(
-        <div>
+        <div className={style.container}>
             <div>
                 <select onChange={handleInputChange} value={value}>
                             <option value="">Type</option>

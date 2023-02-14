@@ -173,7 +173,7 @@ const createPokemon = async (id,name,hp,attack,defense,speed,weight,height,image
     const newPokemon = await Pokemon.create({id,name,hp,attack,defense,speed,weight,height,image});
     const arrIdTypes = await idTypes(type1, type2)
     await newPokemon.addTypes(arrIdTypes);
-    return newPokemon;
+    return "Pokemon creado correctamente";
 };
 
 const findTypes = async () => {

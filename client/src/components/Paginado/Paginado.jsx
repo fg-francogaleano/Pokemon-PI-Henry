@@ -1,10 +1,10 @@
-
+import style from "./Paginado.module.css"
 
 function Paginado ({handlerNext, handlerPrev}) {
     return(
-        <div>
-            <button onClick={handlerPrev}>Prev</button>
-            <button onClick={handlerNext}>Next</button>
+        <div className={style.container}>
+            <button onClick={handlerPrev} className={style.prev}>Prev</button>
+            <button onClick={handlerNext} className={style.next}>Next</button>
         </div>
     )
 };

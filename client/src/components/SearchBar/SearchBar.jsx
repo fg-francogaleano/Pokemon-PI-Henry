@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import style from './SearchBar.module.css' 
 
 export default function SearchBar({onSearch}) {
    const [name, setName] = useState("")
@@ -9,8 +10,9 @@ export default function SearchBar({onSearch}) {
     };
   
    return (
-      <div>
-         <input 
+      <div className={style.container}>
+         <input
+         placeholder='   Name' 
          type="text" 
          name="search"  
          onChange={(e)=>handleInput(e)} 

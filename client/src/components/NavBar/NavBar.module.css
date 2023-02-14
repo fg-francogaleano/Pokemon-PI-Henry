@@ -1,16 +1,40 @@
 .container{
     border-radius: 5px;
-    border: 1px solid black;
-    margin-top: 30px;
+    margin-top: 40px;
+    margin-bottom: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .container div{
-    border: solid 1px red;
     width: 700px;
     display: flex;
-    
+
 }
+
+.divcontainer {
+    border-radius: 30px;
+    border: solid 1px black;
+    padding: 10px;
+}
+
+.buttonCreate {
+    justify-content: end;
+    border: none  
+}
+
+.buttonCreate button{
+    border-radius: 100px;
+    padding: 8px;
+    margin-right: 20px;
+    border: none  
+}
+
+.buttonHome button{
+    border-radius: 100px;
+    padding: 8px;
+    margin-left: 20px; 
+}
+   
         

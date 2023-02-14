@@ -5,14 +5,14 @@ import style from "./NavBar.module.css"
 function NavBar ({onSearch}) {
     return(
         <div className={style.container}>
-           <div>
-                <div>
+           <div className={style.divcontainer}>
+                <div className={style.buttonHome}>
                     <Link to="/home"><button>Home</button></Link>
                 </div>
-                <div>
+             
                     <SearchBar onSearch={onSearch}/>
-                </div>
-                <div>
+                
+                <div className={style.buttonCreate}>
                     <Link to="/create"><button>Create</button></Link>
                 </div>
             </div> 
