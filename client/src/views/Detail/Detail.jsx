@@ -27,7 +27,7 @@ function Detail () {
                  </div>
                
                 <div className={style.dataContenedor}>
-                    <p>Id: {data.id}</p>
+                    <h4>Id: {data.id}</h4>
                     <h4>Type 1: {data.type1}</h4>
                     <h4>Type 2: {data.type2}</h4>    
                     <h4>Hp: {data.hp}</h4>

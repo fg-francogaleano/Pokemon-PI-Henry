@@ -4,20 +4,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid 1px red;
     padding-bottom: 10px;
     padding-top: 10px;
-    /* background-color: black; */
 }
 
 .contenedor div{
     position: relative;
     padding: 1.2rem;
+    background-color: rgb(216, 212, 170);
 }
 
 .contenedorForm {
-    border: solid 1px red;
-    /* margin-top: 150px; */
     width: 600px;
     border-radius: 10px;
     display: flex;
@@ -26,14 +23,6 @@
     position: relative;
 
 }
-
-/* .contenedor form{
-    background-color: white;
-    border-radius: 8px;
-    border: solid 1px black;
-    padding-top: 50px;
-} */
-
 .input{
     display: block;
     padding: .5rem 2rem;
@@ -44,10 +33,11 @@
 
 .label{
     position: absolute;
-    top: 27px;
+    top: 15px;
     left: 3.1rem;
-    background-color: white;
+    background-color: rgb(216, 212, 170);
     padding: 0 .5rem;
+    font-size: 20px;
 }
 
 .input:focus+.label{
@@ -62,9 +52,10 @@
 
 .labelSelect {
     position: absolute;
-    top: 0px;
+    font-size: 20px;
+    top: -9px;
     left: 3.1rem;
-    background-color: white;
+    background-color: rgb(216, 212, 170);
     padding: 0 .5rem;
 }
 
@@ -80,6 +71,10 @@
 .button{
     border-radius: 100px;
     padding: 8px;
+    background-color: rgb(86, 82, 82);
+    color: aliceblue;
+    border: 0;
+    outline: solid 1px black;  
 }
 
 .contenedor span{

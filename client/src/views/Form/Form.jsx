@@ -16,6 +16,23 @@ function Form () {
         type1: '',
         type2: ''
      });
+
+     const [error, setError] = useState({
+        name: '',
+        hp: '',
+        attack: '',
+        defense: '',
+        speed: '',
+        weight: '',
+        height: '',
+        image: '',
+        type1: '',
+        type2: ''
+     });
+
+     const validate = (form) => {
+        
+     }
      
      const handleInputChange = (event) => {
         const property = event.target.name;
@@ -36,7 +53,7 @@ function Form () {
               <div className={style.contenedorForm}>
               <form onSubmit={handleSubmit}>
                         <div>
-                            <h2>CREATE</h2>
+                            <h2>CREATE POKEMON</h2>
                         </div>
                         <div>                    
                             <input type="text" name="name" value={form.name} onChange={handleInputChange} className={style.input}/>

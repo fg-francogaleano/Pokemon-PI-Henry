@@ -6,7 +6,10 @@
     height: 400px;
     margin-top: 30px;
     margin-bottom: 30px;
-
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe2RFIXzGLXq0gjeVKwk3G3JozeBzhvovj8w&usqp=CAU");
+    background-repeat: no-repeat; 
+    background-position:center center; 
+    background-size:cover;
 }
 
 

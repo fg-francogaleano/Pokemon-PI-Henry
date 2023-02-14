@@ -5,7 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+  background-image: url("https://fondosmil.com/fondo/14765.jpg");
+  background-repeat: no-repeat; 
+  background-position:center center; 
+  background-attachment:fixed;
+  background-size:cover;
 }
 
 code {

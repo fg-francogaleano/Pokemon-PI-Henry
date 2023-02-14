@@ -17,24 +17,31 @@
     border-radius: 30px;
     border: solid 1px black;
     padding: 10px;
+    background-color: rgba(249, 245, 245, 0.696)
 }
 
 .buttonCreate {
     justify-content: end;
-    border: none  
+    border: none;    
 }
 
 .buttonCreate button{
     border-radius: 100px;
     padding: 8px;
     margin-right: 20px;
-    border: none  
+    /* border: none;  */
+    background-color: rgb(86, 82, 82);
+    color: aliceblue;  
 }
 
 .buttonHome button{
     border-radius: 100px;
     padding: 8px;
-    margin-left: 20px; 
+    margin-left: 20px;
+    /* border: none;  */
+    background-color: rgb(86, 82, 82);
+    color: aliceblue;  
+ 
 }
    
         

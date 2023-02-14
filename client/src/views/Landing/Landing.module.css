@@ -1,0 +1,12 @@
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("https://www.teahub.io/photos/full/26-264105_4k-ultra-hd-pokemon.jpg");
+    background-repeat: no-repeat; 
+    background-position:center center; 
+    background-attachment:fixed;
+    background-size:cover;    
+}

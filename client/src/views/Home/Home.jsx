@@ -122,8 +122,6 @@ const filtrado = (value) => {
     console.log("FILTRADO", filtered)
     dispatch(getPokemonsFiltered(filtered));
 };
-//________________________________________BACK________________________________________________
-
 
 //_____________________________________RENDERIZADO____________________________________________       
         return(
