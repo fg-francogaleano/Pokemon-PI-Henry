@@ -96,7 +96,7 @@ const pokemonByIdApi = async (id) => {
         speed: data.stats.find(e => e.stat.name === "speed").base_stat,
         weight: data.weight,
         height: data.height,
-        image: data.sprites.other["official-artwork"].front_default,
+        image: data.sprites.other.home.front_default,
         types
     };
     console.log(pokemon);
@@ -118,7 +118,7 @@ const pokemonByNameApi = async (name) => {
         speed: data.stats.find(e => e.stat.name === "speed").base_stat,
         weight: data.weight,
         height: data.height,
-        image: data.sprites.other["official-artwork"].front_default,
+        image: data.sprites.other.home.front_default,
         types: data.types.map(e => e.type.name)
     };
     
