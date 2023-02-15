@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPokemonName, getPokemons, getPokemonsFiltered } from "../../redux/actions";
+import { getPokemons, getPokemonsFiltered } from "../../redux/actions";
 import Cards from "../../components/Cards/Cards";
 import Paginado from "../../components/Paginado/Paginado";
-import NavBar from "../../components/NavBar/NavBar";
 import Filtered from "../../components/Filtered/Filtered";
 
     function Home () {
@@ -63,9 +62,7 @@ import Filtered from "../../components/Filtered/Filtered";
             }
         };
 //___________________________________SEARCH PEER NAME___________________________________________
-const onSearch = async (name) => {
-    dispatch(getPokemonName(name))
-};
+
 useEffect(() => {
     setPagina(pokemonSearch)
 },[pokemonSearch])
@@ -126,7 +123,6 @@ const filtrado = (value) => {
 //_____________________________________RENDERIZADO____________________________________________       
         return(
                 <div>
-                    <NavBar onSearch={onSearch}/>
                     <Filtered filtrado={filtrado}/>
                     <Paginado handlerNext={handlerNext} handlerPrev={handlerPrev}/>
                     <Cards pokemons={pagina}/>
