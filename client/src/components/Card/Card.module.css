@@ -6,7 +6,7 @@
     height: 400px;
     margin-top: 30px;
     margin-bottom: 30px;
-    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe2RFIXzGLXq0gjeVKwk3G3JozeBzhvovj8w&usqp=CAU");
+    background-color: rgba(249, 245, 245, 0.59);
     background-repeat: no-repeat; 
     background-position:center center; 
     background-size:cover;
@@ -42,7 +42,7 @@
     margin-bottom: 10px;
 
 }
-.type1container p{
+.type1container h4{
     color: black;
     font-size: 20px;
 }
@@ -55,7 +55,7 @@
     margin-right: 80px;
     margin-bottom: 10px;
 }
-.type2container p{
+.type2container h4{
     color: black;
     font-size: 20px;
 }

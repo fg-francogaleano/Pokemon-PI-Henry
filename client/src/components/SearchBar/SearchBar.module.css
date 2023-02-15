@@ -1,15 +1,20 @@
 .container button {
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
-    /* border: none;  */
-    background-color: rgb(86, 82, 82);
+    border: 0; 
+    background-color: black;
+    font-size: 20px;
     color: aliceblue;
+
+}
+.container button:hover{
+    background-color:  aliceblue; ;  
+    color: black;
+    outline: solid 1px black;
 }
 
 .container input {
     border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    /* border: none; */
-    outline: black;
+    border-bottom-left-radius: 15px;   
 }
 

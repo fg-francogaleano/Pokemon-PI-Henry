@@ -24,7 +24,7 @@ const pokemonsAllApi = async () => {
             speed: detalle.stats.find(e => e.stat.name === "speed").base_stat,
             weight: detalle.weight,
             height: detalle.height,
-            image: detalle.sprites.other["official-artwork"].front_default,
+            image: detalle.sprites.other.home.front_default,
             types
         });
    }; 

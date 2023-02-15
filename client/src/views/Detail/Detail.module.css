@@ -7,7 +7,11 @@
     padding-top: 80px;
     padding-bottom: 80px;
     border-radius: 10px;
-    background-color: rgb(216, 212, 170);
+    background-color: rgba(249, 245, 245, 0.59);
+    /* background-repeat: no-repeat; 
+    background-position:center center; 
+    background-attachment:fixed;
+    background-size:cover; */
     display: flex;
     justify-content:space-around;
 }
@@ -16,9 +20,9 @@
 }
 
 .imgContenedor{
-    border: solid 1px black;
+    /* border: solid 1px black; */
     border-radius: 10px;
-    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe2RFIXzGLXq0gjeVKwk3G3JozeBzhvovj8w&usqp=CAU");
+    /* background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQe2RFIXzGLXq0gjeVKwk3G3JozeBzhvovj8w&usqp=CAU"); */
     background-repeat: no-repeat; 
     background-position:center center; 
     background-size:cover;

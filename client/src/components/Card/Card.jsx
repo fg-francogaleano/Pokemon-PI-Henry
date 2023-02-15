@@ -16,10 +16,10 @@ function Card ({id, name, image, type1, type2}) {
                     <img src={image} alt={name}/>   
                 </div>
                 <div className={style.type1container}>
-                    <p>{type1}</p>
+                    <h4>{type1}</h4>
                 </div>
                 <div className={style.type2container}>
-                    <p>{type2}</p>
+                    <h4>{type2}</h4>
                 </div>
             </Link>
             

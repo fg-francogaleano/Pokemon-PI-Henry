@@ -10,3 +10,21 @@
     background-attachment:fixed;
     background-size:cover;    
 }
+
+.container button{
+    border-radius: 100px;
+    padding: 8px;
+    margin-right: 20px;
+    border: 0;
+    outline: solid 1px black; 
+    background-color: black;
+    color: aliceblue;  
+    font-size: 20px;
+    letter-spacing: 4px;
+}
+
+.container button:hover{
+    background-color:  aliceblue; ;  
+    color: black;
+    outline: solid 1px black;
+}

@@ -6,7 +6,7 @@ function Landing () {
         <div className={style.container}>
             <div>
                 <Link to="/home">
-                    <button>Home</button>
+                    <button>HOME</button>
                 </Link>
             </div>
         </div>
