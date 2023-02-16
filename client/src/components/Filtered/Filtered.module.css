@@ -8,5 +8,6 @@
 .container select{
     border-radius: 100px;
     padding: 8px;
-    background-color: rgba(249, 245, 245, 0.696)
+    background-color: rgba(249, 245, 245, 0.696);
+    font-size: 20px;
 }

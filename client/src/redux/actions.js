@@ -45,7 +45,7 @@ export const getPokemonName = (name) => {
 };
 
 export const getPokemonsFiltered = (filtered) => {
-    console.log("ACTIONS", filtered);
+    console.log("PASO N°2, LLEGA LA ACTIONS", filtered);
     return{
         type: GET_POKEMONS_FILTERED,
         payload: filtered

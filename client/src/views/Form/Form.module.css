@@ -11,7 +11,7 @@
 .contenedor div{
     position: relative;
     padding: 1.2rem;
-    background-color: rgb(216, 212, 170);
+    
 }
 
 .contenedorForm {
@@ -21,7 +21,8 @@
     justify-content: center;
     align-items: center;
     position: relative;
-
+    background-color: rgba(249, 245, 245, 0.47);
+    outline: solid 1px black;
 }
 .input{
     display: block;
@@ -35,7 +36,7 @@
     position: absolute;
     top: 15px;
     left: 3.1rem;
-    background-color: rgb(216, 212, 170);
+    /* background-color: rgb(216, 212, 170); */
     padding: 0 .5rem;
     font-size: 20px;
 }
@@ -55,7 +56,7 @@
     font-size: 20px;
     top: -9px;
     left: 3.1rem;
-    background-color: rgb(216, 212, 170);
+    /* background-color: rgb(216, 212, 170); */
     padding: 0 .5rem;
 }
 

@@ -31,21 +31,56 @@ function Form () {
      });
 
      const validate = (form) => {
+        if(form.name){
+            if(/^[a-z]{0,10}$/.test(form.name)) setError({...error, name:""});
+            else setError({...error, name:"*max 10 digits"});
+        }
+
+        if(form.hp){
+            if(/^[0-9]{1,3}$/.test(form.hp)) setError({...error, hp:""});
+            else setError({...error, hp:"*integers-max 3 digits"});
+        }
+
+        if(form.attack){
+            if(/^[0-9]{1,3}$/.test(form.attack) || !form.attack) setError({...error, attack:""})
+            else setError({...error, attack:"Integers-max 3 digits"})
+        }
+
+        if(form.defense){
+            if(/^[0-9]{1,3}$/.test(form.defense) || !form.defense) setError({...error, defense:""})
+            else setError({...error, defense:"Integers-max 3 digits"})
+        }
+
+        if(form.speed){
+            if(/^[0-9]{1,3}$/.test(form.speed) || !form.speed) setError({...error, speed:""})
+            else setError({...error, speed:"Integers-max 3 digits"})
+        }
+
+        if(form.weight){
+            if(/^[0-9]{1,3}$/.test(form.weight) || !form.weight) setError({...error, weight:""})
+            else setError({...error, weight:"Integers-max 3 digits"})
+        }
+
+        if(form.height){
+            if(/^[0-9]{1,3}$/.test(form.height) || !form.height) setError({...error, height:""})
+            else setError({...error, height:"Integers-max 3 digits"})
+        }
         
      }
      
      const handleInputChange = (event) => {
         const property = event.target.name;
         const value = event.target.value
-        setForm({
-              ...form,
-              [property] : value
-        })
+        
+        validate({...form, [property] : value})
+        
+        setForm({...form, [property] : value})
+        
      };
     const handleSubmit = (event) => {
         event.preventDefault();
         axios.post("http://localhost:3001/pokemons",form)
-        .then(res=>alert("Pokemon creado correctamente"))
+        .then(res=>alert(res))
         .catch(err=>alert(err))
      }
      return (
@@ -53,35 +88,42 @@ function Form () {
               <div className={style.contenedorForm}>
               <form onSubmit={handleSubmit}>
                         <div>
-                            <h2>CREATE POKEMON</h2>
+                            <h1>CREATE POKEMON</h1>
                         </div>
                         <div>                    
                             <input type="text" name="name" value={form.name} onChange={handleInputChange} className={style.input}/>
                             <label for= "" className={style.label}>Name</label>
+                            {error.name &&  <span>{error.name}</span>}  
                         </div>
                         <div>    
                             <input type="text" name="hp" value={form.hp} onChange={handleInputChange} className={style.input}/>
-                            <label for="" className={style.label}>Hp</label>  
+                            <label for="" className={style.label}>Hp</label>
+                            {error.hp &&  <span>{error.hp}</span>}  
                         </div>
                         <div>
                             <input type="text" name="attack" value={form.attack} onChange={handleInputChange} className={style.input}/>
                             <label for="" className={style.label}>Attack</label>
+                            {error.attack &&  <span>{error.attack}</span>}
                         </div>
                         <div>
                             <input type="text" name="defense" value={form.defense} onChange={handleInputChange} className={style.input}/>
                             <label for="" className={style.label}>Defense</label>
+                            {error.defense &&  <span>{error.defense}</span>}
                         </div>
                         <div>
                             <input type="text" name="speed" value={form.speed} onChange={handleInputChange} className={style.input}/>
                             <label for="" className={style.label}>Speed</label>
+                            {error.speed &&  <span>{error.speed}</span>}
                         </div>
                         <div>
                             <input type="text" name="weight" value={form.weight} onChange={handleInputChange} className={style.input}/>
                             <label for="" className={style.label}>Weight</label>
+                            {error.weight &&  <span>{error.weight}</span>}
                         </div>
                         <div>
                             <input type="text" name="height" value={form.height} onChange={handleInputChange} className={style.input}/>   
                             <label for="" className={style.label}>Height</label>
+                            {error.height &&  <span>{error.height}</span>}
                         </div>
                         <div>
                             <input type="text" name="image" value={form.image} onChange={handleInputChange} className={style.input}/>

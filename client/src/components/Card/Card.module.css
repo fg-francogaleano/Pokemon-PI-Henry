@@ -6,7 +6,7 @@
     height: 400px;
     margin-top: 30px;
     margin-bottom: 30px;
-    background-color: rgba(249, 245, 245, 0.59);
+    background-color: rgba(217, 216, 216, 0.711);
     background-repeat: no-repeat; 
     background-position:center center; 
     background-size:cover;
@@ -16,6 +16,7 @@
 .idcontainer{
     position: absolute;
     right: 0;
+    top: 25px;
     margin-right: 20px;
     
 }
@@ -63,7 +64,7 @@
 
 .imgcontainer{
     position: absolute;
-    top: 50px;
+    top: 35px;
 }
 .imgcontainer img{
     

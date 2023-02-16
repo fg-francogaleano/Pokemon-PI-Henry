@@ -3,7 +3,7 @@ const axios = require("axios");
 
 // --------------------------------------------POKEMONS API--------------------------------------------------------
 const pokemonsAllApi = async () => {
-    const pokeapi = await axios.get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=150")
+    const pokeapi = await axios.get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=40")
     
     let urls = pokeapi.data.results
     let arrayUrls = urls.map(e => e.url ); 
