@@ -33,7 +33,7 @@ function Form () {
      const validate = (form) => {
         if(form.name){
             if(/^[a-z]{0,10}$/.test(form.name)) setError({...error, name:""});
-            else setError({...error, name:"*max 10 digits"});
+            else setError({...error, name:"*max 10 characters"});
         }
 
         if(form.hp){
@@ -131,8 +131,8 @@ function Form () {
                         </div>
                         <div>
                             <select onChange={handleInputChange} value={form.type1} name="type1">
-                                <option value="">Selecione un opcion</option>
-                                <option value="Water">Water</option>
+                                <option value="">Select a type</option>
+                                <option value="normal">Normal</option>
                                 <option value="fighting">Fighting</option>
                                 <option value="flying">Flying</option>
                                 <option value="poison">Poison</option>
@@ -157,8 +157,8 @@ function Form () {
                         </div>
                         <div>
                             <select onChange={handleInputChange} value={form.type2} name="type2">
-                                <option value="">Selecione un opcion</option>
-                                <option value="Water">Water</option>
+                                <option value="">Select a type</option>
+                                <option value="normal">Normal</option>
                                 <option value="fighting">Fighting</option>
                                 <option value="flying">Flying</option>
                                 <option value="poison">Poison</option>

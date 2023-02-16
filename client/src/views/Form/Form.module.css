@@ -30,6 +30,7 @@
     border-radius: 8px;
     border: 0;
     outline: solid 1px black;
+    font-size: 20px;
 }
 
 .label{
@@ -67,18 +68,27 @@
     border: 0;
     outline: solid 1px black;
     width: 233px;
+    font-size: 20px;
 }
 
 .button{
     border-radius: 100px;
     padding: 8px;
-    background-color: rgb(86, 82, 82);
-    color: aliceblue;
-    border: 0;
-    outline: solid 1px black;  
+    margin-right: 20px;
+    border: none; 
+    background-color: black;
+    color: aliceblue;  
+    font-size: 20px;  
+}
+
+.button:hover{
+    background-color:  aliceblue; ;  
+    color: black;
+    outline: solid 1px black;
 }
 
 .contenedor span{
+    font-size: 20px;
     color: red;
 }
 
