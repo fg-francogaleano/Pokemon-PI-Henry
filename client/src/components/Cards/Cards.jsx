@@ -2,7 +2,7 @@ import Card from "../Card/Card"
 import style from "./Cards.module.css"
 
 function Cards ({pokemons}) {
-    console.log("PASO N° 6, LLEGÓ A CARDS", pokemons);
+    console.log("EN CARDS", pokemons);
     return(
         <div className={style.container}>
             {pokemons.map((pokemon, index) => {

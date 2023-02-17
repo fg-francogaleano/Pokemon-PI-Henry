@@ -10,7 +10,6 @@ import SearchBar from "./components/SearchBar/SearchBar"
 
 function App() {
   const location = useLocation();
-  console.log(location);
   return (
     <div className="App">
       {location.pathname !== "/" && <NavBar component={SearchBar}/>}

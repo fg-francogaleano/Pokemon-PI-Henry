@@ -13,7 +13,6 @@ import Filtered from "../../components/Filtered/Filtered";
         }, [dispatch]);
        
         const {pokemons, pokemonSearch, pokemonsFiltered} = useSelector(state => state);
-        console.log("PASO N°4, EN EL ESTADO DE REDUX",pokemonsFiltered);
 //__________________________________PAGINADO_________________________________________________
         let itemsPerPage = 12;
         
@@ -22,27 +21,22 @@ import Filtered from "../../components/Filtered/Filtered";
    
         useEffect(() => {
             setPagina([...pokemons].splice(0, itemsPerPage))
-            console.log("AL RECARGAR", pokemons);
-        }, [pokemons]);
+        }, [pokemons, itemsPerPage]);
 
         useEffect(() => {
-            console.log("PASO N° 6, ANTES DEL USEEFFECT", pagina)
             setPagina([...pokemonsFiltered].splice(0, itemsPerPage))
-            console.log("PASO N° 6, ANTES DEL USEEFFECT", pagina)
-        },[pokemonsFiltered])
+        },[pokemonsFiltered, itemsPerPage])
         
         const handlerNext = () => {
             const totalPokemons = pokemonsFiltered.length;
             const nextPage = currentPage + 1
             const inicialIndex = nextPage * itemsPerPage;//150
-            console.log("PAGINA",pagina);
             if(pagina.length !== itemsPerPage || totalPokemons === inicialIndex) return;
             
             if(!pokemonsFiltered.length){
                 setPagina([...pokemons].splice(inicialIndex,itemsPerPage))
                 setCurrentPage(nextPage)
             }else{
-                console.log("PASO N° 5, ANTES DEL FILTRADO");
                 setPagina([...pokemonsFiltered].splice(inicialIndex,itemsPerPage))
                 setCurrentPage(nextPage)
             }
@@ -118,7 +112,6 @@ const filtrado = (value) => {
     if(value === "fairy") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
     if(value === "unknown") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
     if(value === "shadow") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
-    console.log("PASO N° 1 SE EJECUTA EL (if)", filtered)
     dispatch(getPokemonsFiltered(filtered));
 };
 

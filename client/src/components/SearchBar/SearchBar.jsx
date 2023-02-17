@@ -13,8 +13,8 @@ export default function SearchBar() {
 
    const dispatch = useDispatch();
    const onSearch = (name) => {
-      console.log("EN SEARCH",name);
-      dispatch(getPokemonName(name))
+      dispatch(getPokemonName(name));
+      setName("");
   };
   
    return (
