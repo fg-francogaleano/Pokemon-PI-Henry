@@ -196,7 +196,17 @@ const idTypes = async (type1, type2) => {
     console.log("TIPOS",typesAll)
     console.log("ID",arrId);
     return arrId;
-}
+};
+
+const deletePokemon = async (id) => {
+     if(isNaN(id)){
+        const pokemon = await Pokemon.findByPk(id);
+        await pokemon.destroy();
+        return "Pokemon eliminado correctamente"
+     }else{
+        throw Error("No es posible eliminar este pokemon")
+     }
+};
 
 module.exports = { 
     createPokemon, 
@@ -207,4 +217,5 @@ module.exports = {
     findPokemonByName,
     pokemonByNameApi,
     findTypes,
-    typesAllApi}
+    typesAllApi,
+    deletePokemon}

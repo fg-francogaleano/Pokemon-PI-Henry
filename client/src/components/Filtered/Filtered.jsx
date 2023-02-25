@@ -30,6 +30,7 @@ function Filtered ({filtrado}) {
             <div>
                 <select onChange={handleInputChange} value={value}>
                             <option value="">Type</option>
+                            <option value="all">All</option>
                             <option value="normal">Normal</option>
                             <option value="flying">Flying</option>
                             <option value="poison">Poison</option>

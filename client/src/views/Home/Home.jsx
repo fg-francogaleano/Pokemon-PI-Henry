@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPokemons, getPokemonsFiltered } from "../../redux/actions";
+import { getPokemons } from "../../redux/actions";
 import Cards from "../../components/Cards/Cards";
 import Paginado from "../../components/Paginado/Paginado";
 import Filtered from "../../components/Filtered/Filtered";
@@ -12,51 +12,51 @@ import Filtered from "../../components/Filtered/Filtered";
             dispatch(getPokemons());
         }, [dispatch]);
        
-        const {pokemons, pokemonSearch, pokemonsFiltered} = useSelector(state => state);
+        const {pokemons, pokemonSearch} = useSelector(state => state);
 //__________________________________PAGINADO_________________________________________________
-        let itemsPerPage = 12;
-        
-        const [pagina, setPagina] = useState([...pokemons].splice(0,itemsPerPage))
-        const [currentPage, setCurrentPage] = useState(0)
-   
+        // let itemsPerPage = 12;
+        const [currentPage, setCurrentPage] = useState(1);
+        const [pagina, setPagina] = useState(pokemons)
+        // const [currentPage, setCurrentPage] = useState(0)
+        console.log("PAGINA", pagina);
         useEffect(() => {
-            setPagina([...pokemons].splice(0, itemsPerPage))
-        }, [pokemons, itemsPerPage]);
+            setPagina(pokemons)
+        }, [pokemons]);
 
-        useEffect(() => {
-            setPagina([...pokemonsFiltered].splice(0, itemsPerPage))
-        },[pokemonsFiltered, itemsPerPage])
+        // useEffect(() => {
+        //     setPagina([...pokemonsFiltered].splice(0, itemsPerPage))
+        // },[pokemonsFiltered, itemsPerPage])
         
-        const handlerNext = () => {
-            const totalPokemons = pokemonsFiltered.length;
-            const nextPage = currentPage + 1
-            const inicialIndex = nextPage * itemsPerPage;//150
-            if(pagina.length !== itemsPerPage || totalPokemons === inicialIndex) return;
+        // const handlerNext = () => {
+        //     const totalPokemons = pokemonsFiltered.length;
+        //     const nextPage = currentPage + 1
+        //     const inicialIndex = nextPage * itemsPerPage;//150
+        //     if(pagina.length !== itemsPerPage || totalPokemons === inicialIndex) return;
             
-            if(!pokemonsFiltered.length){
-                setPagina([...pokemons].splice(inicialIndex,itemsPerPage))
-                setCurrentPage(nextPage)
-            }else{
-                setPagina([...pokemonsFiltered].splice(inicialIndex,itemsPerPage))
-                setCurrentPage(nextPage)
-            }
-        };
+        //     if(!pokemonsFiltered.length){
+        //         setPagina([...pokemons].splice(inicialIndex,itemsPerPage))
+        //         setCurrentPage(nextPage)
+        //     }else{
+        //         setPagina([...pokemonsFiltered].splice(inicialIndex,itemsPerPage))
+        //         setCurrentPage(nextPage)
+        //     }
+        // };
 
         
-        const handlerPrev = () => {
-            const prevPage = currentPage - 1;
-            const inicialIndex = prevPage * itemsPerPage;
+        // const handlerPrev = () => {
+        //     const prevPage = currentPage - 1;
+        //     const inicialIndex = prevPage * itemsPerPage;
 
-            if(currentPage <= 0)return;
+        //     if(currentPage <= 0)return;
 
-            if(!pokemonsFiltered.length){
-                setPagina([...pokemons].splice(inicialIndex,itemsPerPage))
-                setCurrentPage(prevPage)
-            }else{
-                setPagina([...pokemonsFiltered].splice(inicialIndex,itemsPerPage))
-                setCurrentPage(prevPage)
-            }
-        };
+        //     if(!pokemonsFiltered.length){
+        //         setPagina([...pokemons].splice(inicialIndex,itemsPerPage))
+        //         setCurrentPage(prevPage)
+        //     }else{
+        //         setPagina([...pokemonsFiltered].splice(inicialIndex,itemsPerPage))
+        //         setCurrentPage(prevPage)
+        //     }
+        // };
 //___________________________________SEARCH PEER NAME___________________________________________
 
 useEffect(() => {
@@ -67,23 +67,23 @@ useEffect(() => {
 const filtrado = (value) => {
     let filtered;
     //NAME-ASC/DESC
-    if(value === "ascName") filtered = [...pokemons].sort((a, b) => {
+    if(value === "ascName") filtered = [...pagina].sort((a, b) => {
         if(a.name > b.name) return 1;
         if(a.name < b.name) return -1;
         return 0;
     });
-    if(value === "descName") filtered = [...pokemons].sort((a, b) => {
+    if(value === "descName") filtered = [...pagina].sort((a, b) => {
         if(a.name > b.name) return -1;
         if(a.name < b.name) return 1;
         return 0;
     });
     //ATTACK-ASC/DESC
-    if(value === "ascAttack") filtered = [...pokemons].sort((a, b) => {
+    if(value === "ascAttack") filtered = [...pagina].sort((a, b) => {
         if(a.attack > b.attack) return 1;
         if(a.attack < b.attack) return -1;
         return 0;
     });
-    if(value === "descAttack") filtered = [...pokemons].sort((a, b) => {
+    if(value === "descAttack") filtered = [...pagina].sort((a, b) => {
         if(a.attack > b.attack) return -1;
         if(a.attack < b.attack) return 1;
         return 0;
@@ -92,7 +92,7 @@ const filtrado = (value) => {
     if(value === "created") filtered = pokemons.filter(e => isNaN(e.id));
     if(value === "existing") filtered = pokemons.filter(e => !isNaN(e.id));
     //TYPES
-    if(value === "normal") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
+    if(value === "normal") filtered = pagina.filter(e => e.types.find(a => a === value) === value)
     if(value === "fighting") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
     if(value === "flying") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
     if(value === "poison") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
@@ -112,16 +112,20 @@ const filtrado = (value) => {
     if(value === "fairy") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
     if(value === "unknown") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
     if(value === "shadow") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
-    dispatch(getPokemonsFiltered(filtered));
+    // All
+    if(value === "all") filtered = pokemons;
+    setPagina(filtered);
+    setCurrentPage(1);
 };
 
 //_____________________________________RENDERIZADO____________________________________________       
         return(
                 <div>
                     <Filtered filtrado={filtrado}/>
-                    <Paginado handlerNext={handlerNext} handlerPrev={handlerPrev}/>
-                    <Cards pokemons={pagina}/>
-                    <Paginado handlerNext={handlerNext} handlerPrev={handlerPrev}/>
+                    <Cards 
+                    pokemons={pagina} 
+                    currentPage={currentPage} 
+                    setCurrentPage={setCurrentPage}/>
                 </div>
         )
     };

@@ -3,6 +3,7 @@ const { createPokemon,
         findPokemonByName,
         pokemonAll,
         findTypes,
+        deletePokemon
          } = require("../controllers/controllers")
 
 const getPokemonsHandler = async (req, res) => {
@@ -57,4 +58,21 @@ const getTypesHandler = async (req, res) => {
     }
 };
 
-module.exports = { getPokemonsHandler, getPokemonHandler, postPokemonHandler, getTypesHandler }
+const deleteHandler = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const pokemon = await deletePokemon(id);
+        res.status(200).json(pokemon)
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        })
+    }
+};
+
+module.exports = { 
+    getPokemonsHandler, 
+    getPokemonHandler,
+    postPokemonHandler, 
+    getTypesHandler,
+    deleteHandler }
