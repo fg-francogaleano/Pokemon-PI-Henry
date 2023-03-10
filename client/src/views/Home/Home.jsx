@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPokemons } from "../../redux/actions";
 import Cards from "../../components/Cards/Cards";
-import Paginado from "../../components/Paginado/Paginado";
 import Filtered from "../../components/Filtered/Filtered";
+import Loader from "../../components/Loader/Loader";
 
     function Home () {
 //___________________________________________________________________________________________ 
@@ -14,49 +14,15 @@ import Filtered from "../../components/Filtered/Filtered";
        
         const {pokemons, pokemonSearch} = useSelector(state => state);
 //__________________________________PAGINADO_________________________________________________
-        // let itemsPerPage = 12;
         const [currentPage, setCurrentPage] = useState(1);
         const [pagina, setPagina] = useState(pokemons)
-        // const [currentPage, setCurrentPage] = useState(0)
-        console.log("PAGINA", pagina);
         useEffect(() => {
             setPagina(pokemons)
+            return () => {
+                setPagina([])
+            }
+
         }, [pokemons]);
-
-        // useEffect(() => {
-        //     setPagina([...pokemonsFiltered].splice(0, itemsPerPage))
-        // },[pokemonsFiltered, itemsPerPage])
-        
-        // const handlerNext = () => {
-        //     const totalPokemons = pokemonsFiltered.length;
-        //     const nextPage = currentPage + 1
-        //     const inicialIndex = nextPage * itemsPerPage;//150
-        //     if(pagina.length !== itemsPerPage || totalPokemons === inicialIndex) return;
-            
-        //     if(!pokemonsFiltered.length){
-        //         setPagina([...pokemons].splice(inicialIndex,itemsPerPage))
-        //         setCurrentPage(nextPage)
-        //     }else{
-        //         setPagina([...pokemonsFiltered].splice(inicialIndex,itemsPerPage))
-        //         setCurrentPage(nextPage)
-        //     }
-        // };
-
-        
-        // const handlerPrev = () => {
-        //     const prevPage = currentPage - 1;
-        //     const inicialIndex = prevPage * itemsPerPage;
-
-        //     if(currentPage <= 0)return;
-
-        //     if(!pokemonsFiltered.length){
-        //         setPagina([...pokemons].splice(inicialIndex,itemsPerPage))
-        //         setCurrentPage(prevPage)
-        //     }else{
-        //         setPagina([...pokemonsFiltered].splice(inicialIndex,itemsPerPage))
-        //         setCurrentPage(prevPage)
-        //     }
-        // };
 //___________________________________SEARCH PEER NAME___________________________________________
 
 useEffect(() => {
@@ -121,11 +87,13 @@ const filtrado = (value) => {
 //_____________________________________RENDERIZADO____________________________________________       
         return(
                 <div>
-                    <Filtered filtrado={filtrado}/>
-                    <Cards 
-                    pokemons={pagina} 
-                    currentPage={currentPage} 
-                    setCurrentPage={setCurrentPage}/>
+                    <Loader isLoading={pagina.length === 0}>
+                        <Filtered filtrado={filtrado}/>
+                        <Cards 
+                        pokemons={pagina} 
+                        currentPage={currentPage} 
+                        setCurrentPage={setCurrentPage}/>
+                    </Loader>
                 </div>
         )
     };

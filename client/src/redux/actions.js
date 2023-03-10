@@ -3,7 +3,7 @@ import axios from "axios";
 export const GET_POKEMONS = "GET_POKEMONS";
 export const GET_POKEMON = "GET_POKEMON";
 export const GET_POKEMON_NAME = "GET_POKEMON_NAME";
-export const GET_POKEMONS_FILTERED = "GET_POKEMONS_FILTERED";
+export const CLEAN_DETAIL = "CLEAN_DETAIL";
 
 
 export const getPokemons = () => {
@@ -40,14 +40,18 @@ export const getPokemonName = (name) => {
             console.log(res.data);
             dispatch({ type: GET_POKEMON_NAME, payload : res.data})
         })
-        .catch(err => alert(err))
+        .catch(err => {
+            console.log(err);
+            alert(err.response.statusText)
+        })
+
      }
 };
 
-export const getPokemonsFiltered = (filtered) => {
+export const cleanDetail = () => {
     return{
-        type: GET_POKEMONS_FILTERED,
-        payload: filtered
+        type: CLEAN_DETAIL,
+        payload: {}
     };
 };
 

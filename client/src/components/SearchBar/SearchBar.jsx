@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getPokemonName } from '../../redux/actions'
+import { getPokemonName } from '../../redux/actions';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSeach, faSearch } from "@fortawesome/free-solid-svg-icons"
 import style from './SearchBar.module.css' 
 
 export default function SearchBar() {
@@ -25,7 +27,9 @@ export default function SearchBar() {
          name="search"  
          onChange={(e)=>handleInput(e)} 
          value={name}/>
-         <button type="submit" onClick={() => onSearch(name)}>Search</button>
+         <button type="submit" onClick={() => onSearch(name)}>
+            <FontAwesomeIcon icon={faSearch}/>
+         </button>
       </div>
    );
 }
