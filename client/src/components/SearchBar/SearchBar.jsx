@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getPokemonName } from '../../redux/actions';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSeach, faSearch } from "@fortawesome/free-solid-svg-icons"
+import { faSearch } from "@fortawesome/free-solid-svg-icons"
 import style from './SearchBar.module.css' 
 
 export default function SearchBar() {

@@ -1,12 +1,16 @@
-import style from "./Paginado.module.css"
+import { useDispatch } from "react-redux";
+import { getCache } from "../../redux/actions";
+import style from "./Paginado.module.css";
+
 
 function Paginado ({currentPage, setCurrentPage, totalPages}) {
+    const dispatch = useDispatch()
     const handlerpage = (page) => {
         setCurrentPage(page)
+        dispatch(getCache(currentPage + 1))
     };
 
     const pageNumbers = Array.from({length: totalPages}, (_, index) => index + 1)
-    console.log("pageNumbers",pageNumbers);
 
     return(
         <div className={style.container}>

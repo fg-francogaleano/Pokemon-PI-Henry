@@ -1,8 +1,8 @@
 import style from "./Detail.module.css"
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { getPokemon, cleanDetail } from "../../redux/actions";
+import { useHistory, useParams } from "react-router-dom";
+import { getPokemon, cleanDetail, getPath } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
@@ -10,6 +10,9 @@ import axios from "axios";
 function Detail () {
     let {id} = useParams();
     const dispatch = useDispatch();
+    
+    const history = useHistory();
+    console.log(history.location.pathname);
    
     const handlerDelete = async (event) => {
         console.log(event);
@@ -25,11 +28,17 @@ function Detail () {
     
     useEffect(() => {
         dispatch(getPokemon(id))
+        dispatch(getPath(history.location.pathname))
         return () => {
             dispatch(cleanDetail())  ;
         }
     },[dispatch, id])
-    const data = useSelector(state => state.pokemonDetail)
+    const data = useSelector(state => state.pokemonDetail);
+
+
+    const handlerBack = () =>{
+        history.goBack()
+    }
   
     return(
         <div className={style.contenedor}>
@@ -53,6 +62,9 @@ function Detail () {
                     <button onClick={handlerDelete} value={id}>
                         <FontAwesomeIcon icon={faTrash}/>
                     </button>
+                </div>
+                <div>
+                    <button onClick={handlerBack}>x</button>
                 </div>
         </div>
     )

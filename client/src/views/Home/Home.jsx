@@ -7,15 +7,27 @@ import Loader from "../../components/Loader/Loader";
 
     function Home () {
 //___________________________________________________________________________________________ 
+        const {pokemons, pokemonSearch, cache} = useSelector(state => state);
+        
+        const [currentPage, setCurrentPage] = useState(1);
+
         const dispatch = useDispatch();
         useEffect(() => {
             dispatch(getPokemons());
+            setCurrentPage(cache)
         }, [dispatch]);
        
-        const {pokemons, pokemonSearch} = useSelector(state => state);
 //__________________________________PAGINADO_________________________________________________
-        const [currentPage, setCurrentPage] = useState(1);
         const [pagina, setPagina] = useState(pokemons)
+        console.log("NUMERO DE PAGINA", currentPage);
+        // const history = useHistory();
+        // const pathCurrent = history.location.pathname
+        // if(pathCurrent !== path) setCurrentPage(cache)
+        // if (cache === 1) {
+        //     setCurrentPage(1)
+        // }else{
+        //     setCurrentPage(cache)
+        // }
         useEffect(() => {
             setPagina(pokemons)
             return () => {

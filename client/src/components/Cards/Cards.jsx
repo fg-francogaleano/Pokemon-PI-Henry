@@ -1,10 +1,9 @@
-import { useState } from "react";
 import Card from "../Card/Card";
 import Paginado from "../Paginado/Paginado";
 import style from "./Cards.module.css";
 
 function Cards ({pokemons, currentPage, setCurrentPage}) {
-    const [itemsPerPage, setItemsPerPage] = useState(12);
+    const itemsPerPage = 12
 
     const totalItems = pokemons.length;//40
     const totalPages = Math.ceil(totalItems / itemsPerPage)
@@ -12,7 +11,7 @@ function Cards ({pokemons, currentPage, setCurrentPage}) {
     const indexStart = (currentPage - 1) * itemsPerPage;
     const indexEnd = indexStart + itemsPerPage;
     const currentPageItems = pokemons.slice(indexStart, indexEnd)
-
+    
     return(
         <div>
             <div>

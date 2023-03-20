@@ -4,6 +4,8 @@ export const GET_POKEMONS = "GET_POKEMONS";
 export const GET_POKEMON = "GET_POKEMON";
 export const GET_POKEMON_NAME = "GET_POKEMON_NAME";
 export const CLEAN_DETAIL = "CLEAN_DETAIL";
+export const CACHE = "CACHE";
+export const PATH = "PATH";
 
 
 export const getPokemons = () => {
@@ -11,7 +13,6 @@ export const getPokemons = () => {
         await axios.get("http://localhost:3001/pokemons")
         .then(res => {
             const data = res.data
-            console.log(data);  
             dispatch({ type: GET_POKEMONS, payload : data }) 
         })
         .catch(err => alert(err)) 
@@ -52,6 +53,20 @@ export const cleanDetail = () => {
     return{
         type: CLEAN_DETAIL,
         payload: {}
+    };
+};
+
+export const getCache = (pagina) => {
+    return{
+        type: CACHE,
+        payload: pagina
+    };
+};
+
+export const getPath = (path) => {
+    return{
+        type: PATH,
+        payload: path
     };
 };
 
