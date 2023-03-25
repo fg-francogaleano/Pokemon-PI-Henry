@@ -178,6 +178,7 @@ const createPokemon = async (id,name,hp,attack,defense,speed,weight,height,image
 
 const findTypes = async () => {
     const arrTypes = await typesAllApi();
+    console.log(arrTypes);
     for(var i = 0; i < arrTypes.length; i++){
         await Type.create(arrTypes[i]);
     };

@@ -15,6 +15,6 @@ router.post("/pokemons", postPokemonHandler);
 
 router.get("/types", getTypesHandler);
 
-router.delete("/:id/delete", deleteHandler)
+router.delete("/:id/delete", deleteHandler);
 
 module.exports = router;

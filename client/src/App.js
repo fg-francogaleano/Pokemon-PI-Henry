@@ -7,7 +7,6 @@ import { Route, useLocation} from "react-router-dom";
 import NavBar from './components/NavBar/NavBar';
 import SearchBar from "./components/SearchBar/SearchBar"
 
-
 function App() {
   const location = useLocation();
   return (
@@ -29,6 +28,7 @@ function App() {
       <Route exact path="/create">
         <Form />
       </Route>
+
     </div>
   );
 }

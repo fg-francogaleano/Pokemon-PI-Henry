@@ -19,15 +19,7 @@ import Loader from "../../components/Loader/Loader";
        
 //__________________________________PAGINADO_________________________________________________
         const [pagina, setPagina] = useState(pokemons)
-        console.log("NUMERO DE PAGINA", currentPage);
-        // const history = useHistory();
-        // const pathCurrent = history.location.pathname
-        // if(pathCurrent !== path) setCurrentPage(cache)
-        // if (cache === 1) {
-        //     setCurrentPage(1)
-        // }else{
-        //     setCurrentPage(cache)
-        // }
+        
         useEffect(() => {
             setPagina(pokemons)
             return () => {

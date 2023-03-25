@@ -26,8 +26,8 @@ export const getPokemon = (id) => {
         const data = pokemons.data;
         data.name = data.name.toUpperCase()
         data.types = data.types.map(e => e.name)
-        data.type1 = data.types[0].toUpperCase()
-        data.type2 = data.types.length>1?data.types[1].toUpperCase():"No posee"
+        data.type1 = data.types[0].replace(/^\w/, c => c.toUpperCase())
+        data.type2 = data.types.length>1?data.types[1].toUpperCase():""
         dispatch({ type: GET_POKEMON, payload : data})
       
      }
