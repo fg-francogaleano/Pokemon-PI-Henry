@@ -3,13 +3,16 @@ const { getPokemonsHandler,
         getPokemonHandler, 
         postPokemonHandler, 
         getTypesHandler,
-        deleteHandler} = require("../handlers/handlers")
+        deleteHandler,
+        getPokemonTypeHandler} = require("../handlers/handlers")
 
 const router = Router();
 
 router.get("/pokemons", getPokemonsHandler);
 
 router.get("/pokemons/:id", getPokemonHandler);
+
+router.get("/types/:types", getPokemonTypeHandler)
 
 router.post("/pokemons", postPokemonHandler);
 

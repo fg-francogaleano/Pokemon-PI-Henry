@@ -15,7 +15,7 @@ function Card ({id, name, image, type1, type2}) {
                 <div className={style.imgcontainer}>
                     <img src={image} alt={name}/>   
                 </div>
-                <div className={style.type1container}>
+                <div className={type2 ? style.type1container : style.typeContainer}>
                     <h4>{type1}</h4>
                 </div>
                 <div className={style.type2container}>

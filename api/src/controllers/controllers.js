@@ -75,7 +75,7 @@ const typesAllApi = async () => {
     let types = [];
     const result = pokeapi.data.results
     result.map(e => types.push({name: e.name}) );
-    console.log(1, types);
+    console.log("PETICION", types);
     return types;
 };
 // ------------------------------------------------API POR ID-------------------------------------------------------
@@ -178,13 +178,13 @@ const createPokemon = async (id,name,hp,attack,defense,speed,weight,height,image
 
 const findTypes = async () => {
     const arrTypes = await typesAllApi();
-    console.log(arrTypes);
-    for(var i = 0; i < arrTypes.length; i++){
-        await Type.create(arrTypes[i]);
-    };
-   return await Type.findAll({
-    attributes: ["name"]
-   })    
+    const allTypes = await Type.findAll({attributes: ["name"]})
+    console.log("CARGANDO LA BASE DE DATOS", allTypes);    
+    if(allTypes){
+        for(var i = 0; i < arrTypes.length; i++){
+            await Type.create(arrTypes[i]);
+        };
+    }
 };
 
 const idTypes = async (type1, type2) => {

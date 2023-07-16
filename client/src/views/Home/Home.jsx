@@ -19,7 +19,7 @@ import Loader from "../../components/Loader/Loader";
        
 //__________________________________PAGINADO_________________________________________________
         const [pagina, setPagina] = useState(pokemons)
-        
+        console.log(pagina);
         useEffect(() => {
             setPagina(pokemons)
             return () => {
@@ -35,6 +35,7 @@ useEffect(() => {
 //______________________________________FILTRADO______________________________________________
 
 const filtrado = (value) => {
+    console.log(value);
     let filtered;
     //NAME-ASC/DESC
     if(value === "ascName") filtered = [...pagina].sort((a, b) => {
@@ -84,6 +85,7 @@ const filtrado = (value) => {
     if(value === "shadow") filtered = pokemons.filter(e => e.types.find(a => a === value) === value)
     // All
     if(value === "all") filtered = pokemons;
+    console.log(filtered);
     setPagina(filtered);
     setCurrentPage(1);
 };
@@ -91,13 +93,13 @@ const filtrado = (value) => {
 //_____________________________________RENDERIZADO____________________________________________       
         return(
                 <div>
-                    <Loader isLoading={pagina.length === 0}>
+                    {/* <Loader isLoading={pagina.length === 0}> */}
                         <Filtered filtrado={filtrado}/>
                         <Cards 
                         pokemons={pagina} 
                         currentPage={currentPage} 
                         setCurrentPage={setCurrentPage}/>
-                    </Loader>
+                    {/* </Loader> */}
                 </div>
         )
     };

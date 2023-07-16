@@ -20,14 +20,16 @@ export default function SearchBar() {
   };
   
    return (
-      <div className={style.container}>
+      <div>
          <input
-         placeholder='   Name' 
+         className={style.input}
+         placeholder='Name' 
          type="text" 
          name="search"  
          onChange={(e)=>handleInput(e)} 
-         value={name}/>
-         <button type="submit" onClick={() => onSearch(name)}>
+         value={name}
+         autoComplete='off'/>
+         <button type="submit" onClick={() => onSearch(name)} className={style.button}>
             <FontAwesomeIcon icon={faSearch}/>
          </button>
       </div>

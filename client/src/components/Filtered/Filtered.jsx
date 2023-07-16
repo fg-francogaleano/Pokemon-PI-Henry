@@ -6,7 +6,7 @@ function Filtered ({filtrado}) {
     
     const handleInputChange = (event) => {
         const { value } = event.target
-       
+       console.log(value);
         setValue(value); 
         filtrado(value)
     };

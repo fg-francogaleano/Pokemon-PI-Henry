@@ -1,32 +1,18 @@
 .container{
-    border-radius: 5px;
-    margin-top: 40px;
-    margin-bottom: 20px;
+    background-color: rgb(0,0,0);
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-}
-
-.container div{
-    width: 700px;
-    display: flex;
-
-}
-
-.divcontainer {
-    border-radius: 30px;
-    border: solid 1px black;
+    /* position: fixed; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
     padding: 10px;
-    background-color: rgba(249, 245, 245, 0.47)
 }
 
-.buttonCreate {
-    justify-content: end;
-    border: none;    
-}
-
-.buttonCreate button{
-    border-radius: 100px;
+.button{
+    border-radius:  0.9375rem;
     padding: 8px;
     margin-right: 20px;
     border: none; 
@@ -34,25 +20,18 @@
     color: aliceblue;  
     font-size: 20px;
 }
-.buttonCreate button:hover{
-    background-color:  aliceblue; ;  
-    color: black;
-    outline: solid 1px black;
+.button:hover{
+    outline: solid 1px rgb(171, 171, 171);
 }
 
-.buttonHome button{
-    border-radius: 100px;
-    padding: 8px;
-    margin-left: 20px;
-    border: none; 
-    background-color: black;
-    color: aliceblue;  
+.list{
+    display: inline-block;
+    margin: 0px 20px 0px 20px;
+    padding: 2px;
     font-size: 20px;
+    font-weight: 2px;
+    color: aliceblue;
 }
-.buttonHome button:hover{
-    background-color:  aliceblue; ;  
-    color: black;
-    outline: solid 1px black;
-}
+ 
    
         

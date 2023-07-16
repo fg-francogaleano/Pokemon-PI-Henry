@@ -6,30 +6,61 @@ export const GET_POKEMON_NAME = "GET_POKEMON_NAME";
 export const CLEAN_DETAIL = "CLEAN_DETAIL";
 export const CACHE = "CACHE";
 export const PATH = "PATH";
+export const READY = "READY";
+export const LOADING = "LOADING";
+export const GET_TYPES = "GET_TYPES"
 
 
 export const getPokemons = () => {
     return async function (dispatch){
+        dispatch(loading());
         await axios.get("http://localhost:3001/pokemons")
         .then(res => {
             const data = res.data
-            dispatch({ type: GET_POKEMONS, payload : data }) 
+            dispatch({ type: GET_POKEMONS, payload : data })
+            dispatch(ready());
         })
-        .catch(err => alert(err)) 
+        .catch(err => {
+            console.log(err);
+            dispatch(ready());
+        }) 
+    }
+};
+
+export const getTypes = () => {
+    return async function (dispatch){
+        await axios.get("http://localhost:3001/types")
+        .then(res => {
+            const data = res.data.map(pokemon => pokemon.name)
+            dispatch({ type: GET_TYPES, payload : data })
+        })
+        .catch(err => {
+            console.log(err);
+        }) 
     }
 };
 
 export const getPokemon = (id) => {
     return async function (dispatch){
-        const pokemons = await axios.get(
-            `http://localhost:3001/pokemons/${id}`);
-        const data = pokemons.data;
-        data.name = data.name.toUpperCase()
-        data.types = data.types.map(e => e.name)
-        data.type1 = data.types[0].replace(/^\w/, c => c.toUpperCase())
-        data.type2 = data.types.length>1?data.types[1].toUpperCase():""
-        dispatch({ type: GET_POKEMON, payload : data})
-      
+        dispatch(loading());
+        await axios.get(`http://localhost:3001/pokemons/${id}`)
+        .then(res => {
+            const data = res.data;
+            data.name = data.name.toUpperCase()
+            data.types = data.types.map(e => e.name)
+            data.type1 = data.types[0].replace(/^\w/, c => c.toUpperCase())
+            data.type2 = data.types.length>1 ? data.types[1].replace(/^\w/, c => c.toUpperCase()) :""
+            dispatch({ type: GET_POKEMON, payload : data})
+            setTimeout(() => {
+                dispatch(ready());
+            }, 500);
+        })
+        .catch(err => {
+            console.log(err);
+            setTimeout(() => {
+                dispatch(ready());
+            }, 5000);
+        })
      }
 };
 
@@ -69,4 +100,16 @@ export const getPath = (path) => {
         payload: path
     };
 };
+
+export const ready = () => {
+    return {
+      type: READY,
+    };
+  };
+
+  export const loading = () => {
+    return {
+      type: LOADING,
+    };
+  }
 

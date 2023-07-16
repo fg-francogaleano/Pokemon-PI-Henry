@@ -8,16 +8,25 @@
     border-radius: 10px;
     border: solid 1px black;
     background-color: rgba(249, 245, 245, 0.59);
+    height: 540px;
+}
+.containerDisplay{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: solid 1px black;
+    background-color: rgba(249, 245, 245, 0.59);
+    margin-right: 150px;
+    margin-left: 150px;
+    padding-top: 1px;
+    padding-bottom: 50px;
+    margin-top: 20px;
 }
 
 .box1{
-    position: relative;
     width: 50%;
-    height: 100hv;
-}
-
-.box1 div{
-    position: absolute;
+    height: 500px;
 }
 
 .box2{
@@ -28,8 +37,26 @@
 }
 
 .img{
+    display: block;
+    width: auto;
+    height: auto;
     max-width: 100%;
-    max-height: 100vh;
+    max-height: 100%;
+}
+
+.containerTypes{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.close{
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.close:hover{
+    font-size: 35px;
+    transition: .4s;
 }
 
 

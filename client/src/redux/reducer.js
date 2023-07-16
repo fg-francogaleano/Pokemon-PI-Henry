@@ -1,18 +1,23 @@
 import { 
-  GET_POKEMONS, 
+  GET_POKEMONS,
+  GET_TYPES, 
   GET_POKEMON,
   GET_POKEMON_NAME, 
   CLEAN_DETAIL,
   CACHE,
-  PATH, 
+  PATH,
+  READY,
+  LOADING 
  } from "./actions";
 
 const initialState = {
     pokemons: [],
+    types: [],
     pokemonSearch: [],
     pokemonDetail: {},
     cache: 1,
-    path: ""
+    path: "",
+    display: false,
   };
 
 const rootReducer = (state = initialState, action) => {
@@ -34,6 +39,12 @@ const rootReducer = (state = initialState, action) => {
             ...state,
             pokemons: action.payload 
           }
+
+      case GET_TYPES:
+        return {
+            ...state,
+            types: action.payload 
+        }    
       
       case GET_POKEMON:
         return {
@@ -51,6 +62,18 @@ const rootReducer = (state = initialState, action) => {
           ...state,
           path: action.payload
         }
+
+      case LOADING:
+        return {
+          ...state,
+          display: true,
+      };
+
+      case READY:
+        return {
+          ...state,
+          display: false,
+      };
 
       default:
         return {...state}       

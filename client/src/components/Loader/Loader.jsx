@@ -1,23 +1,29 @@
-import { useEffect, useState } from "react";
-import { PulseLoader } from "react-spinners"
-import style from "./Loader.module.css"
+import styles from "../Loader/Loader.module.css"
 
-function Loader (props) {
-    const [isLoading, setIsLoading] = useState(true);
-     
-    useEffect(() => {
-        setIsLoading(props.isLoading)
-    }, [props.isLoading])
-    
-    if(isLoading) {
-        return (
-            <div className={style.container}>
-               <PulseLoader size={25}/>
-            </div>
-        )
-    };
+const Loader = () => {
 
-    return props.children
+    window.addEventListener("load", function(){
+        document.getElementById("loader")?.classList.toggle("loader2")
+    })
+
+  return (
+    <div class={styles.contenedor}>
+    <div className={styles.loader} id="loader" >
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    </div>
+  );
 };
 
-export default Loader;
+export default Loader

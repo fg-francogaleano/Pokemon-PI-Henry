@@ -1,3 +1,4 @@
+const { Pokemon, Type } = require("../db")
 const { createPokemon,
         findPokemonById,
         findPokemonByName,
@@ -50,7 +51,10 @@ const postPokemonHandler = async (req, res) => {
 
 const getTypesHandler = async (req, res) => {
     try {
-        const types = await findTypes();
+        const types = await Type.findAll({
+            attributes: ["name"]
+           })    
+        console.log("HANDLERS", types);
         res.status(200).json(types);
     } catch (error) {
         res.status(404).json({
@@ -71,9 +75,28 @@ const deleteHandler = async (req, res) => {
     }
 };
 
+const getPokemonTypeHandler = async (req, res) => {
+    const { types } = req.params;
+    console.log(types);
+    try {
+        const pokemon = await Pokemon.findAll({
+            include: [{
+                model: Type,
+                where: {name: types}
+            }]
+        })
+        res.status(200).json(pokemon)
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        })
+    }
+}
+
 module.exports = { 
     getPokemonsHandler, 
     getPokemonHandler,
     postPokemonHandler, 
     getTypesHandler,
-    deleteHandler }
+    deleteHandler,
+    getPokemonTypeHandler }
