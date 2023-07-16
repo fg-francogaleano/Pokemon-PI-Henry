@@ -4,7 +4,8 @@ const { getPokemonsHandler,
         postPokemonHandler, 
         getTypesHandler,
         deleteHandler,
-        getPokemonTypeHandler} = require("../handlers/handlers")
+        getPokemonTypeHandler,
+        } = require("../handlers/handlers")
 
 const router = Router();
 
@@ -19,5 +20,9 @@ router.post("/pokemons", postPokemonHandler);
 router.get("/types", getTypesHandler);
 
 router.delete("/:id/delete", deleteHandler);
+
+router.get("/res200", (req, res) => {
+        res.status(200);
+})
 
 module.exports = router;

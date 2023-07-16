@@ -99,4 +99,4 @@ module.exports = {
     postPokemonHandler, 
     getTypesHandler,
     deleteHandler,
-    getPokemonTypeHandler }
+    getPokemonTypeHandler, }
