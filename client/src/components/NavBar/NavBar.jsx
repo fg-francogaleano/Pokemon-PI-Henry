@@ -14,7 +14,7 @@ function NavBar ({onSearch}) {
                 <div style={{width:"40%"}}>
                     <SearchBar onSearch={onSearch}/>    
                 </div>
-                <div style={{display:"flex", justifyContent:"space-between", marginRight:"10px", width:"25%"}}>               
+                <div style={{display:"flex", marginRight:"10px", }}>               
                     <div>
                         <Link to="/home">
                             <button className={style.button}>Home</button>
@@ -25,11 +25,11 @@ function NavBar ({onSearch}) {
                             <button className={style.button}>Create</button>
                         </Link>
                     </div> 
-                    <div>
+                    {/* <div>
                         <Link to="/create">
                             <button className={style.button}>About</button>
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             {/* <div style={{height:"40px", width:"100%", backgroundColor:"rgb(35,35,35)", display: "flex", alignItems:"center", justifyContent:"center"}}>
