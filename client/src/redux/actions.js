@@ -10,11 +10,14 @@ export const READY = "READY";
 export const LOADING = "LOADING";
 export const GET_TYPES = "GET_TYPES"
 
+// const URL = process.env.REACT_APP_DEPLOYBACK_URL;
+const URL = "http://localhost:3001"
+
 
 export const getPokemons = () => {
     return async function (dispatch){
         dispatch(loading());
-        await axios.get("http://localhost:3001/pokemons")
+        await axios.get(`${URL}/pokemons`)
         .then(res => {
             const data = res.data
             dispatch({ type: GET_POKEMONS, payload : data })
@@ -29,7 +32,7 @@ export const getPokemons = () => {
 
 export const getTypes = () => {
     return async function (dispatch){
-        await axios.get("http://localhost:3001/types")
+        await axios.get(`${URL}/types`)
         .then(res => {
             const data = res.data.map(pokemon => pokemon.name)
             dispatch({ type: GET_TYPES, payload : data })
@@ -43,7 +46,7 @@ export const getTypes = () => {
 export const getPokemon = (id) => {
     return async function (dispatch){
         dispatch(loading());
-        await axios.get(`http://localhost:3001/pokemons/${id}`)
+        await axios.get(`${URL}/pokemons/${id}`)
         .then(res => {
             const data = res.data;
             data.name = data.name.toUpperCase()
@@ -66,7 +69,7 @@ export const getPokemon = (id) => {
 
 export const getPokemonName = (name) => {
     return async function (dispatch){
-        await axios.get(`http://localhost:3001/pokemons?name=${name}`)
+        await axios.get(`${URL}/pokemons?name=${name}`)
         .then(res => {
             res.data.types = res.data.types.map((e => e.name))
             console.log(res.data);
