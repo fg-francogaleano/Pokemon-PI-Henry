@@ -10,9 +10,7 @@ export const READY = "READY";
 export const LOADING = "LOADING";
 export const GET_TYPES = "GET_TYPES"
 
-// const URL = process.env.REACT_APP_DEPLOYBACK_URL;
-const URL = "http://localhost:3001"
-
+const URL = process.env.REACT_APP_DEPLOYBACK_URL;
 
 export const getPokemons = () => {
     return async function (dispatch){
