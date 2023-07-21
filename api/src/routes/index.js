@@ -22,7 +22,7 @@ router.get("/types", getTypesHandler);
 router.delete("/:id/delete", deleteHandler);
 
 router.get("/res200", (req, res) => {
-        res.status(200);
+        res.status(200).json("res200")
 })
 
 module.exports = router;
