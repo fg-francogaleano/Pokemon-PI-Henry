@@ -10,7 +10,7 @@ export const READY = "READY";
 export const LOADING = "LOADING";
 export const GET_TYPES = "GET_TYPES"
 
-const URL = process.env.REACT_APP_DEPLOYBACK_URL;
+const URL = "https://pokemon-back-a90m.onrender.com";
 
 export const getPokemons = () => {
     return async function (dispatch){
