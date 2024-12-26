@@ -18,7 +18,7 @@ export const getPokemons = (page) => {
     await axios
       .get(`${URL}/pokemons?page=${page}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
 
         const data = res.data;
         dispatch({ type: GET_POKEMONS, payload: data });
@@ -36,8 +36,8 @@ export const getTypes = () => {
     await axios
       .get(`${URL}/types`)
       .then((res) => {
-        const data = res.data.map((pokemon) => pokemon.name);
-        dispatch({ type: GET_TYPES, payload: data });
+        // const data = res.data.map((pokemon) => pokemon.name);
+        dispatch({ type: GET_TYPES, payload: res.data });
       })
       .catch((err) => {
         console.log(err);

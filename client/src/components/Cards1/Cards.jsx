@@ -12,16 +12,16 @@ function Cards() {
   const searchParams = new URLSearchParams(window.location.search);
   const page = parseInt(searchParams.get("page") || "1", 10);
 
-  console.log(page);
+  // console.log(page);
   // const [currentPage, setCurrentPage] = useState(1); // Página actual
   // const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     dispatch(getPokemons(page));
-  }, []);
+  }, [dispatch, page]);
 
   const { pokemons, totalPages, display } = useSelector((state) => state);
-  console.log(pokemons);
+  // console.log(pokemons);
 
   return (
     <>
@@ -34,18 +34,20 @@ function Cards() {
           </div>
 
           <div className={style.container}>
-            {pokemons.map((pokemon, index) => {
+            {pokemons?.map((pokemon, index) => {
               return (
                 <Card
                   key={index}
                   id={pokemon.id}
                   name={pokemon.name.toUpperCase()}
-                  type1={pokemon.types[0]?.replace(/^\w/, (c) =>
+                  type1={pokemon.types[0].name?.replace(/^\w/, (c) =>
                     c.toUpperCase()
                   )}
                   type2={
                     pokemon.types.length > 1
-                      ? pokemon.types[1]?.replace(/^\w/, (c) => c.toUpperCase())
+                      ? pokemon.types[1].name?.replace(/^\w/, (c) =>
+                          c.toUpperCase()
+                        )
                       : ""
                   }
                   image={pokemon.image}

@@ -4,7 +4,7 @@ const axios = require("axios");
 // --------------------------------------------POKEMONS API--------------------------------------------------------
 const pokemonsAllApi = async () => {
   const pokeapi = await axios.get(
-    "https://pokeapi.co/api/v2/pokemon?offset=0&limit=20"
+    "https://pokeapi.co/api/v2/pokemon?offset=0&limit=100"
   );
   const urls = pokeapi.data.results.map((e) => e.url);
 
@@ -23,6 +23,7 @@ const pokemonsAllApi = async () => {
     height: detalle.height,
     image: detalle.sprites.other.home.front_default,
     types: detalle.types.map((e) => e.type.name),
+    isUserCreated: false,
   }));
   return data;
 };
@@ -40,9 +41,11 @@ const pokemonsAllBDD = async (page, limit) => {
         attributes: [],
       },
     },
+    distinct: true, // Asegura que los duplicados no se cuenten,
     limit, // Número de resultados por página
     offset, // Desplazamiento inicial
   });
+  console.log(results.count);
 
   return {
     totalItems: results.count, // Total de elementos en la base de datos
@@ -211,6 +214,11 @@ const createPokemon = async (
   type1,
   type2
 ) => {
+  const types = [];
+  types.push(type1);
+  types.push(type2);
+  console.log(types);
+
   const newPokemon = await Pokemon.create({
     id,
     name,
@@ -222,7 +230,9 @@ const createPokemon = async (
     height,
     image,
   });
-  const arrIdTypes = await idTypes(type1, type2);
+
+  const arrIdTypes = await idTypes(types);
+
   await newPokemon.addTypes(arrIdTypes);
   return "Pokemon creado correctamente";
 };
@@ -242,48 +252,50 @@ const cachePokemonsApi = async () => {
   try {
     // Obtener los datos desde la API externa
     const data = await pokemonsAllApi();
+    // console.log(data);
 
-    // Preparar los datos para el modelo de Sequelize
-    const formattedData = data.map((pokemon) => ({
-      name: pokemon.name,
-      hp: pokemon.hp,
-      attack: pokemon.attack,
-      defense: pokemon.defense,
-      speed: pokemon.speed,
-      weight: pokemon.weight,
-      height: pokemon.height,
-      image: pokemon.image,
-    }));
+    for (const pokemon of data) {
+      const pokemonData = {
+        name: pokemon.name,
+        hp: pokemon.hp,
+        attack: pokemon.attack,
+        defense: pokemon.defense,
+        speed: pokemon.speed,
+        weight: pokemon.weight,
+        height: pokemon.height,
+        image: pokemon.image,
+        isUserCreated: false,
+      };
 
-    // Guardar o actualizar en la base de datos
-    await Pokemon.bulkCreate(formattedData, {
-      updateOnDuplicate: [
-        "name",
-        "hp",
-        "attack",
-        "defense",
-        "speed",
-        "weight",
-        "height",
-        "image",
-      ],
-    });
-
-    console.log("Datos cacheados exitosamente.");
+      const [createdPokemon] = await Pokemon.upsert(pokemonData, {
+        returning: true, // Para obtener la instancia creada/actualizada
+      });
+      const typeIds = await idTypes(pokemon.types);
+      await createdPokemon.setTypes(typeIds);
+    }
+    // console.log("Datos cacheados exitosamente.");
   } catch (error) {
     console.error("Error al cachear los datos:", error);
   }
 };
 
-const idTypes = async (type1, type2) => {
+const idTypes = async (typesArray) => {
+  // Obtener todos los tipos de la base de datos
+  console.log(typesArray, "isTypes");
+
   const typesAll = await Type.findAll({ raw: true });
-  let arrId = [];
-  typesAll.forEach((e) => {
-    if (e.name === type1) arrId.push(e.id);
-    if (e.name === type2) arrId.push(e.id);
-  });
-  console.log("TIPOS", typesAll);
-  console.log("ID", arrId);
+
+  // Filtrar los IDs que coincidan con los nombres en el array
+
+  const arrId = typesArray
+    .map((type) => {
+      const matchedType = typesAll.find((e) => e.name === type);
+      // console.log(matchedType);
+
+      return matchedType ? matchedType.id : null; // Si no encuentra el tipo, retorna null
+    })
+    .filter((id) => id !== null); // Eliminar valores nulos
+
   return arrId;
 };
 

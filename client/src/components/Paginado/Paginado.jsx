@@ -11,10 +11,10 @@ function Paginado() {
   );
 
   const searchParams = new URLSearchParams(window.location.search);
-  const page = searchParams.get("page");
+  const page = parseInt(searchParams.get("page") || "1", 10);
 
-  const PagePrev = page == 1 ? null : +page - 1;
-  const PageNext = page == totalPages ? null : +page + 1;
+  const PagePrev = page === 1 ? null : page - 1;
+  const PageNext = page === totalPages ? null : page + 1;
 
   return (
     <div className={style.container}>
@@ -23,12 +23,12 @@ function Paginado() {
         to={`/home?page=${PagePrev}`}
         onClick={(e) => {
           e.preventDefault(); // Evita que `Link` maneje la navegación.
-          window.location.href = `/home?page=${+page - 1}`; // Forza la recarga.
+          window.location.href = `/home?page=${page - 1}`; // Forza la recarga.
         }}
       >
         <button
-          className={page != 1 ? style.btn : style.btnDisabled}
-          disabled={page == 1}
+          className={page !== 1 ? style.btn : style.btnDisabled}
+          disabled={page === 1}
         >
           {"<"}
         </button>
@@ -57,8 +57,8 @@ function Paginado() {
         }}
       >
         <button
-          className={page != totalPages ? style.btn : style.btnDisabled}
-          disabled={page == totalPages}
+          className={page !== totalPages ? style.btn : style.btnDisabled}
+          disabled={page === totalPages}
         >
           {">"}
         </button>

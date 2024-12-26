@@ -42,8 +42,8 @@ function Detail() {
     return () => {
       dispatch(cleanDetail());
     };
-  }, [dispatch, id]);
-  const data = useSelector((state) => state.pokemonDetail);
+  }, [dispatch, id, history.location.pathname]);
+  // const data = useSelector((state) => state.pokemonDetail);
 
   const handlerBack = () => {
     history.goBack();

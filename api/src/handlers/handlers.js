@@ -10,7 +10,7 @@ const {
 } = require("../controllers/controllers");
 
 const getPokemonsHandler = async (req, res) => {
-  const { name, page = 1, limit = 5 } = req.query;
+  const { name, page = 1, limit = 20 } = req.query;
 
   try {
     if (name) {
@@ -79,9 +79,8 @@ const postPokemonHandler = async (req, res) => {
 const getTypesHandler = async (req, res) => {
   try {
     const types = await Type.findAll({
-      attributes: ["name"],
+      attributes: ["name", "id"],
     });
-    console.log("HANDLERS", types);
     res.status(200).json(types);
   } catch (error) {
     res.status(404).json({
