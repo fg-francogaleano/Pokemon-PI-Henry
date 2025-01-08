@@ -22,6 +22,7 @@ const initialState = {
   limit: 15,
   totalPages: 0,
   totalItems: 0,
+  message: "",
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -46,6 +47,7 @@ const rootReducer = (state = initialState, action) => {
         pokemons: action.payload.data,
         page: action.payload.page,
         limit: action.payload.limit,
+        message: action.payload.message,
       };
 
     case GET_TYPES:

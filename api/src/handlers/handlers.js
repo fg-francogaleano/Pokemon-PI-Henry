@@ -8,16 +8,21 @@ const {
   deletePokemon,
   pokemonsAllBDD,
 } = require("../controllers/controllers");
+const qs = require("qs");
 
 const getPokemonsHandler = async (req, res) => {
-  const { name, page = 1, limit = 20 } = req.query;
+  const { name, page = 1, limit = 20, type, source } = req.query;
+  console.log(type, source);
+
+  // Deserializar params en un objeto
+  // const parsedParams = qs.parse(params, { ignoreQueryPrefix: true });
 
   try {
     if (name) {
       const pokemon = await findPokemonByName(name);
       res.status(200).json(pokemon);
     } else {
-      const allPokemons = await pokemonsAllBDD(page, limit);
+      const allPokemons = await pokemonsAllBDD(page, limit, type, source);
       res.status(200).json(allPokemons);
     }
   } catch (error) {

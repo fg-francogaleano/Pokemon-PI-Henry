@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from "qs";
 
 export const GET_POKEMONS = "GET_POKEMONS";
 export const GET_POKEMON = "GET_POKEMON";
@@ -12,15 +13,23 @@ export const GET_TYPES = "GET_TYPES";
 
 const URL = "http://localhost:3001";
 
-export const getPokemons = (page) => {
+export const getPokemons = (page, params) => {
+  // console.log(params);
+
   return async function (dispatch) {
     dispatch(loading());
+
+    const queryString = qs.stringify(params, { arrayFormat: "brackets" });
+    // console.log(queryString);
+
     await axios
-      .get(`${URL}/pokemons?page=${page}`)
+      .get(`${URL}/pokemons?${queryString}`)
       .then((res) => {
         // console.log(res.data);
 
         const data = res.data;
+        console.log(data);
+
         dispatch({ type: GET_POKEMONS, payload: data });
         dispatch(ready());
       })

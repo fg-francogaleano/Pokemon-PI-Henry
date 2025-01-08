@@ -9,7 +9,7 @@ function Form() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTypes());
-  }, []);
+  }, [dispatch]);
   const { types } = useSelector((state) => state);
 
   const [shouldRedirect, setShouldRedirect] = useState(false);

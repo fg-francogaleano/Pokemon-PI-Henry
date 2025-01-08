@@ -4,7 +4,7 @@ const axios = require("axios");
 // --------------------------------------------POKEMONS API--------------------------------------------------------
 const pokemonsAllApi = async () => {
   const pokeapi = await axios.get(
-    "https://pokeapi.co/api/v2/pokemon?offset=0&limit=100"
+    "https://pokeapi.co/api/v2/pokemon?offset=0&limit=500"
   );
   const urls = pokeapi.data.results.map((e) => e.url);
 
@@ -30,22 +30,44 @@ const pokemonsAllApi = async () => {
 
 // ----------------------------------------POKEMONS BASE DE DATOS--------------------------------------------------
 
-const pokemonsAllBDD = async (page, limit) => {
+const pokemonsAllBDD = async (page, limit, type, source) => {
   const offset = (page - 1) * limit;
 
-  const results = await Pokemon.findAndCountAll({
-    include: {
-      model: Type,
-      attributes: ["name"],
-      through: {
-        attributes: [],
-      },
+  // Construcción del objeto "where" dinámicamente
+  const whereConditions = {};
+
+  if (source === "created") {
+    whereConditions.isUserCreated = true; // Filtrar por Pokémon creados por el usuario
+  }
+
+  const includeConditions = {
+    model: Type,
+    attributes: ["name"],
+    through: {
+      attributes: [],
     },
-    distinct: true, // Asegura que los duplicados no se cuenten,
+    ...(type ? { where: { name: type } } : {}), // Filtrar por tipo
+  };
+
+  const results = await Pokemon.findAndCountAll({
+    include: includeConditions,
+    where: whereConditions,
+    distinct: true, // Asegura que los duplicados no se cuenten
     limit, // Número de resultados por página
     offset, // Desplazamiento inicial
   });
-  console.log(results.count);
+  console.log(results.rows.length);
+
+  if (results.rows.length === 0) {
+    return {
+      message: "No se encontraron coincidencias con los filtros aplicados.",
+      totalItems: 0,
+      totalPages: 0,
+      data: [],
+      page,
+      limit,
+    };
+  }
 
   return {
     totalItems: results.count, // Total de elementos en la base de datos
@@ -55,6 +77,7 @@ const pokemonsAllBDD = async (page, limit) => {
     limit, // Página actual
   };
 };
+
 // ---------------------------------------POKEMONS API+BASE DE DATOS------------------------------------------------
 
 const pokemonAll = async (page, limit) => {
@@ -281,7 +304,6 @@ const cachePokemonsApi = async () => {
 
 const idTypes = async (typesArray) => {
   // Obtener todos los tipos de la base de datos
-  console.log(typesArray, "isTypes");
 
   const typesAll = await Type.findAll({ raw: true });
 

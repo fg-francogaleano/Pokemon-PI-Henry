@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
 import style from "./Paginado.module.css";
-import { Link } from "react-router-dom";
+import { useUpdateUrl } from "../../utils/url.Utils";
 
 function Paginado() {
   const { totalPages } = useSelector((state) => state);
+  const { updateUrl } = useUpdateUrl();
 
   const pageNumbers = Array.from(
     { length: totalPages },
@@ -16,53 +17,49 @@ function Paginado() {
   const PagePrev = page === 1 ? null : page - 1;
   const PageNext = page === totalPages ? null : page + 1;
 
+  const handleOnClick = () => {
+    window.location.reload();
+  };
+
   return (
     <div className={style.container}>
       {/* PREV */}
-      <Link
-        to={`/home?page=${PagePrev}`}
-        onClick={(e) => {
-          e.preventDefault(); // Evita que `Link` maneje la navegación.
-          window.location.href = `/home?page=${page - 1}`; // Forza la recarga.
+      <button
+        className={page !== 1 ? style.btn : style.btnDisabled}
+        disabled={page === 1}
+        onClick={() => {
+          updateUrl({ page: PagePrev });
+          handleOnClick();
         }}
       >
-        <button
-          className={page !== 1 ? style.btn : style.btnDisabled}
-          disabled={page === 1}
-        >
-          {"<"}
-        </button>
-      </Link>
+        {"<"}
+      </button>
 
-      {/* BOTONS NUMBER PAGES */}
-      {pageNumbers.map((pageNumber, index) => (
-        <Link
-          to={`/home?page=${index + 1}`}
-          key={index}
-          onClick={(e) => {
-            e.preventDefault(); // Evita que `Link` maneje la navegación.
-            window.location.href = `/home?page=${index + 1}`; // Forza la recarga.
+      {/* PAGE NUMBERS */}
+      {pageNumbers.map((pageNumber) => (
+        <button
+          key={pageNumber}
+          className={style.btn}
+          onClick={() => {
+            updateUrl({ page: pageNumber });
+            handleOnClick();
           }}
         >
-          <button className={style.btn}>{pageNumber}</button>
-        </Link>
+          {pageNumber}
+        </button>
       ))}
 
       {/* NEXT */}
-      <Link
-        to={`/home?page=${PageNext}`}
-        onClick={(e) => {
-          e.preventDefault(); // Evita que `Link` maneje la navegación.
-          window.location.href = `/home?page=${PageNext}`; // Forza la recarga.
+      <button
+        className={page !== totalPages ? style.btn : style.btnDisabled}
+        disabled={page === totalPages}
+        onClick={() => {
+          updateUrl({ page: PageNext });
+          handleOnClick();
         }}
       >
-        <button
-          className={page !== totalPages ? style.btn : style.btnDisabled}
-          disabled={page === totalPages}
-        >
-          {">"}
-        </button>
-      </Link>
+        {">"}
+      </button>
     </div>
   );
 }
