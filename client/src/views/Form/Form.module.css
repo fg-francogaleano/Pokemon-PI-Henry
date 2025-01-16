@@ -1,96 +1,92 @@
-.contenedor{
-    width: 100%;
-    /* height: 100vh; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 10px;
-    padding-top: 10px;
+.contenedor {
+  width: 100%;
+  /* height: 100vh; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
-.contenedor div{
-    position: relative;
-    padding: 1.2rem;
-    
-}
+/* .contenedor div {
+  position: relative;
+  padding: 1.2rem;
+} */
 
 .contenedorForm {
-    width: 600px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    background-color: rgba(249, 245, 245, 0.47);
-    outline: solid 1px black;
+  width: 600px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: white;
+  outline: solid 1px black;
 }
-.input{
-    display: block;
-    padding: .5rem 2rem;
-    border-radius: 8px;
-    border: 0;
-    outline: solid 1px black;
-    font-size: 20px;
-}
-
-.label{
-    position: absolute;
-    top: 15px;
-    left: 3.1rem;
-    /* background-color: rgb(216, 212, 170); */
-    padding: 0 .5rem;
-    font-size: 20px;
+.input {
+  display: block;
+  padding: 0.5rem 2rem;
+  border-radius: 8px;
+  border: 0;
+  outline: solid 1px black;
+  font-size: 20px;
 }
 
-.input:focus+.label{
-    transform: translateY(-1.2rem);
-    transition: .7s;
-    font-size: 14px;
+.label {
+  position: absolute;
+  top: 15px;
+  left: 3.1rem;
+  background-color: rgb(216, 212, 170);
+  padding: 0 0.5rem;
+  font-size: 20px;
 }
 
-.input:not(:placeholder-shown)+.label{
-    transform: translateY(-1.5rem);
+/* .input:focus + .label {
+  transform: translateY(-1.2rem);
+  transition: 0.7s;
+  font-size: 14px;
 }
 
-.labelSelect {
-    position: absolute;
-    font-size: 20px;
-    top: -9px;
-    left: 3.1rem;
-    /* background-color: rgb(216, 212, 170); */
-    padding: 0 .5rem;
-}
+.input:not(:placeholder-shown) + .label {
+  transform: translateY(-1.5rem);
+} */
 
-.contenedor select{
-    display: block;
-    padding: .5rem 2rem;
-    border-radius: 8px;
-    border: 0;
-    outline: solid 1px black;
-    width: 300px;
-    font-size: 20px;
-}
+/* .labelSelect {
+  position: absolute;
+  font-size: 20px;
+  top: -9px;
+  left: 3.1rem;
+  background-color: rgb(216, 212, 170);
+  padding: 0 0.5rem;
+} */
 
-.button{
-    border-radius: 100px;
-    padding: 8px;
-    margin-right: 20px;
-    border: none; 
-    background-color: black;
-    color: aliceblue;  
-    font-size: 20px;  
-}
+/* .contenedor select {
+  display: block;
+  padding: 0.5rem 2rem;
+  border-radius: 8px;
+  border: 0;
+  outline: solid 1px black;
+  width: 300px;
+  font-size: 20px;
+} */
 
-.button:hover{
-    background-color:  aliceblue; ;  
-    color: black;
-    outline: solid 1px black;
-}
+/* .button {
+  border-radius: 100px;
+  padding: 8px;
+  margin-right: 20px;
+  border: none;
+  background-color: black;
+  color: aliceblue;
+  font-size: 20px;
+} */
 
-.contenedor span{
-    font-size: 20px;
-    color: red;
-}
+/* .button:hover {
+  background-color: aliceblue;
+  color: black;
+  outline: solid 1px black;
+} */
 
-
-
+/* .contenedor span {
+  font-size: 20px;
+  color: red;
+} */

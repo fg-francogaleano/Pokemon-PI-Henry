@@ -5,6 +5,8 @@ import Card from "../Card/Card";
 import Paginado from "../Paginado/Paginado";
 import style from "./Cards.module.css";
 import Loader from "../Loader/Loader";
+import Pagination from "../Pagination/Pagination";
+import { Box } from "@mui/material";
 
 function Cards() {
   const dispatch = useDispatch();
@@ -30,7 +32,6 @@ function Cards() {
   }, [dispatch, page]);
 
   const { pokemons, message, display } = useSelector((state) => state);
-  console.log(message);
 
   return (
     <>
@@ -51,9 +52,9 @@ function Cards() {
         </div>
       ) : (
         <div>
-          <div>
-            <Paginado />
-          </div>
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+            <Pagination />
+          </Box>
 
           <div className={style.container}>
             {pokemons?.map((pokemon, index) => {
@@ -78,9 +79,9 @@ function Cards() {
             })}
           </div>
 
-          <div>
-            <Paginado />
-          </div>
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+            <Pagination />
+          </Box>
         </div>
       )}
     </>

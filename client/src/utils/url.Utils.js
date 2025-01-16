@@ -37,11 +37,23 @@ export const useUpdateUrl = () => {
 
     // Eliminar 'page' cuando se aplican filtros
     searchParams.delete("page");
+    searchParams.delete("name");
+    searchParams.delete("attack");
 
     Object.keys(filters).forEach((key) => {
       const value = filters[key];
+      console.log(key);
+
       if (value) {
-        searchParams.set(key, value); // Agregar o actualizar parámetro
+        if (key === "name" || key === "attack") {
+          searchParams.set("sortBy", key);
+          searchParams.set("order", value);
+        } else {
+          searchParams.set(key, value);
+        }
+        // key === "name" || key === "attack"
+        //   ? searchParams.set("sortBy", key)
+        //   : searchParams.set(key, value); // Agregar o actualizar parámetro
       } else {
         searchParams.delete(key); // Eliminar parámetro si no hay valor
       }

@@ -19,6 +19,8 @@ function Filtered() {
   const handleInputChange = (event) => {
     event.preventDefault(); // Previene el comportamiento predeterminado del evento.
     const { name, value } = event.target;
+    // console.log(name, value);
+
     applyFilters({ [name]: value });
     setValue(value); // Actualiza el estado local.
     window.location.reload(); // Recarga la página.
@@ -27,17 +29,17 @@ function Filtered() {
   return (
     <div className={style.container}>
       <div>
-        <select onChange={handleInputChange} value={value}>
+        <select onChange={handleInputChange} name="name" value={value}>
           <option value="">Name A-Z</option>
-          <option value="ascName">A-Z</option>
-          <option value="descName">Z-A</option>
+          <option value="ASC">A-Z</option>
+          <option value="DESC">Z-A</option>
         </select>
       </div>
       <div>
-        <select onChange={handleInputChange} value={value}>
+        <select onChange={handleInputChange} name="attack" value={value}>
           <option value="">Attack</option>
-          <option value="ascAttack">Ascendant</option>
-          <option value="descAttack">Descendant</option>
+          <option value="ASC">Ascendant</option>
+          <option value="DESC">Descendant</option>
         </select>
       </div>
       <div>

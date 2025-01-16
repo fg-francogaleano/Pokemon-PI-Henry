@@ -11,8 +11,8 @@ const {
 const qs = require("qs");
 
 const getPokemonsHandler = async (req, res) => {
-  const { name, page = 1, limit = 20, type, source } = req.query;
-  console.log(type, source);
+  const { name, page = 1, limit = 20, type, source, sortBy, order } = req.query;
+  console.log(sortBy, order);
 
   // Deserializar params en un objeto
   // const parsedParams = qs.parse(params, { ignoreQueryPrefix: true });
@@ -22,7 +22,14 @@ const getPokemonsHandler = async (req, res) => {
       const pokemon = await findPokemonByName(name);
       res.status(200).json(pokemon);
     } else {
-      const allPokemons = await pokemonsAllBDD(page, limit, type, source);
+      const allPokemons = await pokemonsAllBDD(
+        page,
+        limit,
+        type,
+        source,
+        sortBy,
+        order
+      );
       res.status(200).json(allPokemons);
     }
   } catch (error) {
@@ -60,6 +67,8 @@ const postPokemonHandler = async (req, res) => {
       type1,
       type2,
     } = req.body;
+    console.log(req.body);
+
     const newPokemon = await createPokemon(
       id,
       name,

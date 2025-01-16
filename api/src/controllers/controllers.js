@@ -30,8 +30,16 @@ const pokemonsAllApi = async () => {
 
 // ----------------------------------------POKEMONS BASE DE DATOS--------------------------------------------------
 
-const pokemonsAllBDD = async (page, limit, type, source) => {
+const pokemonsAllBDD = async (
+  page,
+  limit,
+  type,
+  source,
+  sortBy = "id",
+  order = "ASC"
+) => {
   const offset = (page - 1) * limit;
+  console.log("en controllers", order, sortBy);
 
   // Construcción del objeto "where" dinámicamente
   const whereConditions = {};
@@ -52,6 +60,7 @@ const pokemonsAllBDD = async (page, limit, type, source) => {
   const results = await Pokemon.findAndCountAll({
     include: includeConditions,
     where: whereConditions,
+    order: [[sortBy, order.toUpperCase()]],
     distinct: true, // Asegura que los duplicados no se cuenten
     limit, // Número de resultados por página
     offset, // Desplazamiento inicial
@@ -77,7 +86,6 @@ const pokemonsAllBDD = async (page, limit, type, source) => {
     limit, // Página actual
   };
 };
-
 // ---------------------------------------POKEMONS API+BASE DE DATOS------------------------------------------------
 
 const pokemonAll = async (page, limit) => {
