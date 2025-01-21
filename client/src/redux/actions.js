@@ -25,7 +25,7 @@ export const getPokemons = (page, params) => {
     await axios
       .get(`${URL}/pokemons?${queryString}`)
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
 
         const data = res.data;
         // console.log(data);
@@ -45,6 +45,8 @@ export const getTypes = () => {
     await axios
       .get(`${URL}/types`)
       .then((res) => {
+        // console.log(res.data);
+
         // const data = res.data.map((pokemon) => pokemon.name);
         dispatch({ type: GET_TYPES, payload: res.data });
       })

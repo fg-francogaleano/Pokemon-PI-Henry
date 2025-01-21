@@ -13,6 +13,10 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      icon_svg: {
+        type: DataTypes.TEXT, // Almacena el contenido del SVG
+        allowNull: true, // Opcional
+      },
     },
     {
       timestamps: false,

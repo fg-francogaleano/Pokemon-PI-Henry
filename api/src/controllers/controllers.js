@@ -1,5 +1,6 @@
 const { Pokemon, Type, PokemonTypes } = require("../db");
 const axios = require("axios");
+const { iconsMap } = require("../util/util");
 
 // --------------------------------------------POKEMONS API--------------------------------------------------------
 const pokemonsAllApi = async () => {
@@ -39,7 +40,6 @@ const pokemonsAllBDD = async (
   order = "ASC"
 ) => {
   const offset = (page - 1) * limit;
-  console.log("en controllers", order, sortBy);
 
   // Construcción del objeto "where" dinámicamente
   const whereConditions = {};
@@ -50,7 +50,7 @@ const pokemonsAllBDD = async (
 
   const includeConditions = {
     model: Type,
-    attributes: ["name"],
+    attributes: ["id", "name", "icon_svg"],
     through: {
       attributes: [],
     },
@@ -271,10 +271,17 @@ const createPokemon = async (
 const findTypes = async () => {
   const arrTypes = await typesAllApi();
   const allTypes = await Type.findAll({ attributes: ["name"] });
+
+  const icons = iconsMap();
+
   console.log("CARGANDO LA BASE DE DATOS", allTypes);
-  if (allTypes) {
-    for (var i = 0; i < arrTypes.length; i++) {
-      await Type.create(arrTypes[i]);
+
+  if (allTypes.length === 0) {
+    // Paso 4: Combina los datos de la API con los íconos SVG y guarda en la base de datos
+    for (let i = 0; i < arrTypes.length; i++) {
+      const typeName = arrTypes[i].name; // Nombre del tipo
+      const iconSvg = icons[typeName] || null; // Ícono SVG correspondiente o null si no está definido
+      await Type.create({ name: typeName, icon_svg: iconSvg });
     }
   }
 };

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getPokemons } from "../../redux/actions";
 import Card from "../Card/Card";
-import Paginado from "../Paginado/Paginado";
 import style from "./Cards.module.css";
 import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
@@ -63,16 +62,7 @@ function Cards() {
                   key={index}
                   id={pokemon.id}
                   name={pokemon.name.toUpperCase()}
-                  type1={pokemon.types[0].name?.replace(/^\w/, (c) =>
-                    c.toUpperCase()
-                  )}
-                  type2={
-                    pokemon.types.length > 1
-                      ? pokemon.types[1].name?.replace(/^\w/, (c) =>
-                          c.toUpperCase()
-                        )
-                      : ""
-                  }
+                  types={pokemon.types}
                   image={pokemon.image}
                 />
               );

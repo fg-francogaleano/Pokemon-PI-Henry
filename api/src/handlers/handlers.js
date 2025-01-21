@@ -93,7 +93,7 @@ const postPokemonHandler = async (req, res) => {
 const getTypesHandler = async (req, res) => {
   try {
     const types = await Type.findAll({
-      attributes: ["name", "id"],
+      attributes: ["name", "id", "icon_svg"],
     });
     res.status(200).json(types);
   } catch (error) {

@@ -1,33 +1,42 @@
-import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import { Redirect } from "react-router-dom";
-import style from "./Form.module.css";
+import { useEffect, useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTypes } from "../../redux/actions";
+import axios from "axios";
+import { Formik } from "formik";
+import MuiAlert from "@mui/material/Alert";
 import {
+  Stepper,
+  Step,
+  StepLabel,
   Button,
   FormControl,
   InputLabel,
   Slider,
   TextField,
   Typography,
+  Select,
+  MenuItem,
+  Box,
+  Grid,
+  Stack,
+  Snackbar,
+  Alert,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import Box from "@mui/material/Box";
-import { Formik } from "formik";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import validations from "./validations";
+import TypeIcons from "../../components/TypeIcons/TypeIcons";
 
 function Form() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTypes());
   }, [dispatch]);
-  const { types } = useSelector((state) => state);
 
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+  const { types } = useSelector((state) => state);
+  const [activeStep, setActiveStep] = useState(0);
+  const steps = ["Basic Info", "Types", "Image"];
+  const [activeTypes, setActiveTypes] = useState([]); // Almacena los tipos seleccionados
 
   const initialValues = {
     name: "",
@@ -42,64 +51,106 @@ function Form() {
     type2: "",
   };
 
-  const handleSubmit = async (values) => {
-    console.log(values);
+  const handleNext = () => setActiveStep((prev) => prev + 1);
+  const handleBack = () => setActiveStep((prev) => prev - 1);
 
+  const handleSubmit = async (values) => {
     await axios
       .post("http://localhost:3001/pokemons", values)
       .then((res) => alert(res.data))
       .catch((err) => alert(err));
-    setShouldRedirect(true);
   };
 
-  const refForm = useRef();
+  const [open, setOpen] = useState(false);
+
+  const handleTypeToggle = (values, type, setFieldValue) => {
+    const index = activeTypes.indexOf(type.name);
+
+    if (index !== -1) {
+      // Quitar el tipo si ya está seleccionado
+      const newActiveTypes = [...activeTypes];
+      newActiveTypes.splice(index, 1);
+      setActiveTypes(newActiveTypes);
+
+      if (values.type1 === type.name) setFieldValue("type1", "");
+      if (values.type2 === type.name) setFieldValue("type2", "");
+    } else {
+      // Verificar si ya hay dos tipos seleccionados
+      if (values.type1 && values.type2) {
+        // Mostrar alerta si ya hay dos tipos seleccionados
+        setOpen(true);
+
+        // Cerrar el Snackbar después de 2 segundos (opcional)
+        setTimeout(() => {
+          setOpen(false);
+        }, 2000);
+
+        return; // Salir de la función para evitar agregar el tercer tipo
+      }
+
+      // Agregar el tipo si hay espacio disponible
+      if (!values.type1) {
+        setFieldValue("type1", type.name);
+      } else if (!values.type2) {
+        setFieldValue("type2", type.name);
+      }
+      setActiveTypes([...activeTypes, type.name]);
+    }
+    console.log(activeTypes);
+  };
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   return (
-    <>
-      {shouldRedirect ? (
-        <Redirect to="/home" />
-      ) : (
-        <Formik
-          initialValues={initialValues}
-          validate={(values) => validations(values)}
-          onSubmit={(values, { resetForm }) => {
-            handleSubmit(values);
-            resetForm();
-          }}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleSubmit,
-            handleChange,
-            handleBlur,
-          }) => (
+    <Formik
+      initialValues={initialValues}
+      validate={(values) => validations(values)}
+      onSubmit={(values, { resetForm }) => {
+        handleSubmit(values);
+        resetForm();
+      }}
+    >
+      {({
+        values,
+        errors,
+        touched,
+        handleSubmit,
+        handleChange,
+        handleBlur,
+        setFieldValue,
+      }) => (
+        <>
+          {console.log(values)}
+          <Grid2
+            container
+            justifyContent="center"
+            alignItems="center"
+            height="100vh"
+            padding="10px"
+          >
             <Grid2
-              container
-              justifyContent="center"
-              alignItems="center"
-              height="100vh"
-              padding="10px"
+              borderRadius="3px"
+              width="400px"
+              sx={{
+                backgroundColor: "rgba(255, 255, 255, 0.35)",
+                padding: "20px",
+                border: "solid 1px black",
+              }}
             >
-              <Grid2
-                outline="solid 1px rgba(255, 255, 255, 0.5)"
-                borderRadius="3px"
-                width="350px"
-                sx={{
-                  backgroundColor: "rgba(255, 255, 255, 0.35)",
-                  padding: "20px",
-                  border: "solid 1px black",
-                }}
-              >
-                {/* FORM */}
-                <Box ref={refForm} component="form" onSubmit={handleSubmit}>
-                  {/* TITLE */}
-                  <Box>
-                    <Typography component="h1">CREATE POKEMON</Typography>
-                  </Box>
-                  {/* NAME */}
-                  <Grid2>
+              <Stepper activeStep={activeStep}>
+                {steps.map((label) => (
+                  <Step key={label}>
+                    <StepLabel>{label}</StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+
+              <Box component="form" onSubmit={handleSubmit}>
+                {activeStep === 0 && (
+                  <>
+                    <Typography component="h1">Basic Info</Typography>
                     <TextField
                       type="text"
                       id="name"
@@ -115,161 +166,163 @@ function Form() {
                       fullWidth
                       margin="normal"
                     />
-                  </Grid2>
-                  {/* TYPE 1 */}
-                  <Grid2>
-                    <FormControl
-                      fullWidth
-                      // sx={{ m: 1, minWidth: 120 }}
-                      size="small"
-                      variant="standard"
-                    >
-                      <InputLabel id="demo-simple-select-standard-label">
-                        Type 1
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        value={values.type1}
-                        label="type 1"
-                        onChange={handleChange}
-                        name="type1"
-                      >
-                        {types?.map((type, index) => {
-                          return (
-                            <MenuItem key={index} value={type.name}>
-                              {type.name}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                  </Grid2>
-                  {/* TYPE 2 */}
-                  <Grid2>
-                    <FormControl fullWidth size="small" variant="standard">
-                      <InputLabel id="demo-simple-select-standard-label">
-                        Type 2
-                      </InputLabel>
-                      <Select
-                        labelId="demo-simple-select-standard-label"
-                        id="demo-simple-select-standard"
-                        value={values.type2}
-                        label="type 2"
-                        onChange={handleChange}
-                        name="type2"
-                      >
-                        {types?.map((type, index) => {
-                          return (
-                            <MenuItem key={index} value={type.name}>
-                              {type.name}
-                            </MenuItem>
-                          );
-                        })}
-                      </Select>
-                    </FormControl>
-                  </Grid2>
-                  {/* HP */}
-                  <Grid2>
-                    <Typography gutterBottom>HP</Typography>
-                    <Slider
-                      name="hp"
-                      value={values.hp}
-                      aria-label="Default"
-                      valueLabelDisplay="on"
-                      onChange={handleChange}
-                    />
-                  </Grid2>
-                  {/* ATTACK */}
-                  <Grid2>
-                    <Typography gutterBottom>Attack</Typography>
-                    <Slider
-                      name="attack"
-                      value={values.attack}
-                      aria-label="Default"
-                      valueLabelDisplay="on"
-                      onChange={handleChange}
-                    />
-                  </Grid2>
-                  {/* DEFENSE */}
-                  <Grid2>
-                    <Typography gutterBottom>Defense</Typography>
-                    <Slider
-                      name="defense"
-                      value={values.defense}
-                      aria-label="Default"
-                      valueLabelDisplay="on"
-                      onChange={handleChange}
-                    />
-                  </Grid2>
-                  {/* SPEED */}
-                  <Grid2>
-                    <Typography gutterBottom>Speed</Typography>
-                    <Slider
-                      name="speed"
-                      value={values.speed}
-                      aria-label="Default"
-                      valueLabelDisplay="on"
-                      onChange={handleChange}
-                    />
-                  </Grid2>
-                  {/* WEIGHT */}
-                  <Grid2>
-                    <Typography gutterBottom>Weight</Typography>
-                    <Slider
-                      name="weight"
-                      value={values.weight}
-                      aria-label="Default"
-                      valueLabelDisplay="on"
-                      onChange={handleChange}
-                      min={10}
-                      max={250}
-                      valueLabelFormat={(value) => `${value.toFixed(1)} kg`}
-                    />
-                  </Grid2>
-                  {/* HEIGHT */}
-                  <Grid2>
-                    <Typography gutterBottom>Height</Typography>
-                    <Slider
-                      name="height"
-                      value={values.height}
-                      aria-label="Default"
-                      valueLabelDisplay="on"
-                      onChange={handleChange}
-                      min={0.5}
-                      max={4}
-                      step={0.01}
-                      valueLabelFormat={(value) => `${value.toFixed(2)} m`}
-                    />
-                  </Grid2>
+                    {[
+                      "hp",
+                      "attack",
+                      "defense",
+                      "speed",
+                      "weight",
+                      "height",
+                    ].map((stat) => (
+                      <Box key={stat} mt={2}>
+                        <Typography gutterBottom>
+                          {stat.charAt(0).toUpperCase() + stat.slice(1)}
+                        </Typography>
+                        <Slider
+                          name={stat}
+                          value={values[stat]}
+                          onChange={handleChange}
+                          min={
+                            stat === "weight" ? 10 : stat === "height" ? 0.5 : 0
+                          }
+                          max={
+                            stat === "weight"
+                              ? 250
+                              : stat === "height"
+                              ? 4
+                              : 100
+                          }
+                          step={stat === "height" ? 0.01 : 1}
+                          valueLabelDisplay="on"
+                          valueLabelFormat={(value) =>
+                            stat === "weight"
+                              ? `${value.toFixed(1)} kg`
+                              : stat === "height"
+                              ? `${value.toFixed(2)} m`
+                              : value
+                          }
+                        />
+                      </Box>
+                    ))}
+                  </>
+                )}
 
-                  {/* IMAGE */}
-                  {/* <div>
-                <input
-                  type="text"
-                  name="image"
-                  value={form.image}
-                  onChange={handleInputChange}
-                  className={style.input}
-                />
-                <label htmlFor="" className={style.label}>
-                  Image
-                </label>
-              </div> */}
+                {activeStep === 1 && (
+                  <>
+                    <Typography component="h1">Types</Typography>
+                    <Grid container spacing={2}>
+                      {types?.map((type, index) => (
+                        <Grid
+                          item
+                          xs={6} // Cada ícono ocupará la mitad del ancho del contenedor (dos columnas en pantallas pequeñas o más grandes)
+                          key={index}
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              cursor: "pointer",
+                            }}
+                            values={values.type1}
+                            name={type.name}
+                            onClick={() => {
+                              handleTypeToggle(values, type, setFieldValue);
+                            }}
+                          >
+                            <Box>
+                              <TypeIcons
+                                svg={type.icon_svg}
+                                isActive={activeTypes.includes(type.name)}
+                                typeIcons={type.name}
+                              />
+                              {/* {console.log(addClass[index])} */}
+
+                              <Typography>
+                                {type.name.replace(/^\w/, (c) =>
+                                  c.toUpperCase()
+                                )}
+                              </Typography>
+                            </Box>
+                          </Box>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </>
+                )}
+
+                {activeStep === 2 && (
+                  <>
+                    <Typography component="h1">Upload Image</Typography>
+                    <TextField
+                      type="text"
+                      id="image"
+                      name="image"
+                      value={values.image}
+                      autoComplete="off"
+                      label="Image URL"
+                      helperText={touched.image && errors.image}
+                      error={touched.image && errors.image}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      variant="standard"
+                      fullWidth
+                      margin="normal"
+                    />
+                  </>
+                )}
+
+                {/* BOTTONS */}
+                <Box display="flex" justifyContent="space-between" mt={3}>
                   <Button
-                    variant="contained"
-                    type="submit"
-                    className={style.button}
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    variant="outlined"
                   >
-                    CREATE
+                    Back
                   </Button>
+
+                  {activeStep < steps.length - 1 ? (
+                    <Button
+                      onClick={handleNext}
+                      variant="contained"
+                      color="primary"
+                      disabled={Boolean(
+                        activeStep === 0 &&
+                          (values.name === "" || Boolean(errors.name))
+                      )}
+                    >
+                      Next
+                    </Button>
+                  ) : (
+                    // SUBMIT
+                    <Button type="submit" variant="contained" color="primary">
+                      Submit
+                    </Button>
+                  )}
                 </Box>
-              </Grid2>
+
+                <Stack spacing={2} sx={{ width: "100%" }}>
+                  <Snackbar open={open} autoHideDuration={6000}>
+                    <Alert
+                      variant="outlined"
+                      severity="info"
+                      sx={{ width: "100%" }}
+                    >
+                      No mas de dos tipes
+                    </Alert>
+                  </Snackbar>
+                </Stack>
+              </Box>
             </Grid2>
-          )}
-        </Formik>
+          </Grid2>
+        </>
       )}
-    </>
+    </Formik>
   );
 }
 
