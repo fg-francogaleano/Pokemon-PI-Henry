@@ -1,78 +1,71 @@
-.container{
-    border: 1px solid black;
-    border-radius: 5%;
-    position: relative;
-    width: 350px;
-    height: 400px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    background-color: rgba(217, 216, 216, 0.711);
+/* .container {
+  border: 1px solid black;
+  border-radius: 5%;
+  position: relative;
+  width: 350px;
+  height: 400px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: rgba(217, 216, 216, 0.711);
 }
 
-
-.idcontainer{
-    position: absolute;
-    right: 0;
-    top: 25px;
-    margin-right: 20px;
-    
+.idcontainer {
+  position: absolute;
+  right: 0;
+  top: 25px;
+  margin-right: 20px;
 }
-.idcontainer h2{
-    color: black;
-    font-size: 20px;
+.idcontainer h2 {
+  color: black;
+  font-size: 20px;
 }
 
-
-.namecontainer{
-    position: absolute;
-    margin-left: 20px;
+.namecontainer {
+  position: absolute;
+  margin-left: 20px;
 }
-.namecontainer h2{
-    color: black;
-    font-size: 25px;
-}
-
-
-.type1container{
-    position: absolute;
-    bottom: 0;
-    margin-left: 80px;
-    margin-bottom: 10px;
-}
-.typeContainer{
-    position: absolute;
-    bottom: 0;
-    left: 42%;
-}
-.typeContainer h4{
-    color: black;
-    font-size: 20px;
-}
-.type1container h4{
-    color: black;
-    font-size: 20px;
+.namecontainer h2 {
+  color: black;
+  font-size: 25px;
 }
 
+.type1container {
+  position: absolute;
+  bottom: 0;
+  margin-left: 80px;
+  margin-bottom: 10px;
+}
+.typeContainer {
+  position: absolute;
+  bottom: 0;
+  left: 42%;
+}
+.typeContainer h4 {
+  color: black;
+  font-size: 20px;
+}
+.type1container h4 {
+  color: black;
+  font-size: 20px;
+}
 
-.type2container{
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin-right: 80px;
-    margin-bottom: 10px;
+.type2container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin-right: 80px;
+  margin-bottom: 10px;
 }
-.type2container h4{
-    color: black;
-    font-size: 20px;
+.type2container h4 {
+  color: black;
+  font-size: 20px;
 }
 
-
-.imgcontainer{
-    position: absolute;
-    top: 35px;
+.imgcontainer {
+  position: absolute;
+  top: 35px;
 }
-.imgcontainer img{
-    
-    width: 350px;
-    height: 300px;
-}
+.imgcontainer img {
+  width: 350px;
+  height: 300px;
+} */

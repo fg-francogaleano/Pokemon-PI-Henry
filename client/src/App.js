@@ -4,14 +4,14 @@ import Landing from "./views/Landing/Landing";
 import Form from "./views/Form/Form";
 import Detail from "./views/Detail/Detail";
 import { Route, useLocation } from "react-router-dom";
-import NavBar from "./components/NavBar/NavBar";
-import SearchBar from "./components/SearchBar/SearchBar";
+import NavBar from "./components/NavBar1/NavBar";
+// import SearchBar from "./components/SearchBar/SearchBar";
 
 function App() {
   const location = useLocation();
   return (
     <div className="App">
-      {location.pathname !== "/" && <NavBar component={SearchBar} />}
+      {location.pathname !== "/" && <NavBar />}
 
       <Route exact path="/">
         <Landing />

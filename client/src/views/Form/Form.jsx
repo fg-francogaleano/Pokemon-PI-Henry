@@ -94,9 +94,9 @@ function Form() {
       } else if (!values.type2) {
         setFieldValue("type2", type.name);
       }
+
       setActiveTypes([...activeTypes, type.name]);
     }
-    console.log(activeTypes);
   };
 
   const Alert = React.forwardRef(function Alert(props, ref) {
@@ -122,7 +122,7 @@ function Form() {
         setFieldValue,
       }) => (
         <>
-          {console.log(values)}
+          {/* {console.log(values)} */}
           <Grid2
             container
             justifyContent="center"

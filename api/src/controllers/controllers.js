@@ -290,7 +290,7 @@ const cachePokemonsApi = async () => {
   try {
     // Obtener los datos desde la API externa
     const data = await pokemonsAllApi();
-    // console.log(data);
+    console.log(data);
 
     for (const pokemon of data) {
       const pokemonData = {
