@@ -19,7 +19,7 @@ function TypeIcons({ svg, className, isActive, typeIcons }) {
         svgElement.classList.add(typeIcons);
       }
     }
-  }, [className, isActive]);
+  }, [className, isActive, typeIcons]);
 
   return (
     <div

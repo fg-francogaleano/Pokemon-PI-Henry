@@ -14,11 +14,13 @@ import {
   Button,
   IconButton,
   Box,
+  Chip,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
 import Grid2 from "@mui/material/Unstable_Grid2";
+import { useUpdateUrl } from "../../utils/url.Utils";
 
 const CustomAccordion = styled(Accordion)({
   boxShadow: "none",
@@ -29,28 +31,86 @@ const CustomAccordion = styled(Accordion)({
   defaultExpanded: true,
 });
 
+const statsOptions = ["hp", "attack", "defense", "speed", "weight", "height"];
+
 const Filtered = () => {
-  const { types } = useSelector((state) => state);
+  const { updateUrl, clearAllFilters, removeFilter } = useUpdateUrl();
+
+  const { types, appliedFilters } = useSelector((state) => state);
+  const [selectedTypes, setSelectedTypes] = useState(appliedFilters.type || []);
+
+  const [selectedSources, setSelectedSources] = useState(
+    appliedFilters.source || []
+  );
+  const [statRanges, setStatRanges] = useState(appliedFilters.stats || {});
   const [selectedStats, setSelectedStats] = useState([]);
-  const [statRanges, setStatRanges] = useState({});
   const [showAllTypes, setShowAllTypes] = useState(false);
 
-  const statsOptions = ["hp", "attack", "defense", "speed", "weight", "height"];
+  const handleTypeChange = (event) => {
+    const { name, checked } = event.target;
+    setSelectedTypes((prev) =>
+      checked ? [...prev, name] : prev.filter((t) => t !== name)
+    );
+  };
+
+  const handleSourceChange = (event) => {
+    setSelectedSources([event.target.name]); // Solo mantiene la opción seleccionada
+  };
 
   const handleStatChange = (event) => {
     const newStat = event.target.value;
+
     if (!selectedStats.includes(newStat)) {
       setSelectedStats([...selectedStats, newStat]);
       setStatRanges({ ...statRanges, [newStat]: { min: "", max: "" } });
     }
   };
 
+  let timeoutId;
+
   const handleInputChange = (stat, event) => {
     const { name, value } = event.target;
+
+    // Limpiar caracteres no numéricos
+    const numericValue = value.replace(/\D/g, "");
+
+    // Limpiar cualquier tiempo de espera anterior
+    clearTimeout(timeoutId);
+
     setStatRanges((prev) => ({
       ...prev,
-      [stat]: { ...prev[stat], [name]: value },
+      [stat]: { ...prev[stat], [name]: numericValue },
     }));
+
+    // Esperar antes de validar (por ejemplo, 800ms después de que el usuario deja de escribir)
+    timeoutId = setTimeout(() => {
+      setStatRanges((prev) => {
+        let min = Number(prev[stat].min);
+        let max = Number(prev[stat].max);
+
+        // Si el usuario aún no ha ingresado el valor máximo, no hacer nada
+        if (isNaN(min) || isNaN(max) || prev[stat].max === "") return prev;
+
+        // Intercambiar si min es mayor que max
+        if (min > max) {
+          [min, max] = [max, min];
+        }
+
+        return {
+          ...prev,
+          [stat]: { min: min.toString(), max: max.toString() },
+        };
+      });
+    }, 800); // Tiempo de espera antes de validar e intercambiar
+  };
+
+  const isApplyDisabled = () => {
+    return (
+      selectedStats.length > 0 &&
+      selectedStats.some(
+        (stat) => !statRanges[stat]?.min || !statRanges[stat]?.max
+      )
+    );
   };
 
   const handleRemoveStat = (stat) => {
@@ -60,8 +120,69 @@ const Filtered = () => {
     setStatRanges(updatedRanges);
   };
 
+  const applyFilters = () => {
+    updateUrl({
+      type: selectedTypes,
+      source: selectedSources,
+      stats: statRanges,
+    });
+
+    window.location.reload();
+  };
+  console.log(selectedTypes, selectedSources, statRanges);
+
+  // const handleRemoveFilter = (event, type) => {
+  //   console.log(type);
+  //   removeFilter(type);
+  // };
+
+  // const clearFilters = () => {
+  //   clearAllFilters()
+  // };
+
   return (
     <>
+      {/* CHIPS */}
+      <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
+        {appliedFilters.type?.map((type) => (
+          <Chip
+            key={type}
+            label={type.replace(/^\w/, (c) => c.toUpperCase())}
+            onDelete={() => removeFilter("type", type)}
+            name={type}
+          />
+        ))}
+        {appliedFilters.source ? (
+          <Chip
+            key={appliedFilters.source}
+            label={appliedFilters.source.replace(/^\w/, (c) => c.toUpperCase())}
+            onDelete={() => removeFilter("source", appliedFilters.source)}
+          />
+        ) : null}
+        {appliedFilters.stats
+          ? Object.keys(appliedFilters.stats).map((stat) => (
+              <Chip
+                key={stat}
+                label={`${stat.replace(/^\w/, (c) => c.toUpperCase())} (${
+                  statRanges[stat]?.min
+                } - ${statRanges[stat]?.max})`}
+                onDelete={() => removeFilter("stats", stat)}
+              />
+            ))
+          : null}
+        {(selectedTypes.length > 0 ||
+          selectedSources.length > 0 ||
+          selectedStats.length > 0) && (
+          <Button
+            variant="outlined"
+            onClick={() => {
+              clearAllFilters();
+            }}
+          >
+            Clear All
+          </Button>
+        )}
+      </Box>
       {/* TYPES */}
       <CustomAccordion disableGutters defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -72,7 +193,13 @@ const Filtered = () => {
             {(showAllTypes ? types : types.slice(0, 8)).map((type, index) => (
               <Grid2 xs={6} key={index}>
                 <FormControlLabel
-                  control={<Checkbox name={type.name} />}
+                  control={
+                    <Checkbox
+                      name={type.name}
+                      checked={selectedTypes.includes(type.name)}
+                      onChange={handleTypeChange}
+                    />
+                  }
                   label={type.name.replace(/^\w/, (c) => c.toUpperCase())}
                 />
               </Grid2>
@@ -80,7 +207,7 @@ const Filtered = () => {
           </Grid2>
           {types.length > 8 && (
             <Button onClick={() => setShowAllTypes(!showAllTypes)}>
-              {showAllTypes ? "Ver menos" : "Ver más"}
+              {showAllTypes ? "Show less" : "Show more"}
             </Button>
           )}
         </AccordionDetails>
@@ -97,13 +224,25 @@ const Filtered = () => {
           <Grid2 container spacing={2}>
             <Grid2 xs={6}>
               <FormControlLabel
-                control={<Checkbox name="created" />}
+                control={
+                  <Checkbox
+                    name="created"
+                    checked={selectedSources.includes("created")}
+                    onChange={handleSourceChange}
+                  />
+                }
                 label="Created"
               />
             </Grid2>
             <Grid2 xs={6}>
               <FormControlLabel
-                control={<Checkbox name="pokeApi" />}
+                control={
+                  <Checkbox
+                    name="pokeApi"
+                    checked={selectedSources.includes("pokeApi")}
+                    onChange={handleSourceChange}
+                  />
+                }
                 label="PokeAPI"
               />
             </Grid2>
@@ -113,7 +252,7 @@ const Filtered = () => {
 
       <Divider />
 
-      {/* STACTS */}
+      {/* STATS */}
       <CustomAccordion disableGutters defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography component="span">Stats</Typography>
@@ -139,7 +278,6 @@ const Filtered = () => {
       </CustomAccordion>
 
       <Divider />
-      {/* DYNAMIC ACCORDION RENDERING FOR EACH SELECTED STAT */}
       {selectedStats.map((stat) => (
         <div key={stat}>
           <CustomAccordion disableGutters defaultExpanded>
@@ -159,6 +297,7 @@ const Filtered = () => {
             <AccordionDetails>
               <Box display="flex" alignItems="center" gap={1} width="100%">
                 <TextField
+                  type="number"
                   variant="outlined"
                   label="Min"
                   name="min"
@@ -169,6 +308,7 @@ const Filtered = () => {
                 />
                 <Typography>-</Typography>
                 <TextField
+                  type="number"
                   variant="outlined"
                   label="Max"
                   name="max"
@@ -184,7 +324,13 @@ const Filtered = () => {
         </div>
       ))}
 
-      <Button variant="outlined">apply</Button>
+      <Button
+        variant="outlined"
+        onClick={() => applyFilters()}
+        disabled={isApplyDisabled()}
+      >
+        Apply
+      </Button>
     </>
   );
 };

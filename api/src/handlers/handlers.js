@@ -11,8 +11,17 @@ const {
 const qs = require("qs");
 
 const getPokemonsHandler = async (req, res) => {
-  const { name, page = 1, limit = 20, type, source, sortBy, order } = req.query;
-  console.log(sortBy, order);
+  const {
+    name,
+    page = 1,
+    limit = 20,
+    type,
+    source,
+    sortBy,
+    order,
+    stats,
+  } = req.query;
+  console.log(req.query, "aacaaaa");
 
   // Deserializar params en un objeto
   // const parsedParams = qs.parse(params, { ignoreQueryPrefix: true });
@@ -28,7 +37,8 @@ const getPokemonsHandler = async (req, res) => {
         type,
         source,
         sortBy,
-        order
+        order,
+        stats
       );
       res.status(200).json(allPokemons);
     }

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getPokemons } from "../../redux/actions";
 import Card from "../Card/Card";
 import style from "./Cards.module.css";
-import Loader from "../Loader/Loader";
+// import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
 import { Box, Skeleton } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -16,11 +16,27 @@ function Cards() {
   const searchParams = new URLSearchParams(window.location.search);
 
   const getParamsAsObject = () => {
-    const params = {};
-    searchParams.forEach((value, key) => {
-      params[key] = value;
+    const params = new URLSearchParams(window.location.search);
+    const result = {};
+
+    params.forEach((value, key) => {
+      if (key in result) {
+        if (Array.isArray(result[key])) {
+          result[key].push(value);
+        } else {
+          result[key] = [result[key], value];
+        }
+      } else {
+        try {
+          const parsedValue = JSON.parse(decodeURIComponent(value));
+          result[key] = parsedValue;
+        } catch (e) {
+          result[key] = value;
+        }
+      }
     });
-    return params;
+
+    return result;
   };
 
   const page = parseInt(searchParams.get("page") || "1", 10);

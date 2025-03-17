@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Cards from "../../components/Cards1/Cards";
-import Filtered from "../../components/Filtered1/Filtered";
+// import Filtered from "../../components/Filtered/Filtered";
 import DrawerFiltered from "../../components/DrawerFiltered/DrawerFiltered";
 
 import { useDispatch } from "react-redux";
@@ -14,6 +14,7 @@ function Home() {
 
   return (
     <>
+      {/* <Filtered /> */}
       <DrawerFiltered />
       <Cards />
     </>

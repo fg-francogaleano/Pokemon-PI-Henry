@@ -1,6 +1,7 @@
 const { Pokemon, Type, PokemonTypes } = require("../db");
 const axios = require("axios");
 const { iconsMap } = require("../util/util");
+const { Op } = require("sequelize");
 
 // --------------------------------------------POKEMONS API--------------------------------------------------------
 const pokemonsAllApi = async () => {
@@ -37,15 +38,33 @@ const pokemonsAllBDD = async (
   type,
   source,
   sortBy = "id",
-  order = "ASC"
+  order = "ASC",
+  stats
 ) => {
   const offset = (page - 1) * limit;
 
   // Construcción del objeto "where" dinámicamente
   const whereConditions = {};
+  const appliedFilters = {};
+  if (source) {
+    appliedFilters.source = source;
 
-  if (source === "created") {
-    whereConditions.isUserCreated = true; // Filtrar por Pokémon creados por el usuario
+    if (source === "created") {
+      whereConditions.isUserCreated = true; // Filtrar por Pokémon creados por el usuario
+    }
+  }
+
+  if (stats) {
+    appliedFilters.stats = {}; // Inicializar stats en los filtros aplicados
+    Object.keys(stats).forEach((statKey) => {
+      const stat = stats[statKey];
+      if (stat.min !== undefined && stat.max !== undefined) {
+        whereConditions[statKey] = {
+          [Op.between]: [parseInt(stat.min, 10), parseInt(stat.max, 10)],
+        };
+        appliedFilters.stats[statKey] = { min: stat.min, max: stat.max };
+      }
+    });
   }
 
   const includeConditions = {
@@ -57,6 +76,10 @@ const pokemonsAllBDD = async (
     ...(type ? { where: { name: type } } : {}), // Filtrar por tipo
   };
 
+  if (type) {
+    appliedFilters.type = type;
+  }
+
   const results = await Pokemon.findAndCountAll({
     include: includeConditions,
     where: whereConditions,
@@ -65,7 +88,6 @@ const pokemonsAllBDD = async (
     limit, // Número de resultados por página
     offset, // Desplazamiento inicial
   });
-  console.log(results.rows.length);
 
   if (results.rows.length === 0) {
     return {
@@ -75,6 +97,7 @@ const pokemonsAllBDD = async (
       data: [],
       page,
       limit,
+      appliedFilters, // Agregar filtros aplicados aunque no haya resultados
     };
   }
 
@@ -84,8 +107,10 @@ const pokemonsAllBDD = async (
     data: results.rows, // Resultados de la página actual
     page,
     limit, // Página actual
+    appliedFilters, // Agregar los filtros aplicados en la respuesta
   };
 };
+
 // ---------------------------------------POKEMONS API+BASE DE DATOS------------------------------------------------
 
 const pokemonAll = async (page, limit) => {
