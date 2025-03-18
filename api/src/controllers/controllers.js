@@ -42,6 +42,7 @@ const pokemonsAllBDD = async (
   stats
 ) => {
   const offset = (page - 1) * limit;
+  console.log(type);
 
   // Construcción del objeto "where" dinámicamente
   const whereConditions = {};
@@ -77,7 +78,7 @@ const pokemonsAllBDD = async (
   };
 
   if (type) {
-    appliedFilters.type = type;
+    appliedFilters.type = Array.isArray(type) ? type : [type];
   }
 
   const results = await Pokemon.findAndCountAll({

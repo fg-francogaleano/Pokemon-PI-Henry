@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionSummary,
@@ -37,7 +37,9 @@ const Filtered = () => {
   const { updateUrl, clearAllFilters, removeFilter } = useUpdateUrl();
 
   const { types, appliedFilters } = useSelector((state) => state);
+
   const [selectedTypes, setSelectedTypes] = useState(appliedFilters.type || []);
+  console.log(selectedTypes);
 
   const [selectedSources, setSelectedSources] = useState(
     appliedFilters.source || []
@@ -104,21 +106,42 @@ const Filtered = () => {
     }, 800); // Tiempo de espera antes de validar e intercambiar
   };
 
-  const isApplyDisabled = () => {
-    return (
-      selectedStats.length > 0 &&
-      selectedStats.some(
-        (stat) => !statRanges[stat]?.min || !statRanges[stat]?.max
-      )
-    );
-  };
-
   const handleRemoveStat = (stat) => {
     setSelectedStats(selectedStats.filter((s) => s !== stat));
     const updatedRanges = { ...statRanges };
     delete updatedRanges[stat];
     setStatRanges(updatedRanges);
   };
+
+  const isApplyDisabled = () => {
+    console.log(selectedStats.length);
+    console.log(
+      Boolean(
+        selectedStats.some(
+          (stat) => !statRanges[stat]?.min || !statRanges[stat]?.max
+        )
+      )
+    );
+    console.log();
+
+    return (
+      selectedTypes.length > 0 ||
+      selectedSources.length > 0 ||
+      (selectedStats.length > 0 &&
+        selectedStats.some(
+          (stat) => statRanges[stat]?.min && statRanges[stat]?.max
+        ))
+    );
+  };
+
+  // const isApplyDisabled = () => {
+  //   return (
+  //     selectedStats.length === 0 || // Deshabilitar si no hay filtros seleccionados
+  //     selectedStats.some(
+  //       (stat) => !statRanges[stat]?.min || !statRanges[stat]?.max
+  //     )
+  //   );
+  // };
 
   const applyFilters = () => {
     updateUrl({
@@ -129,17 +152,13 @@ const Filtered = () => {
 
     window.location.reload();
   };
-  console.log(selectedTypes, selectedSources, statRanges);
 
-  // const handleRemoveFilter = (event, type) => {
-  //   console.log(type);
-  //   removeFilter(type);
-  // };
+  const [filtersReady, setFiltersReady] = useState(false);
 
-  // const clearFilters = () => {
-  //   clearAllFilters()
-  // };
-
+  useEffect(() => {
+    // Se ejecuta solo después de que la página se recarga
+    setFiltersReady(window.location.search.length > 0);
+  }, []);
   return (
     <>
       {/* CHIPS */}
@@ -170,19 +189,13 @@ const Filtered = () => {
               />
             ))
           : null}
-        {(selectedTypes.length > 0 ||
-          selectedSources.length > 0 ||
-          selectedStats.length > 0) && (
-          <Button
-            variant="outlined"
-            onClick={() => {
-              clearAllFilters();
-            }}
-          >
+        {filtersReady && (
+          <Button variant="outlined" onClick={clearAllFilters}>
             Clear All
           </Button>
         )}
       </Box>
+
       {/* TYPES */}
       <CustomAccordion disableGutters defaultExpanded>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -190,7 +203,7 @@ const Filtered = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Grid2 container spacing={2}>
-            {(showAllTypes ? types : types.slice(0, 8)).map((type, index) => (
+            {(showAllTypes ? types : types.slice(0, 6)).map((type, index) => (
               <Grid2 xs={6} key={index}>
                 <FormControlLabel
                   control={
@@ -278,6 +291,7 @@ const Filtered = () => {
       </CustomAccordion>
 
       <Divider />
+
       {selectedStats.map((stat) => (
         <div key={stat}>
           <CustomAccordion disableGutters defaultExpanded>
@@ -327,7 +341,7 @@ const Filtered = () => {
       <Button
         variant="outlined"
         onClick={() => applyFilters()}
-        disabled={isApplyDisabled()}
+        disabled={!isApplyDisabled()}
       >
         Apply
       </Button>
