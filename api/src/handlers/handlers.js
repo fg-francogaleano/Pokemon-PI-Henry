@@ -17,7 +17,7 @@ const getPokemonsHandler = async (req, res) => {
     limit = 20,
     type,
     source,
-    sortBy,
+    sort,
     order,
     stats,
   } = req.query;
@@ -36,7 +36,7 @@ const getPokemonsHandler = async (req, res) => {
         limit,
         type,
         source,
-        sortBy,
+        sort,
         order,
         stats
       );

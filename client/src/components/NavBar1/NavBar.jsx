@@ -16,6 +16,7 @@ import SearchIcon from "@mui/icons-material/Search";
 // import NotificationsIcon from "@mui/icons-material/Notifications";
 // import MoreIcon from "@mui/icons-material/MoreVert";
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -172,9 +173,9 @@ function NavBar() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <Box>
               {navItems.map((item) => (
-                <Button key={item} sx={{ color: "#fff" }}>
-                  {item}
-                </Button>
+                <Link key={item} to={"/" + item.toLocaleLowerCase()}>
+                  <Button sx={{ color: "#fff" }}>{item}</Button>
+                </Link>
               ))}
             </Box>
           </Box>

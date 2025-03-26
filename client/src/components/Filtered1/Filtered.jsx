@@ -39,7 +39,6 @@ const Filtered = () => {
   const { types, appliedFilters } = useSelector((state) => state);
 
   const [selectedTypes, setSelectedTypes] = useState(appliedFilters.type || []);
-  console.log(selectedTypes);
 
   const [selectedSources, setSelectedSources] = useState(
     appliedFilters.source || []
@@ -114,16 +113,6 @@ const Filtered = () => {
   };
 
   const isApplyDisabled = () => {
-    console.log(selectedStats.length);
-    console.log(
-      Boolean(
-        selectedStats.some(
-          (stat) => !statRanges[stat]?.min || !statRanges[stat]?.max
-        )
-      )
-    );
-    console.log();
-
     return (
       selectedTypes.length > 0 ||
       selectedSources.length > 0 ||
@@ -134,15 +123,6 @@ const Filtered = () => {
     );
   };
 
-  // const isApplyDisabled = () => {
-  //   return (
-  //     selectedStats.length === 0 || // Deshabilitar si no hay filtros seleccionados
-  //     selectedStats.some(
-  //       (stat) => !statRanges[stat]?.min || !statRanges[stat]?.max
-  //     )
-  //   );
-  // };
-
   const applyFilters = () => {
     updateUrl({
       type: selectedTypes,
@@ -150,7 +130,7 @@ const Filtered = () => {
       stats: statRanges,
     });
 
-    window.location.reload();
+    // window.location.reload();
   };
 
   const [filtersReady, setFiltersReady] = useState(false);
@@ -163,37 +143,43 @@ const Filtered = () => {
     <>
       {/* CHIPS */}
       <Box display="flex" flexWrap="wrap" gap={1} mb={2}>
-        {appliedFilters.type?.map((type) => (
-          <Chip
-            key={type}
-            label={type.replace(/^\w/, (c) => c.toUpperCase())}
-            onDelete={() => removeFilter("type", type)}
-            name={type}
-          />
-        ))}
-        {appliedFilters.source ? (
-          <Chip
-            key={appliedFilters.source}
-            label={appliedFilters.source.replace(/^\w/, (c) => c.toUpperCase())}
-            onDelete={() => removeFilter("source", appliedFilters.source)}
-          />
-        ) : null}
-        {appliedFilters.stats
-          ? Object.keys(appliedFilters.stats).map((stat) => (
-              <Chip
-                key={stat}
-                label={`${stat.replace(/^\w/, (c) => c.toUpperCase())} (${
-                  statRanges[stat]?.min
-                } - ${statRanges[stat]?.max})`}
-                onDelete={() => removeFilter("stats", stat)}
-              />
-            ))
-          : null}
         {filtersReady && (
-          <Button variant="outlined" onClick={clearAllFilters}>
-            Clear All
-          </Button>
+          <Box sx={{ display: "block" }}>
+            <Button onClick={clearAllFilters}>Clear All</Button>
+          </Box>
         )}
+        <Box display="flex" flexWrap="wrap" gap={1}>
+          {appliedFilters.type?.map((type) => (
+            <Chip
+              key={type}
+              label={type.replace(/^\w/, (c) => c.toUpperCase())}
+              onDelete={() => removeFilter("type", type)}
+              name={type}
+            />
+          ))}
+
+          {appliedFilters.source ? (
+            <Chip
+              key={appliedFilters.source}
+              label={appliedFilters.source.replace(/^\w/, (c) =>
+                c.toUpperCase()
+              )}
+              onDelete={() => removeFilter("source", appliedFilters.source)}
+            />
+          ) : null}
+
+          {appliedFilters.stats
+            ? Object.keys(appliedFilters.stats).map((stat) => (
+                <Chip
+                  key={stat}
+                  label={`${stat.replace(/^\w/, (c) => c.toUpperCase())} (${
+                    statRanges[stat]?.min
+                  } - ${statRanges[stat]?.max})`}
+                  onDelete={() => removeFilter("stats", stat)}
+                />
+              ))
+            : null}
+        </Box>
       </Box>
 
       {/* TYPES */}

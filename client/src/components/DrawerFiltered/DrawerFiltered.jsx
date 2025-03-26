@@ -3,6 +3,8 @@ import SlidingIcons from "../SlidingIcon/SlidingIcon";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useState } from "react";
 import Filtered from "../Filtered1/Filtered";
+import Sort from "../Sort/Sort";
+// import FunnelIcon from "../Funnel/FunnelIcon";
 
 function DrawerFiltered() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -14,15 +16,16 @@ function DrawerFiltered() {
   return (
     <>
       <Box
-        sx={{ display: "flex", justifyContent: "flex-start", padding: "10px" }}
+        sx={{
+          display: "flex",
+          justifyContent: "space-around",
+          padding: "10px",
+        }}
       >
-        <Button
-          variant="outlined"
-          startIcon={<SlidingIcons />}
-          onClick={() => toggleDrawer(true)}
-        >
-          Filtros
+        <Button startIcon={<SlidingIcons />} onClick={() => toggleDrawer(true)}>
+          Filters
         </Button>
+        <Sort />
       </Box>
 
       <Drawer anchor="left" open={drawerOpen} onClose={() => {}}>
@@ -43,7 +46,7 @@ function DrawerFiltered() {
               alignItems: "center",
             }}
           >
-            <Typography variant="h6">Filtrar Pokémon</Typography>
+            <Typography variant="h6">Filter Pokémon</Typography>
             <IconButton onClick={() => toggleDrawer(false)}>
               <CloseIcon />
             </IconButton>

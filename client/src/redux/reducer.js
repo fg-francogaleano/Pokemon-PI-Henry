@@ -16,6 +16,8 @@ const initialState = {
   pokemonSearch: [],
   pokemonDetail: {},
   appliedFilters: {},
+  appliedSort: {},
+  appliedSortLabel: "",
   cache: 1,
   path: "",
   display: false,
@@ -50,6 +52,8 @@ const rootReducer = (state = initialState, action) => {
         limit: action.payload.limit,
         message: action.payload.message,
         appliedFilters: action.payload.appliedFilters,
+        appliedSort: action.payload.appliedSort,
+        appliedSortLabel: action.payload.appliedSortLabel,
       };
 
     case GET_TYPES:

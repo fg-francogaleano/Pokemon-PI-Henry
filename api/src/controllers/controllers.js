@@ -37,7 +37,7 @@ const pokemonsAllBDD = async (
   limit,
   type,
   source,
-  sortBy = "id",
+  sort = "name",
   order = "ASC",
   stats
 ) => {
@@ -81,10 +81,28 @@ const pokemonsAllBDD = async (
     appliedFilters.type = Array.isArray(type) ? type : [type];
   }
 
+  let appliedSortLabel = "";
+  switch (`${sort}-${order.toUpperCase()}`) {
+    case "name-ASC":
+      appliedSortLabel = "a-z";
+      break;
+    case "name-DESC":
+      appliedSortLabel = "z-a";
+      break;
+    case "id-ASC":
+      appliedSortLabel = "ID ASC";
+      break;
+    case "id-DESC":
+      appliedSortLabel = "ID DESC";
+      break;
+    default:
+      appliedSortLabel = `${sort} ${order.toUpperCase()}`;
+  }
+
   const results = await Pokemon.findAndCountAll({
     include: includeConditions,
     where: whereConditions,
-    order: [[sortBy, order.toUpperCase()]],
+    order: [[sort, order.toUpperCase()]],
     distinct: true, // Asegura que los duplicados no se cuenten
     limit, // Número de resultados por página
     offset, // Desplazamiento inicial
@@ -99,6 +117,8 @@ const pokemonsAllBDD = async (
       page,
       limit,
       appliedFilters, // Agregar filtros aplicados aunque no haya resultados
+      appliedSort: { sort, order },
+      appliedSortLabel,
     };
   }
 
@@ -109,6 +129,8 @@ const pokemonsAllBDD = async (
     page,
     limit, // Página actual
     appliedFilters, // Agregar los filtros aplicados en la respuesta
+    appliedSort: { sort, order },
+    appliedSortLabel,
   };
 };
 

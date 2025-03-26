@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getPokemons } from "../../redux/actions";
 import Card from "../Card/Card";
-import style from "./Cards.module.css";
+
 // import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
 import { Box, Skeleton } from "@mui/material";
@@ -58,14 +58,24 @@ function Cards() {
     <>
       {/* SKELETON */}
       {loading && pokemons?.length === 0 ? (
-        <Box className={style.container}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            padding: "20px 55px",
+            gap: "10px",
+            marginTop: "45px",
+          }}
+        >
           {Array.from({ length: skeletonCount }).map((_, index) => (
             <Skeleton
               key={index}
               variant="rectangular"
-              width={330}
-              height={350}
-              sx={{ margin: "16px auto", borderRadius: "8px" }}
+              width={250}
+              height={380}
+              sx={{ borderRadius: "5px" }}
             />
           ))}
         </Box>

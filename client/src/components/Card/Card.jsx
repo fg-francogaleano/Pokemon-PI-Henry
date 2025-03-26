@@ -11,7 +11,7 @@ function PokemonCard({ id, name, image, types }) {
   return (
     <Card
       sx={{
-        maxWidth: 300, // Ancho mínimo
+        // maxWidth: 300, // Ancho mínimo
         minWidth: 250, // Ancho máximo
         margin: "auto",
         boxShadow: 3,

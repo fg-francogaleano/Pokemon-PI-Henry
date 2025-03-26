@@ -9,6 +9,8 @@ export const useUpdateUrl = () => {
     const searchParams = new URLSearchParams(window.location.search);
 
     searchParams.delete("page");
+    searchParams.delete("sort");
+    searchParams.delete("order");
 
     Object.keys(params).forEach((key) => {
       const value = params[key];
@@ -40,6 +42,7 @@ export const useUpdateUrl = () => {
     }
 
     history.push(`${window.location.pathname}?${searchParams.toString()}`);
+    // window.location.reload();
   };
 
   const applyFilters = (filters) => {
@@ -67,6 +70,7 @@ export const useUpdateUrl = () => {
     }
 
     history.push(`${window.location.pathname}?${searchParams.toString()}`);
+    window.location.reload();
   };
 
   const clearAllFilters = () => {
