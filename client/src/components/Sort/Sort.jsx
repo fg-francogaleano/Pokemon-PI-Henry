@@ -2,7 +2,7 @@ import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import React, { useState } from "react";
 import { useUpdateUrl } from "../../utils/url.Utils";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 // const sortOptions = [
 //   { label: "A - Z", icon: "bi bi-sort-alpha-down", value: "sort-alpha-down" },
@@ -23,7 +23,7 @@ const sortOptions = [
 
 function Sort() {
   const { updateUrl } = useUpdateUrl();
-  const { appliedSort } = useSelector((state) => state);
+  // const { appliedSort } = useSelector((state) => state);
   const [selectedOption, setSelectedOption] = useState(sortOptions[0]); // Estado para la opción seleccionada
   const [menuAnchor, setMenuAnchor] = useState(null);
 

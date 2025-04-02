@@ -19,9 +19,9 @@ function Count({ stat, name }) {
   }, [count, stat]);
 
   return (
-    <div>
+    <>
       {count.toFixed(2)} {unit}
-    </div>
+    </>
   );
 }
 

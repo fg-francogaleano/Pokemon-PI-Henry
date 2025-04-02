@@ -63,14 +63,16 @@ export const getPokemon = (id) => {
     await axios
       .get(`${URL}/pokemons/${id}`)
       .then((res) => {
+        console.log(res.data);
+
         const data = res.data;
-        data.name = data.name.toUpperCase();
-        data.types = data.types.map((e) => e.name);
-        data.type1 = data.types[0].replace(/^\w/, (c) => c.toUpperCase());
-        data.type2 =
-          data.types.length > 1
-            ? data.types[1].replace(/^\w/, (c) => c.toUpperCase())
-            : "";
+        // data.name = data.name.toUpperCase();
+        // data.types = data.types.map((e) => e.name);
+        // data.type1 = data.types[0].replace(/^\w/, (c) => c.toUpperCase());
+        // data.type2 =
+        //   data.types.length > 1
+        //     ? data.types[1].replace(/^\w/, (c) => c.toUpperCase())
+        //     : "";
         dispatch({ type: GET_POKEMON, payload: data });
         setTimeout(() => {
           dispatch(ready());
