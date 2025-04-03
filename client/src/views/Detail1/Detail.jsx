@@ -10,6 +10,7 @@ import {
   Grid,
   Paper,
   Divider,
+  Tooltip,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/system";
@@ -63,6 +64,7 @@ const Detail = () => {
         </Box>
       ) : (
         <>
+          {/* TITLE POKEDEX */}
           <Box
             display="flex"
             justifyContent="space-between"
@@ -79,7 +81,7 @@ const Detail = () => {
           <Divider />
 
           <Grid container spacing={2}>
-            {/* NAME/IMAGE */}
+            {/* IZQUIERDA */}
             <Grid
               item
               xs={12}
@@ -87,11 +89,14 @@ const Detail = () => {
               display="flex"
               flexDirection="column"
               alignItems="center"
-              sx={{ border: "red solid 1px" }}
+              sx={{ margin: "15px 0px" }}
             >
               {/* NAME */}
-              <Typography variant="h5">
-                {pokemonDetail.name?.replace(/^\w/, (c) => c.toUpperCase())}
+              <Typography
+                variant="h5"
+                sx={{ fontWeight: "bold", textTransform: "capitalize" }}
+              >
+                {pokemonDetail.name?.toUpperCase()}
               </Typography>
               {/* IMAGE */}
               <Box display="flex" justifyContent="center" width="100%">
@@ -123,7 +128,8 @@ const Detail = () => {
               />
             </Grid>
 
-            <Grid item xs={12} md={5.5}>
+            {/* DERECHA */}
+            <Grid item xs={12} md={5.5} sx={{ margin: "15px 0px" }}>
               {/* TITLE */}
               <Typography variant="h5" gutterBottom>
                 Stats
@@ -132,10 +138,11 @@ const Detail = () => {
               {/* STATS PROGRESS */}
               {["hp", "attack", "defense", "speed"].map((stat, index) => (
                 <Box key={index} mb={2}>
-                  <Typography variant="subtitle1">
+                  {/* <Typography variant="subtitle1">
                     {stat?.replace(/^\w/, (c) => c.toUpperCase())}
-                  </Typography>
-                  <Progress stat={pokemonDetail[stat]} />
+                  </Typography> */}
+
+                  <Progress stat={stat} value={pokemonDetail[stat]} />
                 </Box>
               ))}
               {/* HEIGHT/HEIGHT */}

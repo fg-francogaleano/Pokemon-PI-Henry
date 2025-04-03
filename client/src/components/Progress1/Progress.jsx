@@ -1,27 +1,39 @@
-import { Box, LinearProgress, Typography } from "@mui/material";
+import { Box, LinearProgress, Tooltip, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
-function Progress({ stat }) {
+function Progress({ stat, value }) {
   const [progress, setProgress] = useState(0);
   //   console.log(`progress: ${progress}`, `stat:${stat}`);
 
   useEffect(() => {
-    if (progress < stat && progress < 100) {
+    if (progress < value && progress < 100) {
       setTimeout(() => {
         setProgress((prev) => (prev += 1));
       }, 10);
     }
-  }, [progress, stat]);
+  }, [progress, value]);
 
   return (
     <>
+      <Tooltip title={value} placement="right">
+        <Box display={"flex"}>
+          <Typography variant="subtitle1">
+            {stat?.replace(/^\w/, (c) => c.toUpperCase())}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "text.secondary",
+              cursor: "pointer",
+              display: "inline-block",
+            }}
+          >
+            {progress < 100 ? Math.round(progress) : "+100"}
+          </Typography>
+        </Box>
+      </Tooltip>
       <Box sx={{ width: "100%" }}>
         <LinearProgress value={progress} variant="determinate" />
-      </Box>
-      <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-          {progress < 100 ? Math.round(progress) : "+100"}
-        </Typography>
       </Box>
     </>
   );
