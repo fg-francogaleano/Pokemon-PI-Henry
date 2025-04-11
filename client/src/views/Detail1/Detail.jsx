@@ -21,13 +21,15 @@ import { LiaRulerVerticalSolid } from "react-icons/lia";
 import { MdOutlineBalance } from "react-icons/md";
 
 const Container = styled(Paper)(({ theme }) => ({
-  margin: theme.spacing(2),
-  padding: theme.spacing(2),
-  borderRadius: 10,
+  margin: theme.spacing(10),
+  padding: theme.spacing(5),
+  borderRadius: 5,
   backgroundColor: "rgba(249, 245, 245, 0.59)",
   [theme.breakpoints.up("md")]: {
-    marginLeft: 150,
-    marginRight: 150,
+    maxWidth: "670px",
+    margin: "16px auto",
+
+    padding: theme.spacing(2),
   },
 }));
 
@@ -58,19 +60,25 @@ const Detail = () => {
           display="flex"
           justifyContent="center"
           alignItems="center"
-          height={540}
+          sx={{
+            height: {
+              xs: 1058, // menor a 600px
+              sm: 1058, // menor a 900px
+              md: 454, // 900px o más
+            },
+          }}
         >
           <CircularProgress />
         </Box>
       ) : (
         <>
-          {/* TITLE POKEDEX */}
+          {/* TITLE POKEDEX/ BOTTON CLOSE */}
           <Box
             display="flex"
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography variant="h4" margin={"auto"}>
+            <Typography variant="h4" margin={"auto"} padding={"10px"}>
               POKEDEX #{pokemonDetail.id}
             </Typography>
             <IconButton onClick={handlerBack}>
@@ -80,7 +88,7 @@ const Detail = () => {
 
           <Divider />
 
-          <Grid container spacing={2}>
+          <Grid container spacing={0}>
             {/* IZQUIERDA */}
             <Grid
               item
@@ -89,7 +97,7 @@ const Detail = () => {
               display="flex"
               flexDirection="column"
               alignItems="center"
-              sx={{ margin: "15px 0px" }}
+              sx={{ marginTop: "15px " }}
             >
               {/* NAME */}
               <Typography
@@ -103,7 +111,10 @@ const Detail = () => {
                 <img
                   src={pokemonDetail.image}
                   alt={pokemonDetail.name}
-                  style={{ maxWidth: "100%", height: "auto" }}
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto",
+                  }}
                 />
               </Box>
               {/* TYPES */}
@@ -129,7 +140,7 @@ const Detail = () => {
             </Grid>
 
             {/* DERECHA */}
-            <Grid item xs={12} md={5.5} sx={{ margin: "15px 0px" }}>
+            <Grid item xs={12} md={5.5} sx={{ marginTop: "15px " }}>
               {/* TITLE */}
               <Typography variant="h5" gutterBottom>
                 Stats
@@ -138,9 +149,9 @@ const Detail = () => {
               {/* STATS PROGRESS */}
               {["hp", "attack", "defense", "speed"].map((stat, index) => (
                 <Box key={index} mb={2}>
-                  {/* <Typography variant="subtitle1">
+                  <Typography variant="subtitle1">
                     {stat?.replace(/^\w/, (c) => c.toUpperCase())}
-                  </Typography> */}
+                  </Typography>
 
                   <Progress stat={stat} value={pokemonDetail[stat]} />
                 </Box>
@@ -148,7 +159,7 @@ const Detail = () => {
               {/* HEIGHT/HEIGHT */}
               <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
                 {/* HEIGHT */}
-                <Box mb={2} sx={{}}>
+                <Box sx={{}}>
                   <Box display={"flex"} gap={"2px"} sx={{}}>
                     <Box>
                       <LiaRulerVerticalSolid />
@@ -160,7 +171,7 @@ const Detail = () => {
                   </Box>
                 </Box>
                 {/* WEIGHT */}
-                <Box mb={2}>
+                <Box>
                   <Box display={"flex"} gap={"2px"} sx={{}}>
                     <Box>
                       <MdOutlineBalance />

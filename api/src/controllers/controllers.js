@@ -262,6 +262,8 @@ const findPokemonByName = async (name) => {
 };
 
 const findPokemonById = async (id) => {
+  console.log(`linea 265:`, id);
+
   if (!isNaN(id)) {
     const pokemonApi = await pokemonByIdApi(id);
     return pokemonApi;
@@ -269,7 +271,7 @@ const findPokemonById = async (id) => {
     const pokemonBDD = await Pokemon.findByPk(id, {
       include: {
         model: Type,
-        attributes: ["name"],
+        attributes: ["id", "name", "icon_svg"],
         through: {
           attributes: [],
         },

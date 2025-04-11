@@ -51,10 +51,18 @@ const getPokemonsHandler = async (req, res) => {
 
 const getPokemonHandler = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+  console.log("linea 54:", id);
   try {
-    const pokemon = await findPokemonById(id);
-    res.status(200).json(pokemon);
+    const pokemonBDD = await Pokemon.findByPk(id, {
+      include: {
+        model: Type,
+        attributes: ["id", "name", "icon_svg"],
+        through: {
+          attributes: [],
+        },
+      },
+    });
+    res.status(200).json(pokemonBDD);
   } catch (error) {
     res.status(400).json({
       error: error.message,
