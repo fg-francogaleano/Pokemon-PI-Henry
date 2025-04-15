@@ -38,7 +38,7 @@ const pokemonsAllBDD = async (
   limit,
   type,
   source,
-  sort = "name",
+  sort = "id",
   order = "ASC",
   stats
 ) => {

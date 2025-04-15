@@ -54,13 +54,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function SearchBar() {
   const { updateUrl } = useUpdateUrl();
   const [searchTerm, setSearchTerm] = useState("");
+  const [queryTerm, setQueryTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const inputRef = useRef();
 
-  const handleInputChange = (event) => {
-    setSearchTerm(event.target.value);
+  const handleInputChange = (e) => {
+    setSearchTerm(e.target.value);
+    setQueryTerm(e.target.value); // dispara nueva búsqueda
+    setHighlightedIndex(-1);
   };
 
   const handleOnClick = (value = searchTerm) => {
@@ -68,19 +71,22 @@ function SearchBar() {
     window.location.reload();
   };
 
-  const handleOnKeyDown = (event) => {
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      setHighlightedIndex((prev) =>
-        prev < suggestions.length - 1 ? prev + 1 : 0
-      );
-      setSearchTerm(suggestions[highlightedIndex + 1].name);
-    } else if (event.key === "ArrowUp") {
-      event.preventDefault();
-      setHighlightedIndex((prev) =>
-        prev > 0 ? prev - 1 : suggestions.length - 1
-      );
-    } else if (event.key === "Enter") {
+  const handleOnKeyDown = (e) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => {
+        const nextIndex = prev < suggestions.length - 1 ? prev + 1 : 0;
+        setSearchTerm(suggestions[nextIndex].name);
+        return nextIndex;
+      });
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlightedIndex((prev) => {
+        const nextIndex = prev > 0 ? prev - 1 : suggestions.length - 1;
+        setSearchTerm(suggestions[nextIndex].name);
+        return nextIndex;
+      });
+    } else if (e.key === "Enter") {
       if (highlightedIndex >= 0) {
         handleOnClick(suggestions[highlightedIndex].name);
       } else {
@@ -92,28 +98,25 @@ function SearchBar() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (searchTerm) {
-        const params = { q: searchTerm };
-        const queryString = qs.stringify(params, {
-          arrayFormat: "brackets",
-        });
-
+    if (queryTerm) {
+      const fetchSuggestions = async () => {
         try {
+          const params = { q: queryTerm };
+          const queryString = qs.stringify(params, { arrayFormat: "brackets" });
           const res = await axios.get(
             `http://localhost:3001/pokemons?${queryString}`
           );
           setSuggestions(res.data.data);
         } catch (err) {
-          console.log(err);
+          console.error(err);
         }
-      } else {
-        setSuggestions([]);
-      }
-    };
+      };
 
-    fetchData();
-  }, [searchTerm]);
+      fetchSuggestions();
+    } else {
+      setSuggestions([]);
+    }
+  }, [queryTerm]);
 
   return (
     <SearchContainer>
