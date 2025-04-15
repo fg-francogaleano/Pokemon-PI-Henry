@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getPokemons } from "../../redux/actions";
 import Card from "../Card/Card";
-
-// import Loader from "../Loader/Loader";
 import Pagination from "../Pagination/Pagination";
 import { Box, Skeleton } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
@@ -43,6 +41,7 @@ function Cards() {
 
   useEffect(() => {
     const paramsUrl = getParamsAsObject();
+
     setLoading(true);
 
     setTimeout(() => {
@@ -53,6 +52,7 @@ function Cards() {
 
   const { pokemons, message } = useSelector((state) => state);
   const skeletonCount = 8;
+  // console.log(pokemons);
 
   return (
     <>

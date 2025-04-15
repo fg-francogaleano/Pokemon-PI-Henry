@@ -33,6 +33,7 @@ const pokemonsAllApi = async () => {
 // ----------------------------------------POKEMONS BASE DE DATOS--------------------------------------------------
 
 const pokemonsAllBDD = async (
+  q,
   page,
   limit,
   type,
@@ -42,21 +43,26 @@ const pokemonsAllBDD = async (
   stats
 ) => {
   const offset = (page - 1) * limit;
-  console.log(type);
-
-  // Construcción del objeto "where" dinámicamente
   const whereConditions = {};
   const appliedFilters = {};
+  const includeConditions = {
+    model: Type,
+    attributes: ["id", "name", "icon_svg"],
+    through: { attributes: [] },
+    ...(type ? { where: { name: type } } : {}),
+  };
+
+  // 🎯 Source
   if (source) {
     appliedFilters.source = source;
-
     if (source === "created") {
-      whereConditions.isUserCreated = true; // Filtrar por Pokémon creados por el usuario
+      whereConditions.isUserCreated = true;
     }
   }
 
+  // 📊 Stats
   if (stats) {
-    appliedFilters.stats = {}; // Inicializar stats en los filtros aplicados
+    appliedFilters.stats = {};
     Object.keys(stats).forEach((statKey) => {
       const stat = stats[statKey];
       if (stat.min !== undefined && stat.max !== undefined) {
@@ -68,67 +74,71 @@ const pokemonsAllBDD = async (
     });
   }
 
-  const includeConditions = {
-    model: Type,
-    attributes: ["id", "name", "icon_svg"],
-    through: {
-      attributes: [],
-    },
-    ...(type ? { where: { name: type } } : {}), // Filtrar por tipo
-  };
-
   if (type) {
     appliedFilters.type = Array.isArray(type) ? type : [type];
   }
 
-  let appliedSortLabel = "";
-  switch (`${sort}-${order.toUpperCase()}`) {
-    case "name-ASC":
-      appliedSortLabel = "a-z";
-      break;
-    case "name-DESC":
-      appliedSortLabel = "z-a";
-      break;
-    case "id-ASC":
-      appliedSortLabel = "ID ASC";
-      break;
-    case "id-DESC":
-      appliedSortLabel = "ID DESC";
-      break;
-    default:
-      appliedSortLabel = `${sort} ${order.toUpperCase()}`;
+  appliedFilters.query = q;
+
+  // 🔍 Si existe q, hacemos doble búsqueda con prioridad
+  let fullResults = [];
+
+  if (q) {
+    const firstChar = q.charAt(0);
+
+    // 1. Coincidencias que empiezan con q (ej: "pi")
+    const primaryResults = await Pokemon.findAll({
+      include: includeConditions,
+      where: {
+        ...whereConditions,
+        name: {
+          [Op.iLike]: `${q}%`,
+        },
+      },
+      order: [[sort, order.toUpperCase()]],
+    });
+
+    // 2. Coincidencias que empiezan con primera letra pero no están en los anteriores
+    const secondaryResults = await Pokemon.findAll({
+      include: includeConditions,
+      where: {
+        ...whereConditions,
+        name: {
+          [Op.iLike]: `${firstChar}%`,
+          [Op.notILike]: `${q}%`,
+        },
+      },
+      order: [[sort, order.toUpperCase()]],
+    });
+
+    fullResults = primaryResults.concat(secondaryResults);
+  } else {
+    // Si no hay q, traemos todo
+    const all = await Pokemon.findAll({
+      include: includeConditions,
+      where: whereConditions,
+      order: [[sort, order.toUpperCase()]],
+    });
+    fullResults = all;
   }
 
-  const results = await Pokemon.findAndCountAll({
-    include: includeConditions,
-    where: whereConditions,
-    order: [[sort, order.toUpperCase()]],
-    distinct: true, // Asegura que los duplicados no se cuenten
-    limit, // Número de resultados por página
-    offset, // Desplazamiento inicial
-  });
+  // Paginación manual
+  const paginatedResults = fullResults.slice(offset, offset + limit);
 
-  if (results.rows.length === 0) {
-    return {
-      message: "No se encontraron coincidencias con los filtros aplicados.",
-      totalItems: 0,
-      totalPages: 0,
-      data: [],
-      page,
-      limit,
-      appliedFilters, // Agregar filtros aplicados aunque no haya resultados
-      appliedSort: { sort, order },
-      appliedSortLabel,
-    };
-  }
+  const appliedSortLabel =
+    `${sort}-${order.toUpperCase()}` === "name-ASC"
+      ? "a-z"
+      : `${sort}-${order.toUpperCase()}` === "name-DESC"
+      ? "z-a"
+      : `${sort} ${order.toUpperCase()}`;
 
   return {
-    totalItems: results.count, // Total de elementos en la base de datos
-    totalPages: Math.ceil(results.count / limit), // Total de páginas disponibles
-    data: results.rows, // Resultados de la página actual
+    totalItems: fullResults.length,
+    totalPages: Math.ceil(fullResults.length / limit),
+    data: paginatedResults,
     page,
-    limit, // Página actual
-    appliedFilters, // Agregar los filtros aplicados en la respuesta
+    limit,
+    appliedFilters,
     appliedSort: { sort, order },
     appliedSortLabel,
   };
@@ -238,7 +248,7 @@ const pokemonByNameApi = async (name) => {
 // -----------------------------------------------BBD POR NAME-------------------------------------------------------
 
 const pokemonByNameBBD = async (name) => {
-  const resultsBDD = await Pokemon.findOne({
+  const results = await Pokemon.findOne({
     where: { name },
     include: {
       model: Type,
@@ -248,8 +258,16 @@ const pokemonByNameBBD = async (name) => {
       },
     },
   });
-  console.log(resultsBDD);
-  return resultsBDD;
+  return {
+    totalItems: results.count, // Total de elementos en la base de datos
+    totalPages: Math.ceil(results.count / limit), // Total de páginas disponibles
+    data: results.rows, // Resultados de la página actual
+    page,
+    limit, // Página actual
+    appliedFilters, // Agregar los filtros aplicados en la respuesta
+    appliedSort: { sort, order },
+    appliedSortLabel,
+  };
 };
 
 //------------------------------------------------CONTROLLERS--------------------------------------------------------
@@ -408,4 +426,5 @@ module.exports = {
   typesAllApi,
   deletePokemon,
   cachePokemonsApi,
+  pokemonByNameBBD,
 };

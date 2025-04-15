@@ -96,8 +96,8 @@ function NavBar() {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box>
+      <AppBar position="static" sx={{ height: "65px" }}>
         <Toolbar>
           {/* MENU BURGER/NAVLINK - VERSION MOVILE */}
           <Box sx={{ display: { xs: "flex", md: "none" } }}>

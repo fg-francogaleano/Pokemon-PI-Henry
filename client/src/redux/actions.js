@@ -14,7 +14,7 @@ export const GET_TYPES = "GET_TYPES";
 const URL = "http://localhost:3001";
 
 export const getPokemons = (page, params) => {
-  // console.log(params);
+  console.log(params);
 
   return async function (dispatch) {
     dispatch(loading());
@@ -26,7 +26,7 @@ export const getPokemons = (page, params) => {
     await axios
       .get(`${URL}/pokemons?${queryString}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
 
         const data = res.data;
         // console.log(data);

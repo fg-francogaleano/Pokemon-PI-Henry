@@ -11,6 +11,8 @@ function Pagination() {
   const page = parseInt(searchParams.get("page") || "1", 10);
 
   const handleChange = (event, value) => {
+    console.log(value);
+
     event.preventDefault();
     updateUrl({ page: value });
     window.location.reload();

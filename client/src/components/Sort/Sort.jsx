@@ -43,6 +43,8 @@ function Sort() {
     if (option) {
       setSelectedOption(option);
       console.log("Opción seleccionada:", option.value);
+      console.log(option);
+
       updateUrl(option.value);
     }
     setMenuAnchor(null);

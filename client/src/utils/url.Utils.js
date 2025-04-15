@@ -22,12 +22,14 @@ export const useUpdateUrl = () => {
           Object.keys(value).length > 0) // No permitir objetos vacíos
       ) {
         if (Array.isArray(value)) {
+          // Cuando se filtra por types y source
           searchParams.delete(key);
           value.forEach((v) => searchParams.append(key, v));
         } else if (typeof value === "object") {
-          // Serializar objetos solo si tienen valores
+          // Cuando se filtra por stats
           searchParams.set(key, JSON.stringify(value));
         } else {
+          //Cuando se pagina y cuando se aplica ordenamiento
           searchParams.set(key, value);
         }
       } else {
@@ -42,7 +44,7 @@ export const useUpdateUrl = () => {
     }
 
     history.push(`${window.location.pathname}?${searchParams.toString()}`);
-    // window.location.reload();
+    window.location.reload();
   };
 
   const applyFilters = (filters) => {

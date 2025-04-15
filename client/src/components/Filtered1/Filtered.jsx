@@ -130,7 +130,7 @@ const Filtered = () => {
       stats: statRanges,
     });
 
-    // window.location.reload();
+    window.location.reload();
   };
 
   const [filtersReady, setFiltersReady] = useState(false);

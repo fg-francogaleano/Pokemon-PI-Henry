@@ -7,12 +7,13 @@ const {
   findTypes,
   deletePokemon,
   pokemonsAllBDD,
+  pokemonByNameBBD,
 } = require("../controllers/controllers");
 const qs = require("qs");
 
 const getPokemonsHandler = async (req, res) => {
   const {
-    name,
+    q,
     page = 1,
     limit = 20,
     type,
@@ -21,27 +22,28 @@ const getPokemonsHandler = async (req, res) => {
     order,
     stats,
   } = req.query;
-  console.log(req.query, "aacaaaa");
+  console.log(req.query);
 
   // Deserializar params en un objeto
   // const parsedParams = qs.parse(params, { ignoreQueryPrefix: true });
 
   try {
-    if (name) {
-      const pokemon = await findPokemonByName(name);
-      res.status(200).json(pokemon);
-    } else {
-      const allPokemons = await pokemonsAllBDD(
-        page,
-        limit,
-        type,
-        source,
-        sort,
-        order,
-        stats
-      );
-      res.status(200).json(allPokemons);
-    }
+    // if (q) {
+    //   const pokemon = await pokemonByNameBBD(q);
+    //   res.status(200).json(pokemon);
+    // } else {
+    const allPokemons = await pokemonsAllBDD(
+      q,
+      page,
+      limit,
+      type,
+      source,
+      sort,
+      order,
+      stats
+    );
+    res.status(200).json(allPokemons);
+    // }
   } catch (error) {
     res.status(404).json({
       error: error.message,
