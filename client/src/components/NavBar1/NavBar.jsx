@@ -98,8 +98,14 @@ function NavBar() {
   return (
     <Box>
       <AppBar position="static" sx={{ height: "65px" }}>
-        <Toolbar>
-          {/* MENU BURGER/NAVLINK - VERSION MOVILE */}
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {/* MENU BURGER - VERSION MÓVIL */}
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -112,25 +118,28 @@ function NavBar() {
               <MenuIcon />
             </IconButton>
           </Box>
+
+          {/* LOGO */}
           <Box sx={{ borderRadius: "50%" }}>
             <img src="/image1.png" alt="" width="65px" height="40px" />
           </Box>
 
-          <SearchBar />
-          <Box sx={{ flexGrow: 1 }} />
+          {/* CENTRO - SEARCH BAR */}
+          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+            <SearchBar />
+          </Box>
 
           {/* NAVLINK - VERSION WEB */}
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <Box>
-              {navItems.map((item) => (
-                <Link key={item} to={"/" + item.toLocaleLowerCase()}>
-                  <Button sx={{ color: "#fff" }}>{item}</Button>
-                </Link>
-              ))}
-            </Box>
+            {navItems.map((item) => (
+              <Link key={item} to={"/" + item.toLowerCase()}>
+                <Button sx={{ color: "#fff" }}>{item}</Button>
+              </Link>
+            ))}
           </Box>
         </Toolbar>
       </AppBar>
+
       {renderMobileMenu}
       {renderMenu}
     </Box>
