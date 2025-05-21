@@ -1,30 +1,30 @@
 .container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: url("https://www.teahub.io/photos/full/26-264105_4k-ultra-hd-pokemon.jpg");
-    background-repeat: no-repeat; 
-    background-position:center center; 
-    background-attachment:fixed;
-    background-size:cover;    
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../../assets/Fondo_landing.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
 }
 
-.container button{
-    border-radius: 100px;
-    padding: 8px;
-    margin-right: 20px;
-    border: 0;
-    outline: solid 1px black; 
-    background-color: black;
-    color: aliceblue;  
-    font-size: 20px;
-    letter-spacing: 4px;
+.container button {
+  border-radius: 100px;
+  padding: 8px;
+  margin-right: 20px;
+  border: 0;
+  outline: solid 1px black;
+  background-color: black;
+  color: aliceblue;
+  font-size: 20px;
+  letter-spacing: 4px;
 }
 
-.container button:hover{
-    background-color:  aliceblue; ;  
-    color: black;
-    outline: solid 1px black;
+.container button:hover {
+  background-color: aliceblue;
+  color: black;
+  outline: solid 1px black;
 }

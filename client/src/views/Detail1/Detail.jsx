@@ -24,7 +24,9 @@ const Container = styled(Paper)(({ theme }) => ({
   margin: theme.spacing(10),
   padding: theme.spacing(5),
   borderRadius: 5,
-  backgroundColor: "rgba(249, 245, 245, 0.59)",
+  backdropFilter: "blur(10px)",
+  WebkitBackdropFilter: "blur(10px)", // Para compatibilidad con Safari
+  backgroundColor: "rgba(255, 255, 255, 0.01)", // Fondo blanco semitransparente
   [theme.breakpoints.up("md")]: {
     maxWidth: "670px",
     margin: "16px auto",

@@ -23,6 +23,8 @@ import Grid2 from "@mui/material/Unstable_Grid2";
 import { useUpdateUrl } from "../../utils/url.Utils";
 
 const CustomAccordion = styled(Accordion)({
+  // Para compatibilidad con Safari
+  backgroundColor: "transparent", // Fondo blanco semitransparente
   boxShadow: "none",
   marginBottom: "1px",
   "&:before": {

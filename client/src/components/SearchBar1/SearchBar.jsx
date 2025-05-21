@@ -25,17 +25,17 @@ const SearchContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const Search = styled("div", {
+const Search = styled(Paper, {
   shouldForwardProp: (prop) => prop !== "isFocused",
-})(({ theme, isFocused, queryTerm }) => ({
+})(({ theme, isFocused }) => ({
   display: "flex",
   alignItems: "center",
   width: "100%",
   borderTopLeftRadius: "2px",
   borderTopRightRadius: "2px",
-  borderBottomLeftRadius: isFocused && queryTerm ? 0 : "2px",
-  borderBottomRightRadius: isFocused && queryTerm ? 0 : "2px",
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  borderBottomLeftRadius: isFocused ? 0 : "2px",
+  borderBottomRightRadius: isFocused ? 0 : "2px",
+  backgroundColor: alpha(theme.palette.common.white, 0.01),
   backdropFilter: "blur(10px)",
   WebkitBackdropFilter: "blur(10px)",
   paddingLeft: theme.spacing(2),
@@ -69,7 +69,7 @@ const CustomPaper = styled("div")(({ theme }) => ({
   borderTopRightRadius: 0,
   borderBottomLeftRadius: "5px",
   borderBottomRightRadius: "5px",
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.white, 0.06),
   backdropFilter: "blur(10px)", // <- difuminado del fondo
   WebkitBackdropFilter: "blur(10px)", // <- para Safari
 }));
@@ -147,7 +147,6 @@ function SearchBar() {
     <SearchContainer>
       <Search
         isFocused={isFocused}
-        queryTerm={queryTerm}
         onFocus={() => setIsFocused(true)}
         onBlur={(e) => {
           // Delay to allow click on suggestion before hiding

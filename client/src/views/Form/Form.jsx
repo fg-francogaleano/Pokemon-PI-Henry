@@ -10,22 +10,22 @@ import {
   Step,
   StepLabel,
   Button,
-  // FormControl,
-  // InputLabel,
   Slider,
   TextField,
   Typography,
-  // Select,
-  // MenuItem,
   Box,
   Grid,
   Stack,
   Snackbar,
-  // Alert,
+  IconButton,
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
+import HeightIcon from "@mui/icons-material/Height";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import validations from "./validations";
 import TypeIcons from "../../components/TypeIcons/TypeIcons";
+import { LiaRulerVerticalSolid } from "react-icons/lia";
+import { MdOutlineBalance } from "react-icons/md";
 
 function Form() {
   const dispatch = useDispatch();
@@ -35,8 +35,9 @@ function Form() {
 
   const { types } = useSelector((state) => state);
   const [activeStep, setActiveStep] = useState(0);
-  const steps = ["Basic Info", "Types", "Image"];
-  const [activeTypes, setActiveTypes] = useState([]); // Almacena los tipos seleccionados
+  const steps = ["Name", "Physical Stats", "Battle Stats", "Types", "Image"];
+  const [activeTypes, setActiveTypes] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const initialValues = {
     name: "",
@@ -45,8 +46,9 @@ function Form() {
     defense: 50,
     speed: 50,
     weight: 130,
-    height: 2.3,
-    image: "",
+    height: 2,
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBJunzBcMTcmeEg8SpLG62KaT1MJtWF00smA&s",
     type1: "",
     type2: "",
   };
@@ -57,17 +59,14 @@ function Form() {
   const handleSubmit = async (values) => {
     await axios
       .post("http://localhost:3001/pokemons", values)
-      .then((res) => alert(res.data))
-      .catch((err) => alert(err));
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
   };
-
-  const [open, setOpen] = useState(false);
 
   const handleTypeToggle = (values, type, setFieldValue) => {
     const index = activeTypes.indexOf(type.name);
 
     if (index !== -1) {
-      // Quitar el tipo si ya está seleccionado
       const newActiveTypes = [...activeTypes];
       newActiveTypes.splice(index, 1);
       setActiveTypes(newActiveTypes);
@@ -75,20 +74,14 @@ function Form() {
       if (values.type1 === type.name) setFieldValue("type1", "");
       if (values.type2 === type.name) setFieldValue("type2", "");
     } else {
-      // Verificar si ya hay dos tipos seleccionados
       if (values.type1 && values.type2) {
-        // Mostrar alerta si ya hay dos tipos seleccionados
         setOpen(true);
-
-        // Cerrar el Snackbar después de 2 segundos (opcional)
         setTimeout(() => {
           setOpen(false);
         }, 2000);
-
-        return; // Salir de la función para evitar agregar el tercer tipo
+        return;
       }
 
-      // Agregar el tipo si hay espacio disponible
       if (!values.type1) {
         setFieldValue("type1", type.name);
       } else if (!values.type2) {
@@ -120,207 +113,255 @@ function Form() {
         handleChange,
         handleBlur,
         setFieldValue,
+        submitForm,
       }) => (
-        <>
-          {/* {console.log(values)} */}
+        <Grid2
+          container
+          display="flex"
+          justifyContent="center"
+          // alignItems="center"
+          // height="100vh"
+          padding="10px"
+        >
           <Grid2
-            container
-            justifyContent="center"
-            alignItems="center"
-            height="100vh"
-            padding="10px"
+            borderRadius="3px"
+            width="400px"
+            height="540px"
+            sx={{
+              backgroundColor: "rgba(255, 255, 255, 0.01)",
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)",
+              padding: "20px",
+              boxShadow: 3,
+            }}
           >
-            <Grid2
-              borderRadius="3px"
-              width="400px"
-              sx={{
-                backgroundColor: "rgba(255, 255, 255, 0.35)",
-                padding: "20px",
-                border: "solid 1px black",
-              }}
+            <Stepper activeStep={activeStep} alternativeLabel>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+
+            <Box
+              component="form"
+              sx={{ height: "415px" }}
+              onSubmit={handleSubmit}
             >
-              <Stepper activeStep={activeStep}>
-                {steps.map((label) => (
-                  <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
+              {activeStep === 0 && (
+                <>
+                  <Typography component="h1">Choose a name</Typography>
+                  <TextField
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={values.name}
+                    autoComplete="off"
+                    label="Name"
+                    helperText={touched.name && errors.name}
+                    error={touched.name && errors.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    variant="standard"
+                    fullWidth
+                    margin="normal"
+                  />
+                </>
+              )}
 
-              <Box component="form" onSubmit={handleSubmit}>
-                {activeStep === 0 && (
-                  <>
-                    <Typography component="h1">Basic Info</Typography>
-                    <TextField
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={values.name}
-                      autoComplete="off"
-                      label="Name"
-                      helperText={touched.name && errors.name}
-                      error={touched.name && errors.name}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      variant="standard"
-                      fullWidth
-                      margin="normal"
-                    />
-                    {[
-                      "hp",
-                      "attack",
-                      "defense",
-                      "speed",
-                      "weight",
-                      "height",
-                    ].map((stat) => (
-                      <Box key={stat} mt={2}>
-                        <Typography gutterBottom>
-                          {stat.charAt(0).toUpperCase() + stat.slice(1)}
-                        </Typography>
-                        <Slider
-                          name={stat}
-                          value={values[stat]}
-                          onChange={handleChange}
-                          min={
-                            stat === "weight" ? 10 : stat === "height" ? 0.5 : 0
-                          }
-                          max={
-                            stat === "weight"
-                              ? 250
-                              : stat === "height"
-                              ? 4
-                              : 100
-                          }
-                          step={stat === "height" ? 0.01 : 1}
-                          valueLabelDisplay="on"
-                          valueLabelFormat={(value) =>
-                            stat === "weight"
-                              ? `${value.toFixed(1)} kg`
-                              : stat === "height"
-                              ? `${value.toFixed(2)} m`
-                              : value
-                          }
-                        />
-                      </Box>
-                    ))}
-                  </>
-                )}
+              {activeStep === 1 && (
+                <>
+                  <Typography component="h1">Set height and weight</Typography>
+                  {["height", "weight"].map((stat) => (
+                    <Box key={stat} mt={2}>
+                      <Typography gutterBottom>
+                        {stat === "height" ? (
+                          <LiaRulerVerticalSolid />
+                        ) : (
+                          <MdOutlineBalance />
+                        )}{" "}
+                        {stat.charAt(0).toUpperCase() + stat.slice(1)}
+                      </Typography>
+                      <Slider
+                        name={stat}
+                        value={values[stat]}
+                        onChange={handleChange}
+                        min={stat === "weight" ? 10 : 0.5}
+                        max={stat === "weight" ? 250 : 4}
+                        step={stat === "height" ? 0.01 : 1}
+                        valueLabelDisplay="on"
+                        valueLabelFormat={(value) =>
+                          stat === "weight"
+                            ? `${value.toFixed(1)} kg`
+                            : `${value.toFixed(2)} m`
+                        }
+                      />
+                    </Box>
+                  ))}
+                </>
+              )}
 
-                {activeStep === 1 && (
-                  <>
-                    <Typography component="h1">Types</Typography>
-                    <Grid container spacing={2}>
-                      {types?.map((type, index) => (
-                        <Grid
-                          item
-                          xs={6} // Cada ícono ocupará la mitad del ancho del contenedor (dos columnas en pantallas pequeñas o más grandes)
-                          key={index}
+              {activeStep === 2 && (
+                <>
+                  <Typography component="h1">Adjust battle stats</Typography>
+                  {["hp", "attack", "defense", "speed"].map((stat) => (
+                    <Box key={stat} mt={2}>
+                      <Typography gutterBottom>
+                        {stat.charAt(0).toUpperCase() + stat.slice(1)}
+                      </Typography>
+                      <Slider
+                        name={stat}
+                        value={values[stat]}
+                        onChange={handleChange}
+                        min={0}
+                        max={100}
+                        step={1}
+                        valueLabelDisplay="on"
+                      />
+                    </Box>
+                  ))}
+                </>
+              )}
+
+              {activeStep === 3 && (
+                <>
+                  <Typography component="h1">Choose Types</Typography>
+                  <Grid container spacing={2}>
+                    {types?.map((type, index) => (
+                      <Grid
+                        item
+                        xs={3} // 12 / 3 = 4 columnas
+                        key={index}
+                        sx={{ display: "flex", justifyContent: "center" }}
+                      >
+                        <Box
                           sx={{
                             display: "flex",
                             justifyContent: "center",
+                            alignItems: "center",
+                            cursor: "pointer",
                           }}
+                          onClick={() =>
+                            handleTypeToggle(values, type, setFieldValue)
+                          }
                         >
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              cursor: "pointer",
-                            }}
-                            values={values.type1}
-                            name={type.name}
-                            onClick={() => {
-                              handleTypeToggle(values, type, setFieldValue);
-                            }}
-                          >
-                            <Box>
-                              <TypeIcons
-                                svg={type.icon_svg}
-                                isActive={activeTypes.includes(type.name)}
-                                typeIcons={type.name}
-                              />
-                              {/* {console.log(addClass[index])} */}
-
-                              <Typography>
-                                {type.name.replace(/^\w/, (c) =>
-                                  c.toUpperCase()
-                                )}
-                              </Typography>
-                            </Box>
+                          <Box>
+                            <TypeIcons
+                              svg={type.icon_svg}
+                              isActive={activeTypes.includes(type.name)}
+                              typeIcons={type.name}
+                            />
+                            <Typography>
+                              {type.name.replace(/^\w/, (c) => c.toUpperCase())}
+                            </Typography>
                           </Box>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </>
-                )}
+                        </Box>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </>
+              )}
 
-                {activeStep === 2 && (
-                  <>
-                    <Typography component="h1">Upload Image</Typography>
-                    <TextField
-                      type="text"
-                      id="image"
-                      name="image"
-                      value={values.image}
-                      autoComplete="off"
-                      label="Image URL"
-                      helperText={touched.image && errors.image}
-                      error={touched.image && errors.image}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      variant="standard"
-                      fullWidth
-                      margin="normal"
+              {activeStep === 4 && (
+                <>
+                  <Typography component="h1">Upload an image</Typography>
+                  <TextField
+                    type="text"
+                    id="image"
+                    name="image"
+                    value={values.image}
+                    autoComplete="off"
+                    label="Image URL"
+                    helperText={touched.image && errors.image}
+                    error={touched.image && errors.image}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    variant="standard"
+                    fullWidth
+                    margin="normal"
+                  />
+                  <Button component="label" variant="outlined" fullWidth>
+                    Upload Image
+                    <input
+                      type="file"
+                      accept="image/*"
+                      hidden
+                      onChange={(event) => {
+                        const file = event.currentTarget.files[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setFieldValue("image", reader.result);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
                     />
-                  </>
-                )}
-
-                {/* BOTTONS */}
-                <Box display="flex" justifyContent="space-between" mt={3}>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    variant="outlined"
-                  >
-                    Back
                   </Button>
-
-                  {activeStep < steps.length - 1 ? (
-                    <Button
-                      onClick={handleNext}
-                      variant="contained"
-                      color="primary"
-                      disabled={Boolean(
-                        activeStep === 0 &&
-                          (values.name === "" || Boolean(errors.name))
-                      )}
-                    >
-                      Next
-                    </Button>
-                  ) : (
-                    // SUBMIT
-                    <Button type="submit" variant="contained" color="primary">
-                      Submit
-                    </Button>
+                  {values.image && (
+                    <Box mt={2} display="flex" justifyContent="center">
+                      <img
+                        src={values.image}
+                        alt="Preview"
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "200px",
+                          borderRadius: "8px",
+                          border: "1px solid #ccc",
+                        }}
+                      />
+                    </Box>
                   )}
-                </Box>
+                </>
+              )}
 
-                <Stack spacing={2} sx={{ width: "100%" }}>
-                  <Snackbar open={open} autoHideDuration={6000}>
-                    <Alert
-                      variant="outlined"
-                      severity="info"
-                      sx={{ width: "100%" }}
-                    >
-                      No mas de dos tipes
-                    </Alert>
-                  </Snackbar>
-                </Stack>
+              <Stack spacing={2} sx={{ width: "100%" }}>
+                <Snackbar open={open} autoHideDuration={6000}>
+                  <Alert
+                    variant="outlined"
+                    severity="info"
+                    sx={{ width: "100%" }}
+                  >
+                    No more than two types
+                  </Alert>
+                </Snackbar>
+              </Stack>
+
+              <Box display="flex" justifyContent="space-between" mt={3}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  variant="outlined"
+                >
+                  Back
+                </Button>
+                {activeStep < steps.length - 1 ? (
+                  <Button
+                    type="button"
+                    onClick={handleNext}
+                    variant="contained"
+                    color="primary"
+                    disabled={
+                      activeStep === 0 &&
+                      (values.name === "" || Boolean(errors.name))
+                    }
+                  >
+                    Next
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={submitForm}
+                  >
+                    Submit
+                  </Button>
+                )}
               </Box>
-            </Grid2>
+            </Box>
           </Grid2>
-        </>
+        </Grid2>
       )}
     </Formik>
   );

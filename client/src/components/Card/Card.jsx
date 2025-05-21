@@ -15,9 +15,11 @@ function PokemonCard({ id, name, image, types }) {
         minWidth: 250, // Ancho máximo
         margin: "auto",
         boxShadow: 3,
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+        backgroundColor: "rgba(255, 255, 255, 0.01)",
       }}
     >
-      {/* <Link to={`/detail/${id}`} style={{ textDecoration: "none" }}> */}
       <CardContent>
         {/* ID */}
         <Typography variant="h6" color="text.secondary" align="center">
@@ -41,7 +43,16 @@ function PokemonCard({ id, name, image, types }) {
         height="200"
         image={image}
         alt={name}
-        sx={{ objectFit: "contain" }}
+        sx={{
+          objectFit: "contain",
+          transition: "transform 0.4s ease, z-index 0.4s ease",
+          zIndex: 1,
+          position: "relative",
+          "&:hover": {
+            transform: "scale(1.2) translateY(-20px)",
+            zIndex: 10,
+          },
+        }}
       />
 
       {/* Types */}

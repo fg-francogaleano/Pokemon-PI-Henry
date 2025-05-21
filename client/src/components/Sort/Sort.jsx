@@ -1,8 +1,15 @@
-import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUpdateUrl } from "../../utils/url.Utils";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 // const sortOptions = [
 //   { label: "A - Z", icon: "bi bi-sort-alpha-down", value: "sort-alpha-down" },
@@ -14,17 +21,24 @@ import { useUpdateUrl } from "../../utils/url.Utils";
 //     value: "sort-numeric-down",
 //   },
 // ];
+
 const sortOptions = [
-  { label: "A - Z", value: { sort: "name", order: "ASC" } },
-  { label: "Z - A", value: { sort: "name", order: "DESC" } },
+  { label: "A-Z", value: { sort: "name", order: "ASC" } },
+  { label: "Z-A", value: { sort: "name", order: "DESC" } },
   { label: "ID ASC", value: { sort: "id", order: "ASC" } },
   { label: "ID DESC", value: { sort: "id", order: "DESC" } },
 ];
 
 function Sort() {
   const { updateUrl } = useUpdateUrl();
-  // const { appliedSort } = useSelector((state) => state);
-  const [selectedOption, setSelectedOption] = useState(sortOptions[0]); // Estado para la opción seleccionada
+  const { appliedSortLabel } = useSelector((state) => state);
+  const [selectedOption, setSelectedOption] = useState(sortOptions[2].label);
+
+  useEffect(() => {
+    if (appliedSortLabel) {
+      setSelectedOption(appliedSortLabel);
+    }
+  }, [appliedSortLabel]);
   const [menuAnchor, setMenuAnchor] = useState(null);
 
   const handleMenuOpen = (event) => {
@@ -39,9 +53,10 @@ function Sort() {
   //     }
   //     setMenuAnchor(null);
   //   };
+
   const handleMenuClose = (option) => {
     if (option) {
-      setSelectedOption(option);
+      // setSelectedOption(option);
       console.log("Opción seleccionada:", option.value);
       console.log(option);
 
@@ -50,34 +65,45 @@ function Sort() {
     setMenuAnchor(null);
   };
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Button endIcon={<ExpandMoreIcon />} onClick={handleMenuOpen}>
-        <Typography component="span" sx={{ color: "primary.main" }}>
-          Sort:
-        </Typography>
-        <Typography component="span" sx={{ color: "black", margin: "0 10px" }}>
-          {selectedOption.label}
-        </Typography>
-        {/* <i className={selectedOption.icon}></i> */}
-      </Button>
-
-      <Menu
-        anchorEl={menuAnchor}
-        open={Boolean(menuAnchor)}
-        onClose={() => handleMenuClose()}
-      >
-        {sortOptions
-          .filter((option) => option.label !== selectedOption.label) // Oculta la opción seleccionada
-          .map((option, index) => (
-            <MenuItem
-              key={`${option.label}-${index}`}
-              onClick={() => handleMenuClose(option)}
+    <>
+      {appliedSortLabel ? (
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Button endIcon={<ExpandMoreIcon />} onClick={handleMenuOpen}>
+            <Typography component="span" sx={{ color: "primary.main" }}>
+              Sort:
+            </Typography>
+            <Typography
+              component="span"
+              sx={{ color: "black", margin: "0 10px" }}
             >
-              {option.label}
-            </MenuItem>
-          ))}
-      </Menu>
-    </Box>
+              {selectedOption.label || selectedOption}
+            </Typography>
+            {/* <i className={selectedOption.icon}></i> */}
+          </Button>
+
+          <Menu
+            anchorEl={menuAnchor}
+            open={Boolean(menuAnchor)}
+            onClose={() => handleMenuClose()}
+          >
+            {sortOptions
+              .filter((option) => option.label !== selectedOption.label) // Oculta la opción seleccionada
+              .map((option, index) => (
+                <MenuItem
+                  key={`${option.label}-${index}`}
+                  onClick={() => handleMenuClose(option)}
+                >
+                  {option.label}
+                </MenuItem>
+              ))}
+          </Menu>
+        </Box>
+      ) : (
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Skeleton variant="rounded" width={160} height={30} />
+        </Box>
+      )}
+    </>
   );
 }
 

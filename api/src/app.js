@@ -18,7 +18,7 @@ server.use(cookieParser());
 server.use(morgan("dev"));
 server.use(
   cors({
-    origin: `${URL_FRONTEND}`, // Cambia esto al origen de tu frontend
+    origin: `${URL_FRONTEND}`,
     credentials: true,
   })
 );

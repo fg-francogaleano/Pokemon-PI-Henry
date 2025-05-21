@@ -95,9 +95,9 @@ function Cards() {
       ) : (
         <Box>
           {/* PAGINATION */}
-          <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+          {/* <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
             <Pagination />
-          </Box>
+          </Box> */}
 
           {/* MAP OF CARD */}
           <Box
