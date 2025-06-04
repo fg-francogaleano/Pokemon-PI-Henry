@@ -26,6 +26,7 @@ import validations from "./validations";
 import TypeIcons from "../../components/TypeIcons/TypeIcons";
 import { LiaRulerVerticalSolid } from "react-icons/lia";
 import { MdOutlineBalance } from "react-icons/md";
+import Swal from "sweetalert2";
 
 function Form() {
   const dispatch = useDispatch();
@@ -57,10 +58,26 @@ function Form() {
   const handleBack = () => setActiveStep((prev) => prev - 1);
 
   const handleSubmit = async (values) => {
-    await axios
-      .post("http://localhost:3001/pokemons", values)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
+    try {
+      const res = await axios.post("http://localhost:3001/pokemons", values);
+
+      // Muestra la alerta
+      Swal.fire({
+        icon: "success",
+        title: "Pokémon creado",
+        text: "Tu Pokémon fue registrado correctamente.",
+        confirmButtonColor: "#3085d6",
+      });
+    } catch (err) {
+      console.error(err);
+
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un problema al registrar el Pokémon.",
+        confirmButtonColor: "#d33",
+      });
+    }
   };
 
   const handleTypeToggle = (values, type, setFieldValue) => {
@@ -315,18 +332,6 @@ function Form() {
                 </>
               )}
 
-              <Stack spacing={2} sx={{ width: "100%" }}>
-                <Snackbar open={open} autoHideDuration={6000}>
-                  <Alert
-                    variant="outlined"
-                    severity="info"
-                    sx={{ width: "100%" }}
-                  >
-                    No more than two types
-                  </Alert>
-                </Snackbar>
-              </Stack>
-
               <Box display="flex" justifyContent="space-between" mt={3}>
                 <Button
                   disabled={activeStep === 0}
@@ -359,6 +364,18 @@ function Form() {
                   </Button>
                 )}
               </Box>
+
+              <Stack spacing={2} sx={{ width: "100%" }}>
+                <Snackbar open={open} autoHideDuration={6000}>
+                  <Alert
+                    variant="outlined"
+                    severity="info"
+                    sx={{ width: "100%" }}
+                  >
+                    No more than two types
+                  </Alert>
+                </Snackbar>
+              </Stack>
             </Box>
           </Grid2>
         </Grid2>

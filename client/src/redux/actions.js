@@ -11,7 +11,11 @@ export const READY = "READY";
 export const LOADING = "LOADING";
 export const GET_TYPES = "GET_TYPES";
 
-const URL = "http://localhost:3001";
+// const URL = "http://localhost:3001";
+
+const URL = process.env.REACT_APP_URL_BACKEND;
+
+console.log(URL);
 
 export const getPokemons = (page, params) => {
   console.log(params);
