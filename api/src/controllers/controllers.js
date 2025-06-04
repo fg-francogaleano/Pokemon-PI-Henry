@@ -5,7 +5,7 @@ const { Op } = require("sequelize");
 const pLimit = require("p-limit");
 
 // --------------------------------------------POKEMONS API--------------------------------------------------------
-const axios = require("axios");
+
 const pLimit = require("p-limit");
 
 const pokemonsAllApi = async () => {
