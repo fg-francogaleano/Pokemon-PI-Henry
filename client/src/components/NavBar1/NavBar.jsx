@@ -88,9 +88,12 @@ function NavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      {" "}
       {navItems.map((item) => (
-        <MenuItem key={item}>{item}</MenuItem>
+        <MenuItem key={item} onClick={handleMobileMenuClose}>
+          <Link key={item} to={"/" + item.toLowerCase()}>
+            {item}
+          </Link>
+        </MenuItem>
       ))}
     </Menu>
   );
