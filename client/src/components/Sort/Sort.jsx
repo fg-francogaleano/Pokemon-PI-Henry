@@ -66,43 +66,37 @@ function Sort() {
   };
   return (
     <>
-      {appliedSortLabel ? (
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Button endIcon={<ExpandMoreIcon />} onClick={handleMenuOpen}>
-            <Typography component="span" sx={{ color: "primary.main" }}>
-              Sort:
-            </Typography>
-            <Typography
-              component="span"
-              sx={{ color: "black", margin: "0 10px" }}
-            >
-              {selectedOption.label || selectedOption}
-            </Typography>
-            {/* <i className={selectedOption.icon}></i> */}
-          </Button>
-
-          <Menu
-            anchorEl={menuAnchor}
-            open={Boolean(menuAnchor)}
-            onClose={() => handleMenuClose()}
+      <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Button endIcon={<ExpandMoreIcon />} onClick={handleMenuOpen}>
+          <Typography component="span" sx={{ color: "primary.main" }}>
+            Sort:
+          </Typography>
+          <Typography
+            component="span"
+            sx={{ color: "black", margin: "0 10px" }}
           >
-            {sortOptions
-              .filter((option) => option.label !== selectedOption.label) // Oculta la opción seleccionada
-              .map((option, index) => (
-                <MenuItem
-                  key={`${option.label}-${index}`}
-                  onClick={() => handleMenuClose(option)}
-                >
-                  {option.label}
-                </MenuItem>
-              ))}
-          </Menu>
-        </Box>
-      ) : (
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Skeleton variant="rounded" width={160} height={30} />
-        </Box>
-      )}
+            {selectedOption.label || selectedOption}
+          </Typography>
+          {/* <i className={selectedOption.icon}></i> */}
+        </Button>
+
+        <Menu
+          anchorEl={menuAnchor}
+          open={Boolean(menuAnchor)}
+          onClose={() => handleMenuClose()}
+        >
+          {sortOptions
+            .filter((option) => option.label !== selectedOption.label) // Oculta la opción seleccionada
+            .map((option, index) => (
+              <MenuItem
+                key={`${option.label}-${index}`}
+                onClick={() => handleMenuClose(option)}
+              >
+                {option.label}
+              </MenuItem>
+            ))}
+        </Menu>
+      </Box>
     </>
   );
 }

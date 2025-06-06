@@ -21,12 +21,11 @@ export const getPokemons = (page, params) => {
   console.log(params);
 
   return async function (dispatch) {
-    dispatch(loading());
     // console.log(params);
 
     const queryString = qs.stringify(params, { arrayFormat: "brackets" });
     // console.log(queryString);
-
+    dispatch(loading());
     await axios
       .get(`${URL}/pokemons?${queryString}`)
       .then((res) => {

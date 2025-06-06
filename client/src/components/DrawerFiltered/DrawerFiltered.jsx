@@ -23,25 +23,53 @@ function DrawerFiltered() {
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-around",
-          padding: "10px",
-        }}
-      >
-        {appliedSortLabel ? (
+      {appliedSortLabel ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+            padding: "10px",
+          }}
+        >
           <Button
+            size="small"
             startIcon={<SlidingIcons />}
             onClick={() => toggleDrawer(true)}
           >
             Filters
           </Button>
-        ) : (
-          <Skeleton variant="rounded" width={160} height={30} />
-        )}
-        <Sort />
-      </Box>
+
+          <Sort />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+            padding: "10px",
+          }}
+        >
+          <Skeleton
+            variant="rounded"
+            width={90}
+            height={40}
+            sx={{
+              borderRadius: "100px",
+              padding: "4px 5px",
+            }}
+          />
+
+          <Skeleton
+            variant="rounded"
+            width={160}
+            height={40}
+            sx={{
+              borderRadius: "100px",
+              padding: "4px 5px",
+            }}
+          />
+        </Box>
+      )}
 
       <Drawer
         anchor="left"

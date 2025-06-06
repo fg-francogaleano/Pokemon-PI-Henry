@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getPokemons } from "../../redux/actions";
+import { getPokemons, loading } from "../../redux/actions";
 import Card from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
 import { Box, Skeleton } from "@mui/material";
@@ -9,7 +9,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function Cards() {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   const searchParams = new URLSearchParams(window.location.search);
 
@@ -42,31 +42,33 @@ function Cards() {
   useEffect(() => {
     const paramsUrl = getParamsAsObject();
 
-    setLoading(true);
+    dispatch(loading());
 
     setTimeout(() => {
       dispatch(getPokemons(page, paramsUrl));
-      setLoading(false);
+      // setLoading(false);
     }, 1000);
   }, [dispatch, page]);
 
-  const { pokemons, message } = useSelector((state) => state);
+  const { pokemons, message, display } = useSelector((state) => state);
   const skeletonCount = 8;
-  // console.log(pokemons);
+  console.log(display);
+
+  console.log(pokemons);
 
   return (
     <>
       {/* SKELETON */}
-      {loading && pokemons?.length === 0 ? (
+      {display ? (
         <Box
           sx={{
             display: "flex",
             justifyContent: "center",
             flexDirection: "row",
             flexWrap: "wrap",
-            padding: "20px 55px",
+            padding: "20px ",
             gap: "10px",
-            marginTop: "45px",
+            marginTop: "0px",
           }}
         >
           {Array.from({ length: skeletonCount }).map((_, index) => (
