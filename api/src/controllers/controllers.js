@@ -2,23 +2,16 @@ const { Pokemon, Type, PokemonTypes } = require("../db");
 const axios = require("axios");
 const { iconsMap } = require("../util/util");
 const { Op } = require("sequelize");
-const pLimit = require("p-limit");
 
 // --------------------------------------------POKEMONS API--------------------------------------------------------
-
-const pLimit = require("p-limit");
-
 const pokemonsAllApi = async () => {
   const pokeapi = await axios.get(
-    "https://pokeapi.co/api/v2/pokemon?offset=0&limit=500"
+    "https://pokeapi.co/api/v2/pokemon?offset=0&limit=200"
   );
-
   const urls = pokeapi.data.results.map((e) => e.url);
 
-  const limit = pLimit(10); // 10 peticiones a la vez
-
   const detalles = await Promise.all(
-    urls.map((url) => limit(() => axios.get(url).then((res) => res.data)))
+    urls.map((url) => axios.get(url).then((res) => res.data))
   );
 
   const data = detalles.map((detalle) => ({
@@ -34,7 +27,6 @@ const pokemonsAllApi = async () => {
     types: detalle.types.map((e) => e.type.name),
     isUserCreated: false,
   }));
-
   return data;
 };
 
