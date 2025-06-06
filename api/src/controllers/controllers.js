@@ -6,7 +6,7 @@ const { Op } = require("sequelize");
 // --------------------------------------------POKEMONS API--------------------------------------------------------
 const pokemonsAllApi = async () => {
   const pokeapi = await axios.get(
-    "https://pokeapi.co/api/v2/pokemon?offset=0&limit=200"
+    "https://pokeapi.co/api/v2/pokemon?offset=0&limit=40"
   );
   const urls = pokeapi.data.results.map((e) => e.url);
 
