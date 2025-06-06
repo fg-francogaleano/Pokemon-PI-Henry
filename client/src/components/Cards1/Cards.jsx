@@ -66,7 +66,7 @@ function Cards() {
             justifyContent: "center",
             flexDirection: "row",
             flexWrap: "wrap",
-            padding: "20px ",
+            padding: "20px 55px",
             gap: "10px",
             marginTop: "0px",
           }}
@@ -96,11 +96,6 @@ function Cards() {
         </Box>
       ) : (
         <Box>
-          {/* PAGINATION */}
-          {/* <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-            <Pagination />
-          </Box> */}
-
           {/* MAP OF CARD */}
           <Box
             sx={{
