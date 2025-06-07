@@ -13,6 +13,8 @@ import {
   Tooltip,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { styled } from "@mui/system";
 import Progress from "../../components/Progress1/Progress";
 import Count from "../../components/Count/Count";
@@ -21,7 +23,7 @@ import { LiaRulerVerticalSolid } from "react-icons/lia";
 import { MdOutlineBalance } from "react-icons/md";
 
 const Container = styled(Paper)(({ theme }) => ({
-  margin: theme.spacing(10),
+  // margin: theme.spacing(10),
   padding: theme.spacing(5),
   borderRadius: 5,
   backdropFilter: "blur(10px)",
@@ -75,20 +77,48 @@ const Detail = () => {
       ) : (
         <>
           {/* TITLE POKEDEX/ BOTTON CLOSE */}
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="h4" margin={"auto"} padding={"10px"}>
+          <Box display="flex" justifyContent="space-around" alignItems="center">
+            <Typography
+              variant="h4"
+              margin="auto"
+              padding="10px"
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "none",
+                  md: "block",
+                },
+              }}
+            >
               POKEDEX #{pokemonDetail.id}
             </Typography>
-            <IconButton onClick={handlerBack}>
+            <IconButton
+              onClick={handlerBack}
+              sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+            >
               <CloseIcon />
+            </IconButton>
+            <IconButton
+              onClick={handlerBack}
+              sx={{
+                position: "absolute",
+                left: 16,
+                display: { xs: "block", md: "none" },
+              }}
+            >
+              <i className="bi bi-arrow-left"></i>
             </IconButton>
           </Box>
 
-          <Divider />
+          <Divider
+            sx={{
+              display: {
+                xs: "none",
+                sm: "none",
+                md: "block",
+              },
+            }}
+          />
 
           <Grid container spacing={0}>
             {/* IZQUIERDA */}
