@@ -123,8 +123,8 @@ function NavBar() {
           </Box>
 
           {/* LOGO */}
-          <Box sx={{ borderRadius: "50%" }}>
-            <img src="/image1.png" alt="" width="65px" height="40px" />
+          <Box sx={{ marginRight: "10px" }}>
+            <img src="./icon.png" alt="" width="35px" height="35px" />
           </Box>
 
           {/* CENTRO - SEARCH BAR */}
