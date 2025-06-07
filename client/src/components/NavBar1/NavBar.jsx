@@ -18,23 +18,11 @@ import SearchBar from "../SearchBar1/SearchBar";
 
 function NavBar() {
   const navItems = ["Home", "Create"];
-
-  // const [mobileOpen, setMobileOpen] = React.useState(false);
-  // console.log(mobileOpen);
-
-  // const handleDrawerToggle = () => {
-  //   setMobileOpen((prevState) => !prevState);
-  // };
-
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  // const handleProfileMenuOpen = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -50,6 +38,7 @@ function NavBar() {
   };
 
   const menuId = "primary-search-account-menu";
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -104,7 +93,7 @@ function NavBar() {
         <Toolbar
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "space-around",
             alignItems: "center",
           }}
         >
@@ -123,7 +112,7 @@ function NavBar() {
           </Box>
 
           {/* LOGO */}
-          <Box sx={{ marginRight: "10px" }}>
+          <Box sx={{ marginRight: "20px" }}>
             <img src="./icon.png" alt="" width="35px" height="35px" />
           </Box>
 
