@@ -15,6 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import SearchBar from "../SearchBar1/SearchBar";
+import Image from "../../assets/icon.png";
 
 function NavBar() {
   const navItems = ["Home", "Create"];
@@ -113,7 +114,7 @@ function NavBar() {
 
           {/* LOGO */}
           <Box sx={{ marginRight: "20px" }}>
-            <img src="./icon.png" alt="" width="35px" height="35px" />
+            <img src={Image} alt="" width="35px" height="35px" />
           </Box>
 
           {/* CENTRO - SEARCH BAR */}
