@@ -56,10 +56,11 @@ function Form() {
 
   const handleNext = () => setActiveStep((prev) => prev + 1);
   const handleBack = () => setActiveStep((prev) => prev - 1);
+  const URL = process.env.REACT_APP_URL_BACKEND;
 
   const handleSubmit = async (values) => {
     try {
-      const res = await axios.post("http://localhost:3001/pokemons", values);
+      const res = await axios.post(`${URL}`, values);
 
       // Muestra la alerta
       Swal.fire({
