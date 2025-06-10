@@ -131,7 +131,7 @@ function Form() {
       }) => (
         <Box
           sx={{
-            minHeight: "93vh",
+            minHeight: "90vh",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
