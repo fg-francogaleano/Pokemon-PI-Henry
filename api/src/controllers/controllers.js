@@ -333,7 +333,7 @@ const createPokemon = async (
   const arrIdTypes = await idTypes(types);
 
   await newPokemon.addTypes(arrIdTypes);
-  return "Pokemon creado correctamente";
+  return newPokemon;
 };
 
 const findTypes = async () => {
