@@ -147,7 +147,7 @@ function Form() {
                 backdropFilter: "blur(10px)",
                 WebkitBackdropFilter: "blur(10px)",
                 padding: "20px",
-                width: "100%",
+                width: { xs: "100%", sm: "auto", md: "auto" },
               }}
             >
               {/* Stepper centrado */}
@@ -200,6 +200,7 @@ function Form() {
                     <Typography component="h1">
                       Set height and weight
                     </Typography>
+
                     {["height", "weight"].map((stat) => (
                       <Box key={stat} mt={2}>
                         <Typography gutterBottom>
@@ -207,7 +208,7 @@ function Form() {
                             <LiaRulerVerticalSolid />
                           ) : (
                             <MdOutlineBalance />
-                          )}{" "}
+                          )}
                           {stat.charAt(0).toUpperCase() + stat.slice(1)}
                         </Typography>
                         <Slider

@@ -325,8 +325,8 @@ const createPokemon = async (
     attack,
     defense,
     speed,
-    weight,
-    height,
+    weight: weight * 10,
+    height: height * 10,
     image,
   });
 
