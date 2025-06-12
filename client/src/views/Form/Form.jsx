@@ -169,7 +169,7 @@ function Form() {
               <Box
                 sx={{
                   minHeight: "50vh",
-                  width: "100%",
+                  // width: "100%",
                   display: "grid",
                   placeItems: "center",
                 }}
@@ -253,15 +253,25 @@ function Form() {
                 )}
 
                 {activeStep === 3 && (
-                  <Box sx={{ width: "100%" }}>
+                  <Box
+                    sx={{
+                      width: { xs: "100%", sm: "auto" },
+                      maxWidth: "350px",
+                      mx: "auto", // margin horizontal auto → centra horizontalmente
+                    }}
+                  >
                     <Typography component="h1">Choose Types</Typography>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={1}>
                       {types?.map((type, index) => (
                         <Grid
                           item
                           xs={3}
                           key={index}
-                          sx={{ display: "flex", justifyContent: "center" }}
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            border: "red solid 1px ",
+                          }}
                         >
                           <Box
                             sx={{
