@@ -17,6 +17,8 @@ import {
   Grid,
   Stack,
   Snackbar,
+  CircularProgress,
+  Divider, // Importa CircularProgress para el estado de carga
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { LiaRulerVerticalSolid } from "react-icons/lia";
@@ -29,6 +31,7 @@ import { useHistory } from "react-router-dom";
 function Form() {
   const history = useHistory();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getTypes());
   }, [dispatch]);
@@ -38,6 +41,7 @@ function Form() {
   const steps = ["Name", "Physical Stats", "Battle Stats", "Types", "Image"];
   const [activeTypes, setActiveTypes] = useState([]);
   const [open, setOpen] = useState(false);
+  const [loading, setloading] = useState(false);
 
   const initialValues = {
     name: "",
@@ -48,7 +52,7 @@ function Form() {
     weight: 130,
     height: 2,
     image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBJunzBcMTcmeEg8SpLG62KaT1MJtWF00smA&s",
+      "https://res.cloudinary.com/dexm7t5ty/image/upload/v1750111904/pokemon/yagluscioh1heusc0o0j.png",
     type1: "",
     type2: "",
   };
@@ -60,6 +64,8 @@ function Form() {
 
   const handleSubmit = async (values) => {
     try {
+      // Si la imagen fue subida y tenemos la URL de Cloudinary, `values.image` ya contendrá esa URL.
+      // Si no se subió una imagen personalizada, `values.image` tendrá la URL por defecto o estará vacía.
       const res = await axios.post(`${URL}/pokemons`, values);
       const newPokemonId = res.data.id;
 
@@ -109,6 +115,49 @@ function Form() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  const handleUpload = async (event, setFieldValue) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setloading(true);
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const imageUrl = response.data.url;
+
+      setFieldValue("image", imageUrl);
+
+      Swal.fire({
+        icon: "success",
+        title: "Imagen subida",
+        text: "La imagen se subió correctamente a Cloudinary.",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      console.error("Error al subir la imagen:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al subir",
+        text: "Hubo un problema al subir la imagen.",
+      });
+      // Opcional: podrías restablecer la imagen a la por defecto si hubo un error
+      // setFieldValue("image", initialValues.image);
+    } finally {
+      setloading(false);
+    }
+  };
   return (
     <Formik
       initialValues={initialValues}
@@ -150,7 +199,7 @@ function Form() {
                 width: { xs: "100%", sm: "auto", md: "auto" },
               }}
             >
-              {/* Stepper centrado */}
+              {/* STEPEER */}
               <Box display="flex" justifyContent="center">
                 <Stepper
                   activeStep={activeStep}
@@ -165,11 +214,10 @@ function Form() {
                 </Stepper>
               </Box>
 
-              {/* Contenido del paso actual */}
               <Box
                 sx={{
                   minHeight: "50vh",
-                  // width: "100%",
+                  width: "100%",
                   display: "grid",
                   placeItems: "center",
                 }}
@@ -257,7 +305,7 @@ function Form() {
                     sx={{
                       width: { xs: "100%", sm: "auto" },
                       maxWidth: "350px",
-                      mx: "auto", // margin horizontal auto → centra horizontalmente
+                      mx: "auto",
                     }}
                   >
                     <Typography component="h1">Choose Types</Typography>
@@ -270,7 +318,6 @@ function Form() {
                           sx={{
                             display: "flex",
                             justifyContent: "center",
-                            border: "red solid 1px ",
                           }}
                         >
                           <Box
@@ -306,6 +353,7 @@ function Form() {
                 {activeStep === 4 && (
                   <Box sx={{ width: "100%" }}>
                     <Typography component="h1">Upload an image</Typography>
+                    {/* IMAGE URL */}
                     <TextField
                       type="text"
                       id="image"
@@ -321,42 +369,62 @@ function Form() {
                       fullWidth
                       margin="normal"
                     />
-                    <Button component="label" variant="outlined" fullWidth>
-                      Upload Image
+                    <Divider textAlign="center">or</Divider>
+                    {/* BUTTON TO SELECT AND UPLOAD IMAGE */}
+                    <Button
+                      component="label"
+                      variant="outlined"
+                      fullWidth
+                      sx={{ mt: 2 }}
+                    >
+                      {loading ? "Uploading..." : "Select and Upload Image"}
                       <input
                         type="file"
                         accept="image/*"
                         hidden
-                        onChange={(event) => {
-                          const file = event.currentTarget.files[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                              setFieldValue("image", reader.result);
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
+                        onChange={(event) => handleUpload(event, setFieldValue)}
                       />
-                    </Button>
-                    {values.image && (
-                      <Box mt={2} display="flex" justifyContent="center">
-                        <img
-                          src={values.image}
-                          alt="Preview"
-                          style={{
-                            maxWidth: "100%",
-                            maxHeight: "200px",
-                            borderRadius: "8px",
-                            border: "1px solid #ccc",
+                      {loading && (
+                        <CircularProgress
+                          size={24}
+                          sx={{
+                            position: "absolute",
+                            right: 16,
+                            top: "50%",
+                            marginTop: "-12px",
                           }}
                         />
+                      )}
+                    </Button>
+                    {/* IMAGE PREVIEW */}
+                    {values.image && (
+                      <Box mt={2} display="flex" justifyContent="center">
+                        <Box
+                          sx={{
+                            width: 200,
+                            height: 200,
+                            borderRadius: "50%",
+                            overflow: "hidden",
+                            border: "1px solid #ccc",
+                          }}
+                        >
+                          <img
+                            src={values.image}
+                            alt="Preview"
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                              display: "block",
+                            }}
+                          />
+                        </Box>
                       </Box>
                     )}
                   </Box>
                 )}
               </Box>
-              {/* Botones fijos abajo */}
+              {/* BOTTONS */}
               <Box
                 sx={{
                   position: "fixed",
@@ -383,8 +451,9 @@ function Form() {
                     variant="contained"
                     color="primary"
                     disabled={
-                      activeStep === 0 &&
-                      (values.name === "" || Boolean(errors.name))
+                      (activeStep === 0 &&
+                        (values.name === "" || Boolean(errors.name))) ||
+                      (activeStep === 4 && loading)
                     }
                   >
                     Next
@@ -395,12 +464,14 @@ function Form() {
                     variant="contained"
                     color="primary"
                     onClick={submitForm}
+                    disabled={loading}
                   >
                     Submit
                   </Button>
                 )}
               </Box>
-              {/* Snackbar */}
+
+              {/* SNACKBAR */}
               <Stack spacing={2} sx={{ width: "100%" }}>
                 <Snackbar open={open} autoHideDuration={6000}>
                   <Alert severity="info" sx={{ width: "100%" }}>

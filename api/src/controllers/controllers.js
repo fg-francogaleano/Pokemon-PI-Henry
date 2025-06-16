@@ -342,7 +342,7 @@ const findTypes = async () => {
 
   const icons = iconsMap();
 
-  console.log("CARGANDO LA BASE DE DATOS", allTypes);
+  // console.log("CARGANDO LA BASE DE DATOS", allTypes);
 
   if (allTypes.length === 0) {
     // Paso 4: Combina los datos de la API con los íconos SVG y guarda en la base de datos
@@ -356,9 +356,15 @@ const findTypes = async () => {
 
 const cachePokemonsApi = async () => {
   try {
-    // Obtener los datos desde la API externa
+    const count = await Pokemon.count();
+    console.log(count);
+
+    if (count > 0) {
+      console.log("La base de datos ya esta cargada");
+      return; // Salir sin hacer nada si ya existen dato
+    }
     const data = await pokemonsAllApi();
-    console.log(data);
+    // console.log(data);
 
     for (const pokemon of data) {
       const pokemonData = {
