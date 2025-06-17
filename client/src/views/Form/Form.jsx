@@ -125,15 +125,11 @@ function Form() {
     formData.append("image", file);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3001/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`${URL}/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       const imageUrl = response.data.url;
 
       setFieldValue("image", imageUrl);
