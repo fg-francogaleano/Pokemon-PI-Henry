@@ -64,15 +64,13 @@ function Form() {
 
   const handleSubmit = async (values) => {
     try {
-      // Si la imagen fue subida y tenemos la URL de Cloudinary, `values.image` ya contendrá esa URL.
-      // Si no se subió una imagen personalizada, `values.image` tendrá la URL por defecto o estará vacía.
       const res = await axios.post(`${URL}/pokemons`, values);
       const newPokemonId = res.data.id;
 
       Swal.fire({
         icon: "success",
-        title: "Pokémon creado",
-        text: "Tu Pokémon fue registrado correctamente.",
+        title: "Pokémon created",
+        text: "Pokémon successfully registered.",
         confirmButtonColor: "#3085d6",
       }).then(() => {
         history.push(`/detail/${newPokemonId}`);
@@ -82,7 +80,7 @@ function Form() {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Hubo un problema al registrar el Pokémon.",
+        text: "Error creating Pokémon.",
         confirmButtonColor: "#d33",
       });
     }
@@ -136,20 +134,18 @@ function Form() {
 
       Swal.fire({
         icon: "success",
-        title: "Imagen subida",
-        text: "La imagen se subió correctamente a Cloudinary.",
+        title: "Uploaded image",
+        text: "Image uploaded successfully",
         timer: 1500,
         showConfirmButton: false,
       });
     } catch (error) {
-      console.error("Error al subir la imagen:", error);
+      console.error("Error uploading image:", error);
       Swal.fire({
         icon: "error",
         title: "Error al subir",
         text: "Hubo un problema al subir la imagen.",
       });
-      // Opcional: podrías restablecer la imagen a la por defecto si hubo un error
-      // setFieldValue("image", initialValues.image);
     } finally {
       setloading(false);
     }
@@ -220,7 +216,7 @@ function Form() {
               >
                 {activeStep === 0 && (
                   <Box sx={{ width: "100%" }}>
-                    <Typography component="h1">Choose a name</Typography>
+                    <Typography variant="h6">Choose a name</Typography>
                     <TextField
                       type="text"
                       id="name"
@@ -241,18 +237,13 @@ function Form() {
 
                 {activeStep === 1 && (
                   <Box sx={{ width: "100%" }}>
-                    <Typography component="h1">
+                    <Typography variant="h6" gutterBottom>
                       Set height and weight
                     </Typography>
 
                     {["height", "weight"].map((stat) => (
                       <Box key={stat} mt={2}>
-                        <Typography gutterBottom>
-                          {stat === "height" ? (
-                            <LiaRulerVerticalSolid />
-                          ) : (
-                            <MdOutlineBalance />
-                          )}
+                        <Typography variant="caption">
                           {stat.charAt(0).toUpperCase() + stat.slice(1)}
                         </Typography>
                         <Slider
@@ -276,10 +267,12 @@ function Form() {
 
                 {activeStep === 2 && (
                   <Box sx={{ width: "100%" }}>
-                    <Typography component="h1">Adjust battle stats</Typography>
+                    <Typography variant="h6" gutterBottom>
+                      Adjust battle stats
+                    </Typography>
                     {["hp", "attack", "defense", "speed"].map((stat) => (
-                      <Box key={stat} mt={2}>
-                        <Typography gutterBottom>
+                      <Box key={stat} mt={0.5}>
+                        <Typography variant="caption">
                           {stat.charAt(0).toUpperCase() + stat.slice(1)}
                         </Typography>
                         <Slider
@@ -304,7 +297,9 @@ function Form() {
                       mx: "auto",
                     }}
                   >
-                    <Typography component="h1">Choose Types</Typography>
+                    <Typography variant="h6" gutterBottom>
+                      Choose Types
+                    </Typography>
                     <Grid container spacing={1}>
                       {types?.map((type, index) => (
                         <Grid
@@ -333,7 +328,7 @@ function Form() {
                                 isActive={activeTypes.includes(type.name)}
                                 typeIcons={type.name}
                               />
-                              <Typography>
+                              <Typography variant="caption">
                                 {type.name.replace(/^\w/, (c) =>
                                   c.toUpperCase()
                                 )}
@@ -348,7 +343,9 @@ function Form() {
 
                 {activeStep === 4 && (
                   <Box sx={{ width: "100%" }}>
-                    <Typography component="h1">Upload an image</Typography>
+                    <Typography variant="h6" gutterBottom>
+                      Upload an image
+                    </Typography>
                     {/* IMAGE URL */}
                     <TextField
                       type="text"
@@ -365,7 +362,9 @@ function Form() {
                       fullWidth
                       margin="normal"
                     />
-                    <Divider textAlign="center">or</Divider>
+                    <Divider textAlign="center">
+                      <Typography variant="caption">or</Typography>
+                    </Divider>
                     {/* BUTTON TO SELECT AND UPLOAD IMAGE */}
                     <Button
                       component="label"
