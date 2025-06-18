@@ -10,11 +10,8 @@ import {
   Grid,
   Paper,
   Divider,
-  Tooltip,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { styled } from "@mui/system";
 import Progress from "../../components/Progress1/Progress";
 import Count from "../../components/Count/Count";
@@ -41,7 +38,7 @@ const Detail = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
   const { display, pokemonDetail } = useSelector((state) => state);
-  console.log(pokemonDetail);
+  // console.log(pokemonDetail);
 
   const history = useHistory();
 
@@ -92,12 +89,14 @@ const Detail = () => {
             >
               POKEDEX #{pokemonDetail.id}
             </Typography>
+            {/* CLOSE DESKTOP*/}
             <IconButton
               onClick={handlerBack}
-              sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+              sx={{ display: { xs: "none", sm: "none", md: "flex" } }}
             >
               <CloseIcon />
             </IconButton>
+            {/* BACK FOR MOVILE */}
             <IconButton
               onClick={handlerBack}
               sx={{
@@ -121,7 +120,7 @@ const Detail = () => {
           />
 
           <Grid container spacing={0}>
-            {/* IZQUIERDA */}
+            {/* LEFT */}
             <Grid
               item
               xs={12}
@@ -171,7 +170,7 @@ const Detail = () => {
               />
             </Grid>
 
-            {/* DERECHA */}
+            {/* RIGHT */}
             <Grid item xs={12} md={5.5} sx={{ marginTop: "15px " }}>
               {/* TITLE */}
               <Typography variant="h5" gutterBottom>
@@ -181,7 +180,7 @@ const Detail = () => {
               {/* STATS PROGRESS */}
               {["hp", "attack", "defense", "speed"].map((stat, index) => (
                 <Box key={index} mb={2}>
-                  <Typography variant="subtitle1">
+                  <Typography variant="caption">
                     {stat?.replace(/^\w/, (c) => c.toUpperCase())}
                   </Typography>
 

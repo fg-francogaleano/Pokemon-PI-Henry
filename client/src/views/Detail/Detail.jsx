@@ -16,7 +16,7 @@ import Loader from "../../components/Loader/Loader";
 
 function Detail() {
   let { id } = useParams();
-  console.log(id);
+  // console.log(id);
 
   const dispatch = useDispatch();
   const { display, pokemonDetail } = useSelector((state) => state);

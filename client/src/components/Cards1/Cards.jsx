@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getPokemons, loading } from "../../redux/actions";
 import Card from "../Card/Card";
@@ -52,9 +52,9 @@ function Cards() {
 
   const { pokemons, message, display } = useSelector((state) => state);
   const skeletonCount = 8;
-  console.log(display);
+  // console.log(display);
 
-  console.log(pokemons);
+  // console.log(pokemons);
 
   return (
     <>

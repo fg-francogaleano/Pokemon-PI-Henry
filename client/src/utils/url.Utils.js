@@ -4,7 +4,7 @@ export const useUpdateUrl = () => {
   const history = useHistory();
 
   const updateUrl = (params) => {
-    console.log(params);
+    // console.log(params);
 
     const searchParams = new URLSearchParams(window.location.search);
 

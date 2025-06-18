@@ -15,10 +15,10 @@ export const GET_TYPES = "GET_TYPES";
 
 const URL = process.env.REACT_APP_URL_BACKEND;
 
-console.log(URL);
+// console.log(URL);
 
 export const getPokemons = (page, params) => {
-  console.log(params);
+  // console.log(params);
 
   return async function (dispatch) {
     // console.log(params);
@@ -32,7 +32,7 @@ export const getPokemons = (page, params) => {
         // console.log(res.data);
 
         const data = res.data;
-        console.log(data);
+        // console.log(data);
 
         dispatch({ type: GET_POKEMONS, payload: data });
         dispatch(ready());
@@ -66,7 +66,7 @@ export const getPokemon = (id) => {
     await axios
       .get(`${URL}/pokemons/${id}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
 
         const data = res.data;
         // data.name = data.name.toUpperCase();
@@ -96,7 +96,7 @@ export const getPokemonName = (name) => {
       .get(`${URL}/pokemons?name=${name}`)
       .then((res) => {
         res.data.types = res.data.types.map((e) => e.name);
-        console.log(res.data);
+        // console.log(res.data);
         dispatch({ type: GET_POKEMON_NAME, payload: res.data });
       })
       .catch((err) => {

@@ -1,13 +1,6 @@
-import {
-  Box,
-  Button,
-  Menu,
-  MenuItem,
-  Skeleton,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Menu, MenuItem, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useUpdateUrl } from "../../utils/url.Utils";
 import { useSelector } from "react-redux";
 
@@ -57,8 +50,8 @@ function Sort() {
   const handleMenuClose = (option) => {
     if (option) {
       // setSelectedOption(option);
-      console.log("Opción seleccionada:", option.value);
-      console.log(option);
+      // console.log("Opción seleccionada:", option.value);
+      // console.log(option);
 
       updateUrl(option.value);
     }

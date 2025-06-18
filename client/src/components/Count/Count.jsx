@@ -2,21 +2,24 @@ import { useEffect, useState } from "react";
 
 function Count({ stat, name }) {
   const [count, setCount] = useState(0);
-
-  let value = stat / 10;
-  let time = name === "height" ? 100 : 1;
   let unit = name === "height" ? "m" : "kg";
-  let variant = name === "height" ? 0.1 : 0.5;
 
   useEffect(() => {
+    let value = stat / 10;
+    let time = name === "height" ? 100 : 1;
+    let variant = name === "height" ? 0.1 : 0.5;
+    let timeoutId;
+
     if (count < value) {
-      setTimeout(() => {
-        setCount((prev) => (prev += variant));
+      timeoutId = setTimeout(() => {
+        setCount((prev) => prev + variant);
       }, time);
     } else {
       setCount(value);
     }
-  }, [count, stat]);
+
+    return () => clearTimeout(timeoutId);
+  }, [count, stat, name]);
 
   return (
     <>

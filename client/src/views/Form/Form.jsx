@@ -21,8 +21,6 @@ import {
   Divider, // Importa CircularProgress para el estado de carga
 } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
-import { LiaRulerVerticalSolid } from "react-icons/lia";
-import { MdOutlineBalance } from "react-icons/md";
 import Swal from "sweetalert2";
 import validations from "./validations";
 import TypeIcons from "../../components/TypeIcons/TypeIcons";
@@ -62,7 +60,7 @@ function Form() {
 
   const URL = process.env.REACT_APP_URL_BACKEND;
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, resetForm) => {
     try {
       const res = await axios.post(`${URL}/pokemons`, values);
       const newPokemonId = res.data.id;
@@ -71,9 +69,11 @@ function Form() {
         icon: "success",
         title: "Pokémon created",
         text: "Pokémon successfully registered.",
-        confirmButtonColor: "#3085d6",
+        timer: 1500,
+        showConfirmButton: false,
       }).then(() => {
         history.push(`/detail/${newPokemonId}`);
+        // resetForm();
       });
     } catch (err) {
       console.error(err);
@@ -155,8 +155,8 @@ function Form() {
       initialValues={initialValues}
       validate={(values) => validations(values)}
       onSubmit={(values, { resetForm }) => {
-        handleSubmit(values);
-        resetForm();
+        handleSubmit(values, resetForm);
+
         setActiveStep(0);
         setActiveTypes([]);
       }}
@@ -200,7 +200,9 @@ function Form() {
                 >
                   {steps.map((label) => (
                     <Step key={label}>
-                      <StepLabel>{label}</StepLabel>
+                      <StepLabel>
+                        <Typography variant="caption">{label}</Typography>
+                      </StepLabel>
                     </Step>
                   ))}
                 </Stepper>
@@ -250,7 +252,7 @@ function Form() {
                           name={stat}
                           value={values[stat]}
                           onChange={handleChange}
-                          min={stat === "weight" ? 10 : 0.5}
+                          min={stat === "weight" ? 10 : 0}
                           max={stat === "weight" ? 250 : 4}
                           step={stat === "height" ? 0.01 : 1}
                           valueLabelDisplay="on"
@@ -293,11 +295,15 @@ function Form() {
                   <Box
                     sx={{
                       width: { xs: "100%", sm: "auto" },
-                      maxWidth: "350px",
-                      mx: "auto",
+                      maxWidth: "320px",
+                      margin: "auto",
                     }}
                   >
-                    <Typography variant="h6" gutterBottom>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{ marginLeft: "20px" }}
+                    >
                       Choose Types
                     </Typography>
                     <Grid container spacing={1}>
@@ -448,6 +454,7 @@ function Form() {
                     disabled={
                       (activeStep === 0 &&
                         (values.name === "" || Boolean(errors.name))) ||
+                      (activeStep === 3 && activeTypes.length === 0) || // **Validación agregada para el Paso 4 (índice 3)**
                       (activeStep === 4 && loading)
                     }
                   >
