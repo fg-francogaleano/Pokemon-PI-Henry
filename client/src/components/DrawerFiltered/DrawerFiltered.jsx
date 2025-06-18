@@ -75,16 +75,14 @@ function DrawerFiltered() {
         anchor="left"
         open={drawerOpen}
         onClose={() => {}}
-        PaperProps={{
-          sx: {
-            width: 300,
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            backgroundColor: "rgba(255, 255, 255, 0.01)", // modo dark
-            // borderRight: "1px solid rgba(255, 255, 255, 0.01)",
-            // boxShadow: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
-          },
-        }}
+        // PaperProps={{
+        //   sx: {
+        //     width: 300,
+        //     backdropFilter: "blur(12px)",
+        //     WebkitBackdropFilter: "blur(12px)",
+        //     backgroundColor: "rgba(255, 255, 255, 0.01)",
+        //   },
+        // }}
       >
         <Box
           sx={{
@@ -93,9 +91,9 @@ function DrawerFiltered() {
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            backdropFilter: "blur(5px)",
-            WebkitBackdropFilter: "blur(5px)",
-            backgroundColor: "rgba(255, 255, 255, 0.01)", // compatible con modo dark
+            // backdropFilter: "blur(5px)",
+            // WebkitBackdropFilter: "blur(5px)",
+            // backgroundColor: "rgba(255, 255, 255, 0.01)",
             // borderRight: "1px solid rgba(255, 255, 255, 0.1)",
           }}
           role="presentation"

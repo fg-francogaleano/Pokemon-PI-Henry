@@ -5,7 +5,7 @@ function Count({ stat, name }) {
   let unit = name === "height" ? "m" : "kg";
 
   useEffect(() => {
-    let value = stat / 10;
+    let value = stat;
     let time = name === "height" ? 100 : 1;
     let variant = name === "height" ? 0.1 : 0.5;
     let timeoutId;

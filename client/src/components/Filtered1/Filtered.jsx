@@ -24,7 +24,7 @@ import { useUpdateUrl } from "../../utils/url.Utils";
 
 const CustomAccordion = styled(Accordion)({
   // Para compatibilidad con Safari
-  backgroundColor: "transparent", // Fondo blanco semitransparente
+  // backgroundColor: "transparent", // Fondo blanco semitransparente
   boxShadow: "none",
   marginBottom: "1px",
   "&:before": {
@@ -330,6 +330,7 @@ const Filtered = () => {
         variant="outlined"
         onClick={() => applyFilters()}
         disabled={!isApplyDisabled()}
+        sx={{ my: "10px" }}
       >
         Apply
       </Button>

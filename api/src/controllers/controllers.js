@@ -21,8 +21,8 @@ const pokemonsAllApi = async () => {
     attack: detalle.stats.find((e) => e.stat.name === "attack").base_stat,
     defense: detalle.stats.find((e) => e.stat.name === "defense").base_stat,
     speed: detalle.stats.find((e) => e.stat.name === "speed").base_stat,
-    weight: detalle.weight,
-    height: detalle.height,
+    weight: detalle.weight / 10,
+    height: detalle.height / 10,
     image: detalle.sprites.other["official-artwork"].front_default,
     types: detalle.types.map((e) => e.type.name),
     isUserCreated: false,
@@ -325,8 +325,8 @@ const createPokemon = async (
     attack,
     defense,
     speed,
-    weight: weight * 10,
-    height: height * 10,
+    weight: weight,
+    height: height,
     image,
   });
 

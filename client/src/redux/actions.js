@@ -29,11 +29,8 @@ export const getPokemons = (page, params) => {
     await axios
       .get(`${URL}/pokemons?${queryString}`)
       .then((res) => {
-        // console.log(res.data);
-
         const data = res.data;
-        // console.log(data);
-
+        console.log(data);
         dispatch({ type: GET_POKEMONS, payload: data });
         dispatch(ready());
       })
