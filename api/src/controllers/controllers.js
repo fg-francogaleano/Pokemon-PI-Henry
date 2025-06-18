@@ -132,16 +132,30 @@ const pokemonsAllBDD = async (
       ? "z-a"
       : `${sort} ${order.toUpperCase()}`;
 
-  return {
-    totalItems: fullResults.length,
-    totalPages: Math.ceil(fullResults.length / limit),
-    data: paginatedResults,
-    page,
-    limit,
-    appliedFilters,
-    appliedSort: { sort, order },
-    appliedSortLabel,
-  };
+  if (paginatedResults.length === 0) {
+    return {
+      totalItems: fullResults.length,
+      totalPages: Math.ceil(fullResults.length / limit),
+      data: paginatedResults,
+      message: "No matches found",
+      page,
+      limit,
+      appliedFilters,
+      appliedSort: { sort, order },
+      appliedSortLabel,
+    };
+  } else {
+    return {
+      totalItems: fullResults.length,
+      totalPages: Math.ceil(fullResults.length / limit),
+      data: paginatedResults,
+      page,
+      limit,
+      appliedFilters,
+      appliedSort: { sort, order },
+      appliedSortLabel,
+    };
+  }
 };
 
 // ---------------------------------------POKEMONS API+BASE DE DATOS------------------------------------------------

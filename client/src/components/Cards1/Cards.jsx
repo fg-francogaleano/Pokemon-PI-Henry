@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { getPokemons, loading } from "../../redux/actions";
 import Card from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
-import { Box, Skeleton } from "@mui/material";
+import { Box, Button, Skeleton, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import image from "../../assets/pikachu-pokemon.gif";
+import { useUpdateUrl } from "../../utils/url.Utils";
 
 function Cards() {
   const dispatch = useDispatch();
@@ -53,12 +55,12 @@ function Cards() {
   const { pokemons, message, display } = useSelector((state) => state);
   const skeletonCount = 8;
   // console.log(display);
-
   // console.log(pokemons);
+
+  const { clearAllFilters } = useUpdateUrl();
 
   return (
     <>
-      {/* SKELETON */}
       {display ? (
         <Box
           sx={{
@@ -85,14 +87,26 @@ function Cards() {
         <Box
           sx={{
             width: "100%",
-            height: "100vh",
-            background: "black",
+            height: "70vh",
             color: "white",
             textAlign: "center",
             padding: "20px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          {message}
+          <img alt="pikachu" src={image} height="300px" width="300px" />
+          <Typography variant="h5">{message}</Typography>
+          <Button
+            variant="text"
+            color="primary"
+            sx={{ display: "block" }}
+            onClick={clearAllFilters}
+          >
+            All Pokémon
+          </Button>
         </Box>
       ) : (
         <Box>
