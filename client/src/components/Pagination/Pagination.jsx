@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useUpdateUrl } from "../../utils/url.Utils";
-import { Pagination as MyPagination } from "@mui/material";
+import { Box, Pagination as MyPagination } from "@mui/material";
 
 function Pagination() {
   const { totalPages } = useSelector((state) => state);
@@ -19,7 +19,7 @@ function Pagination() {
   };
 
   return (
-    <>
+    <Box sx={{ mb: "20px" }}>
       <MyPagination
         count={totalPages}
         variant="outlined"
@@ -27,7 +27,7 @@ function Pagination() {
         onChange={handleChange}
         page={page}
       />
-    </>
+    </Box>
   );
 }
 

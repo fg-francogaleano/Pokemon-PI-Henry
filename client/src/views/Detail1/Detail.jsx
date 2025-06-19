@@ -21,11 +21,12 @@ import { MdOutlineBalance } from "react-icons/md";
 
 const Container = styled(Paper)(({ theme }) => ({
   // margin: theme.spacing(10),
+  minWidth: "100vh",
   padding: theme.spacing(5),
   borderRadius: 5,
   backdropFilter: "blur(10px)",
-  WebkitBackdropFilter: "blur(10px)", // Para compatibilidad con Safari
-  backgroundColor: "rgba(255, 255, 255, 0.01)", // Fondo blanco semitransparente
+  WebkitBackdropFilter: "blur(10px)",
+  backgroundColor: "rgba(255, 255, 255, 0.01)",
   [theme.breakpoints.up("md")]: {
     maxWidth: "670px",
     margin: "16px auto",

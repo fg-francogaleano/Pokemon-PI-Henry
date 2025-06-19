@@ -6,6 +6,7 @@ import Detail from "./views/Detail1/Detail";
 import { Route, useLocation, Switch } from "react-router-dom";
 import NavBar from "./components/NavBar1/NavBar";
 import NotFound from "./views/NotFound/NotFound";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const location = useLocation();
@@ -34,6 +35,7 @@ function App() {
           <NotFound />
         </Route>
       </Switch>
+      <Footer />
     </div>
   );
 }
