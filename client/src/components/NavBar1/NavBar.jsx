@@ -123,7 +123,7 @@ function NavBar() {
           </Box>
 
           {/* NAVLINK - VERSION WEB */}
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+          <Box component="nav" sx={{ display: { xs: "none", md: "flex" } }}>
             {navItems.map((item) => (
               <Link key={item} to={"/" + item.toLowerCase()}>
                 <Button sx={{ color: "#fff" }}>{item}</Button>

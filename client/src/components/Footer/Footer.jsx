@@ -18,6 +18,7 @@ function Footer() {
 
   return (
     <Box
+      component="footer"
       sx={{
         width: "100%",
         backgroundColor: theme.palette.background.paper,
