@@ -3,39 +3,39 @@ import Home from "./views/Home1/Home";
 import Landing from "./views/Landing/Landing";
 import Form from "./views/Form/Form";
 import Detail from "./views/Detail1/Detail";
-import { Route, useLocation, Switch } from "react-router-dom";
-import NavBar from "./components/NavBar1/NavBar";
 import NotFound from "./views/NotFound/NotFound";
-import Footer from "./components/Footer/Footer";
+import { Route, Switch } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
 
 function App() {
-  const location = useLocation();
   return (
     <div className="App">
-      {location.pathname !== "/" && <NavBar />}
-
       <Switch>
+        \{" "}
         <Route exact path="/">
           <Landing />
         </Route>
-
         <Route exact path="/home">
-          <Home />
+          <Layout>
+            <Home />
+          </Layout>
         </Route>
-
         <Route exact path="/detail/:id">
-          <Detail />
+          <Layout>
+            <Detail />
+          </Layout>
         </Route>
-
         <Route exact path="/create">
-          <Form />
+          <Layout>
+            <Form />
+          </Layout>
         </Route>
-
         <Route>
-          <NotFound />
+          <Layout>
+            <NotFound />
+          </Layout>
         </Route>
       </Switch>
-      <Footer />
     </div>
   );
 }

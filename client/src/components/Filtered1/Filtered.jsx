@@ -35,7 +35,7 @@ const CustomAccordion = styled(Accordion)({
 
 const statsOptions = ["hp", "attack", "defense", "speed", "weight", "height"];
 
-const Filtered = () => {
+function Filtered() {
   const { updateUrl, clearAllFilters, removeFilter } = useUpdateUrl();
 
   const { types, appliedFilters } = useSelector((state) => state);
@@ -336,6 +336,6 @@ const Filtered = () => {
       </Button>
     </>
   );
-};
+}
 
 export default Filtered;

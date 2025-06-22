@@ -87,7 +87,7 @@ function Cards() {
         <Box
           sx={{
             width: "100%",
-            height: "70vh",
+            height: "80vh",
             color: "white",
             textAlign: "center",
             padding: "20px",
@@ -97,10 +97,16 @@ function Cards() {
             justifyContent: "center",
           }}
         >
-          <img alt="pikachu" src={image} height="300px" width="300px" />
+          <Box
+            component="img"
+            src={image}
+            alt="pikachu"
+            height="300px"
+            width="300px"
+          />
           <Typography variant="h5">{message}</Typography>
           <Button
-            variant="text"
+            variant="contained"
             color="primary"
             sx={{ display: "block" }}
             onClick={clearAllFilters}
@@ -124,12 +130,14 @@ function Cards() {
             {pokemons?.map((pokemon, index) => (
               <Link to={`/detail/${pokemon.id}`} key={index}>
                 <Grid2 xs={12} sm={6} md={4} lg={3}>
-                  <Card
-                    id={pokemon.id}
-                    name={pokemon.name.toUpperCase()}
-                    types={pokemon.types}
-                    image={pokemon.image}
-                  />
+                  <Box component="article">
+                    <Card
+                      id={pokemon.id}
+                      name={pokemon.name.toUpperCase()}
+                      types={pokemon.types}
+                      image={pokemon.image}
+                    />
+                  </Box>
                 </Grid2>
               </Link>
             ))}

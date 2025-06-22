@@ -1,11 +1,12 @@
 import { Box, Button } from "@mui/material";
 import EastIcon from "@mui/icons-material/East";
 import { Link } from "react-router-dom";
-import fondo from "../../assets/Fondo_landing.jpg"; // asegúrate de la ruta correcta
+import fondo from "../../assets/Fondo_landing.jpg";
 
 function Landing() {
   return (
     <Box
+      component="section"
       sx={{
         position: "relative",
         width: "100%",
@@ -13,8 +14,8 @@ function Landing() {
         overflow: "hidden",
       }}
     >
-      {/* Imagen de fondo */}
-      <img
+      <Box
+        component="img"
         src={fondo}
         alt="Fondo"
         style={{
@@ -28,7 +29,6 @@ function Landing() {
         }}
       />
 
-      {/* Contenido encima de la imagen */}
       <Box
         sx={{
           position: "relative",

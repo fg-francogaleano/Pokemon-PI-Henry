@@ -171,6 +171,7 @@ function Form() {
         submitForm,
       }) => (
         <Box
+          component="section"
           sx={{
             minHeight: "90vh",
             display: "flex",
@@ -207,270 +208,273 @@ function Form() {
                   ))}
                 </Stepper>
               </Box>
+              <Box component="form">
+                <Box
+                  sx={{
+                    minHeight: "50vh",
+                    width: "100%",
+                    display: "grid",
+                    placeItems: "center",
+                  }}
+                >
+                  {activeStep === 0 && (
+                    <Box sx={{ width: "100%" }}>
+                      <Typography variant="h6">Choose a name</Typography>
+                      <TextField
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={values.name}
+                        autoComplete="off"
+                        label="Name"
+                        helperText={touched.name && errors.name}
+                        error={touched.name && Boolean(errors.name)}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        variant="standard"
+                        fullWidth
+                        margin="normal"
+                      />
+                    </Box>
+                  )}
 
-              <Box
-                sx={{
-                  minHeight: "50vh",
-                  width: "100%",
-                  display: "grid",
-                  placeItems: "center",
-                }}
-              >
-                {activeStep === 0 && (
-                  <Box sx={{ width: "100%" }}>
-                    <Typography variant="h6">Choose a name</Typography>
-                    <TextField
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={values.name}
-                      autoComplete="off"
-                      label="Name"
-                      helperText={touched.name && errors.name}
-                      error={touched.name && Boolean(errors.name)}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      variant="standard"
-                      fullWidth
-                      margin="normal"
-                    />
-                  </Box>
-                )}
+                  {activeStep === 1 && (
+                    <Box sx={{ width: "100%" }}>
+                      <Typography variant="h6" gutterBottom>
+                        Set height and weight
+                      </Typography>
 
-                {activeStep === 1 && (
-                  <Box sx={{ width: "100%" }}>
-                    <Typography variant="h6" gutterBottom>
-                      Set height and weight
-                    </Typography>
+                      {["height", "weight"].map((stat) => (
+                        <Box key={stat} mt={2}>
+                          <Typography variant="caption">
+                            {stat.charAt(0).toUpperCase() + stat.slice(1)}
+                          </Typography>
+                          <Slider
+                            name={stat}
+                            value={values[stat]}
+                            onChange={handleChange}
+                            min={stat === "weight" ? 10 : 0}
+                            max={stat === "weight" ? 250 : 4}
+                            step={stat === "height" ? 0.01 : 1}
+                            valueLabelDisplay="on"
+                            valueLabelFormat={(value) =>
+                              stat === "weight"
+                                ? `${value.toFixed(1)} kg`
+                                : `${value.toFixed(2)} m`
+                            }
+                          />
+                        </Box>
+                      ))}
+                    </Box>
+                  )}
 
-                    {["height", "weight"].map((stat) => (
-                      <Box key={stat} mt={2}>
-                        <Typography variant="caption">
-                          {stat.charAt(0).toUpperCase() + stat.slice(1)}
-                        </Typography>
-                        <Slider
-                          name={stat}
-                          value={values[stat]}
-                          onChange={handleChange}
-                          min={stat === "weight" ? 10 : 0}
-                          max={stat === "weight" ? 250 : 4}
-                          step={stat === "height" ? 0.01 : 1}
-                          valueLabelDisplay="on"
-                          valueLabelFormat={(value) =>
-                            stat === "weight"
-                              ? `${value.toFixed(1)} kg`
-                              : `${value.toFixed(2)} m`
-                          }
-                        />
-                      </Box>
-                    ))}
-                  </Box>
-                )}
+                  {activeStep === 2 && (
+                    <Box sx={{ width: "100%" }}>
+                      <Typography variant="h6" gutterBottom>
+                        Adjust battle stats
+                      </Typography>
+                      {["hp", "attack", "defense", "speed"].map((stat) => (
+                        <Box key={stat} mt={0.5}>
+                          <Typography variant="caption">
+                            {stat.charAt(0).toUpperCase() + stat.slice(1)}
+                          </Typography>
+                          <Slider
+                            name={stat}
+                            value={values[stat]}
+                            onChange={handleChange}
+                            min={0}
+                            max={100}
+                            step={1}
+                            valueLabelDisplay="on"
+                          />
+                        </Box>
+                      ))}
+                    </Box>
+                  )}
 
-                {activeStep === 2 && (
-                  <Box sx={{ width: "100%" }}>
-                    <Typography variant="h6" gutterBottom>
-                      Adjust battle stats
-                    </Typography>
-                    {["hp", "attack", "defense", "speed"].map((stat) => (
-                      <Box key={stat} mt={0.5}>
-                        <Typography variant="caption">
-                          {stat.charAt(0).toUpperCase() + stat.slice(1)}
-                        </Typography>
-                        <Slider
-                          name={stat}
-                          value={values[stat]}
-                          onChange={handleChange}
-                          min={0}
-                          max={100}
-                          step={1}
-                          valueLabelDisplay="on"
-                        />
-                      </Box>
-                    ))}
-                  </Box>
-                )}
-
-                {activeStep === 3 && (
-                  <Box
-                    sx={{
-                      width: { xs: "100%", sm: "auto" },
-                      maxWidth: "320px",
-                      margin: "auto",
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      gutterBottom
-                      sx={{ marginLeft: "20px" }}
+                  {activeStep === 3 && (
+                    <Box
+                      sx={{
+                        width: { xs: "100%", sm: "auto" },
+                        maxWidth: "320px",
+                        margin: "auto",
+                      }}
                     >
-                      Choose Types
-                    </Typography>
-                    <Grid container spacing={1}>
-                      {types?.map((type, index) => (
-                        <Grid
-                          item
-                          xs={3}
-                          key={index}
-                          sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <Box
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{ marginLeft: "20px" }}
+                      >
+                        Choose Types
+                      </Typography>
+                      <Grid container spacing={1}>
+                        {types?.map((type, index) => (
+                          <Grid
+                            item
+                            xs={3}
+                            key={index}
                             sx={{
                               display: "flex",
                               justifyContent: "center",
-                              alignItems: "center",
-                              cursor: "pointer",
                             }}
-                            onClick={() =>
-                              handleTypeToggle(values, type, setFieldValue)
-                            }
                           >
-                            <Box>
-                              <TypeIcons
-                                svg={type.icon_svg}
-                                isActive={activeTypes.includes(type.name)}
-                                typeIcons={type.name}
-                              />
-                              <Typography variant="caption">
-                                {type.name.replace(/^\w/, (c) =>
-                                  c.toUpperCase()
-                                )}
-                              </Typography>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                cursor: "pointer",
+                              }}
+                              onClick={() =>
+                                handleTypeToggle(values, type, setFieldValue)
+                              }
+                            >
+                              <Box>
+                                <TypeIcons
+                                  svg={type.icon_svg}
+                                  isActive={activeTypes.includes(type.name)}
+                                  typeIcons={type.name}
+                                />
+                                <Typography variant="caption">
+                                  {type.name.replace(/^\w/, (c) =>
+                                    c.toUpperCase()
+                                  )}
+                                </Typography>
+                              </Box>
                             </Box>
-                          </Box>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </Box>
-                )}
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Box>
+                  )}
 
-                {activeStep === 4 && (
-                  <Box sx={{ width: "100%" }}>
-                    <Typography variant="h6" gutterBottom>
-                      Upload an image
-                    </Typography>
-                    {/* IMAGE URL */}
-                    <TextField
-                      type="text"
-                      id="image"
-                      name="image"
-                      value={values.image}
-                      autoComplete="off"
-                      label="Image URL"
-                      helperText={touched.image && errors.image}
-                      error={touched.image && Boolean(errors.image)}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      variant="standard"
-                      fullWidth
-                      margin="normal"
-                    />
-                    <Divider textAlign="center">
-                      <Typography variant="caption">or</Typography>
-                    </Divider>
-                    {/* BUTTON TO SELECT AND UPLOAD IMAGE */}
-                    <Button
-                      component="label"
-                      variant="outlined"
-                      fullWidth
-                      sx={{ mt: 2 }}
-                    >
-                      {loading ? "Uploading..." : "Select and Upload Image"}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        hidden
-                        onChange={(event) => handleUpload(event, setFieldValue)}
+                  {activeStep === 4 && (
+                    <Box sx={{ width: "100%" }}>
+                      <Typography variant="h6" gutterBottom>
+                        Upload an image
+                      </Typography>
+                      {/* IMAGE URL */}
+                      <TextField
+                        type="text"
+                        id="image"
+                        name="image"
+                        value={values.image}
+                        autoComplete="off"
+                        label="Image URL"
+                        helperText={touched.image && errors.image}
+                        error={touched.image && Boolean(errors.image)}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        variant="standard"
+                        fullWidth
+                        margin="normal"
                       />
-                      {loading && (
-                        <CircularProgress
-                          size={24}
-                          sx={{
-                            position: "absolute",
-                            right: 16,
-                            top: "50%",
-                            marginTop: "-12px",
-                          }}
+                      <Divider textAlign="center">
+                        <Typography variant="caption">or</Typography>
+                      </Divider>
+                      {/* BUTTON TO SELECT AND UPLOAD IMAGE */}
+                      <Button
+                        component="label"
+                        variant="outlined"
+                        fullWidth
+                        sx={{ mt: 2 }}
+                      >
+                        {loading ? "Uploading..." : "Select and Upload Image"}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          hidden
+                          onChange={(event) =>
+                            handleUpload(event, setFieldValue)
+                          }
                         />
-                      )}
-                    </Button>
-                    {/* IMAGE PREVIEW */}
-                    {values.image && (
-                      <Box mt={2} display="flex" justifyContent="center">
-                        <Box
-                          sx={{
-                            width: 200,
-                            height: 200,
-                            borderRadius: "50%",
-                            overflow: "hidden",
-                            border: "1px solid #ccc",
-                          }}
-                        >
-                          <img
-                            src={values.image}
-                            alt="Preview"
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                              display: "block",
+                        {loading && (
+                          <CircularProgress
+                            size={24}
+                            sx={{
+                              position: "absolute",
+                              right: 16,
+                              top: "50%",
+                              marginTop: "-12px",
                             }}
                           />
+                        )}
+                      </Button>
+                      {/* IMAGE PREVIEW */}
+                      {values.image && (
+                        <Box mt={2} display="flex" justifyContent="center">
+                          <Box
+                            sx={{
+                              width: 200,
+                              height: 200,
+                              borderRadius: "50%",
+                              overflow: "hidden",
+                              border: "1px solid #ccc",
+                            }}
+                          >
+                            <img
+                              src={values.image}
+                              alt="Preview"
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                display: "block",
+                              }}
+                            />
+                          </Box>
                         </Box>
-                      </Box>
-                    )}
-                  </Box>
-                )}
-              </Box>
-              {/* BOTTONS */}
-              <Box
-                sx={{
-                  position: "fixed",
-                  bottom: 0,
-                  left: 0,
-                  width: "100%",
-                  padding: "10px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  zIndex: 1000,
-                }}
-              >
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  variant="outlined"
+                      )}
+                    </Box>
+                  )}
+                </Box>
+                {/* BOTTONS */}
+                <Box
+                  sx={{
+                    position: "fixed",
+                    bottom: 0,
+                    left: 0,
+                    width: "100%",
+                    padding: "10px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    zIndex: 1000,
+                  }}
                 >
-                  Back
-                </Button>
-                {activeStep < steps.length - 1 ? (
                   <Button
-                    type="button"
-                    onClick={handleNext}
-                    variant="contained"
-                    color="primary"
-                    disabled={
-                      (activeStep === 0 &&
-                        (values.name === "" || Boolean(errors.name))) ||
-                      (activeStep === 3 && activeTypes.length === 0) || // **Validación agregada para el Paso 4 (índice 3)**
-                      (activeStep === 4 && loading)
-                    }
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    variant="outlined"
                   >
-                    Next
+                    Back
                   </Button>
-                ) : (
-                  <Button
-                    type="button"
-                    variant="contained"
-                    color="primary"
-                    onClick={submitForm}
-                    disabled={loading}
-                  >
-                    Submit
-                  </Button>
-                )}
+                  {activeStep < steps.length - 1 ? (
+                    <Button
+                      type="button"
+                      onClick={handleNext}
+                      variant="contained"
+                      color="primary"
+                      disabled={
+                        (activeStep === 0 &&
+                          (values.name === "" || Boolean(errors.name))) ||
+                        (activeStep === 3 && activeTypes.length === 0) ||
+                        (activeStep === 4 && loading)
+                      }
+                    >
+                      Next
+                    </Button>
+                  ) : (
+                    <Button
+                      type="button"
+                      variant="contained"
+                      color="primary"
+                      onClick={submitForm}
+                      disabled={loading}
+                    >
+                      Submit
+                    </Button>
+                  )}
+                </Box>
               </Box>
 
               {/* SNACKBAR */}
