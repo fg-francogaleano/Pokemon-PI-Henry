@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 function Count({ stat, name }) {
@@ -22,9 +23,9 @@ function Count({ stat, name }) {
   }, [count, stat, name]);
 
   return (
-    <>
+    <Typography>
       {count.toFixed(2)} {unit}
-    </>
+    </Typography>
   );
 }
 

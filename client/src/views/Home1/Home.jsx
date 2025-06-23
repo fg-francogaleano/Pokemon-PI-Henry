@@ -15,7 +15,7 @@ function Home() {
     <>
       {/* <Filtered /> */}
       <Helmet>
-        <title>Home</title>
+        <title>Home | Pokédex Web</title>
         <meta
           name="description"
           content="Browse all available Pokémon, filter by type, and explore detailed stats in our Pokédex Web app."

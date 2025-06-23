@@ -60,7 +60,9 @@ const Detail = () => {
       <Helmet>
         <title>
           {pokemonDetail?.name
-            ? `${pokemonDetail.name} | Pokédex Web`
+            ? `${pokemonDetail.name.replace(/^\w/, (c) =>
+                c.toUpperCase()
+              )} | Pokédex Web`
             : "Loading... | Pokédex Web"}
         </title>
         <meta
@@ -220,7 +222,7 @@ const Detail = () => {
                         <Count stat={pokemonDetail["height"]} name="height" />
                       </Box>
                       <Box sx={{ textAlign: "center" }}>
-                        <Typography variant="span">Height</Typography>
+                        <Typography variant="caption">Height</Typography>
                       </Box>
                     </Box>
                     {/* WEIGHT */}
@@ -232,7 +234,7 @@ const Detail = () => {
                         <Count stat={pokemonDetail["weight"]} name="weight" />
                       </Box>
                       <Box textAlign={"center"}>
-                        <Typography variant="span">Weight</Typography>
+                        <Typography variant="caption">Weight</Typography>
                       </Box>
                     </Box>
                   </Box>

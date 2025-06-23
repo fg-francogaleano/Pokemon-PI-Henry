@@ -8,7 +8,7 @@ function Landing() {
   return (
     <>
       <Helmet>
-        <title>Welcome</title>
+        <title>Welcome | Pokédex Web</title>
         <meta
           name="description"
           content="Discover and explore your favorite Pokémon with Pokédex Web. Start your journey here!"
