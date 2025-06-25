@@ -13,7 +13,6 @@ function Home() {
 
   return (
     <>
-      {/* <Filtered /> */}
       <Helmet>
         <title>Home | Pokédex Web</title>
         <meta
